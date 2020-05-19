@@ -1,0 +1,7 @@
+{
+    "itemDisplayName": "VM with Imported Dataset",
+    "description": "Creates an Ubuntu-based VM and imports a selected dataset.",
+    "summary": "Creates an Ubuntu-basedVM and imports a selected dataset.",
+    "githubUsername": "dfbaskin",
+    "dateUpdated": "2017-12-28"
+}

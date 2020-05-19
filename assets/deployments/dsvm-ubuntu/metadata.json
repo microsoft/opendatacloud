@@ -1,0 +1,7 @@
+{
+    "itemDisplayName": "Data Science VM with Imported Dataset",
+    "description": "Creates an Ubuntu-based Data Science VM and imports a selected dataset.",
+    "summary": "Creates an Ubuntu-based Data Science VM and imports a selected dataset.",
+    "githubUsername": "dfbaskin",
+    "dateUpdated": "2017-12-07"
+}
