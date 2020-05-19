@@ -1,0 +1,90 @@
+﻿{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"cosmosDbAccountName": {
+			"type": "string",
+			"minLength": 3,
+			"metadata": {
+				"description": "The Cosmos database account name."
+			}
+		},
+		"cosmosDbDefaultExperience": {
+			"type": "string",
+			"defaultValue": "DocumentDB",
+			"allowedValues": [
+				"DocumentDB",
+				"Graph",
+				"MongoDB",
+				"Table"
+			],
+			"metadata": {
+				"description": "The DocumentDB default storage and query model"
+			}
+		},
+		"consistencyLevel": {
+			"type": "string",
+			"defaultValue": "Eventual",
+			"allowedValues": [
+				"Eventual",
+				"Strong",
+				"Session",
+				"BoundedStaleness"
+			],
+			"metadata": {
+				"description": "The DocumentDB default consistency level for this account."
+			}
+		},
+		"maxStalenessPrefix": {
+			"type": "int",
+			"minValue": 10,
+			"maxValue": 1000,
+			"defaultValue": 10,
+			"metadata": {
+				"description": "When consistencyLevel is set to BoundedStaleness, then this value is required, otherwise it can be ignored."
+			}
+		},
+		"maxIntervalInSeconds": {
+			"type": "int",
+			"minValue": 5,
+			"maxValue": 600,
+			"defaultValue": 5,
+			"metadata": {
+				"description": "When consistencyLevel is set to BoundedStaleness, then this value is required, otherwise it can be ignored."
+			}
+		}
+	},
+	"variables": {
+	},
+	"resources": [
+		{
+			"name": "[parameters('cosmosDbAccountName')]",
+			"type": "Microsoft.DocumentDB/databaseAccounts",
+			"apiVersion": "2015-04-08",
+			"kind": "GlobalDocumentDB",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"databaseAccountOfferType": "Standard",
+				"name": "[parameters('cosmosDbAccountName')]",
+				"consistencyPolicy": {
+					"defaultConsistencyLevel": "[parameters('consistencyLevel')]",
+					"maxStalenessPrefix": "[parameters('maxStalenessPrefix')]",
+					"maxIntervalInSeconds": "[parameters('maxIntervalInSeconds')]"
+				},
+				"locations": [
+					{
+						"id": "[concat(parameters('cosmosDbAccountName'), '-', resourceGroup().location)]",
+						"failoverPriority": 0,
+						"locationName": "[resourceGroup().location]"
+					}
+				]
+			},
+			"tags": {
+				"defaultExperience": "[parameters('cosmosDbDefaultExperience')]",
+				"displayName": "Cosmos DB"
+			}
+		}
+	],
+	"outputs": {
+	}
+}

@@ -1,0 +1,157 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+	"parameters": {
+		"keyVaultName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the vault"
+			}
+		},
+		"vaultSKU": {
+			"type": "string",
+			"defaultValue": "Standard",
+			"allowedValues": [
+				"Standard",
+				"Premium"
+			],
+			"metadata": {
+				"description": "SKU for the vault"
+			}
+		},
+		"vaultEnabledForVMDeployment": {
+			"type": "bool",
+			"defaultValue": false,
+			"metadata": {
+				"description": "Specifies if the vault is enabled for VM or Service Fabric deployment"
+			}
+		},
+		"vaultEnabledForTemplateDeployment": {
+			"type": "bool",
+			"defaultValue": true,
+			"metadata": {
+				"description": "Specifies if the vault is enabled for ARM template deployment"
+			}
+		},
+		"vaultEnabledForVolumeEncryption": {
+			"type": "bool",
+			"defaultValue": false,
+			"metadata": {
+				"description": "Specifies if the vault is enabled for volume encryption"
+			}
+		},
+		"configureKeyVault": {
+					"type": "bool",
+					"defaultValue": false,
+			"metadata": {
+				"description": "Determines whether the default values for the secrets should be deployed."
+			}
+		},
+		"cosmosDbAccountName": {
+			"type": "string",
+			"minLength": 3,
+			"metadata": {
+				"description": "The DocumentDB database account name."
+			}
+		},
+		"appInsightsName": {
+			"type": "string",
+			"metadata": {
+				"description": "The name of the appInsights instance"
+			}
+		},
+		"searchName": {
+			"type": "string",
+			"metadata": {
+				"description": "The Azure Search instance name"
+			}
+		},
+		"storageAccountName": {
+			"type": "string",
+			"defaultValue": "[concat(uniqueString(resourceGroup().id),'storage')]",
+			"metadata": {
+				"description": "The name of the storage acount"
+			}
+		}
+	},
+  "variables": {
+  },
+	"resources": [
+			{
+				"condition": "[parameters('configureKeyVault')]",
+				"type": "Microsoft.KeyVault/vaults",
+				"name": "[parameters('keyVaultName')]",
+				"apiVersion": "2015-06-01",
+				"location": "[resourceGroup().location]",
+				"tags": {
+					"displayName": "KeyVault"
+				},
+				"properties": {
+					"enabledForDeployment": "[parameters('vaultEnabledForVMDeployment')]",
+					"enabledForTemplateDeployment": "[parameters('vaultEnabledForTemplateDeployment')]",
+					"enabledForVolumeEncryption": "[parameters('vaultEnabledForVolumeEncryption')]",
+					"tenantId": "[subscription().tenantId]",
+					"accessPolicies": [],
+					"sku": {
+						"name": "[parameters('vaultSKU')]",
+						"family": "A"
+					}
+				}
+			},
+			{
+				"condition": "[parameters('configureKeyVault')]",
+				"type": "Microsoft.KeyVault/vaults/secrets",
+				"name": "[concat(parameters('keyVaultName'), '/Storage--Accounts--', parameters('storageAccountName'))]",
+				"apiVersion": "2015-06-01",
+				"properties": {
+					"contentType": "text/plain",
+					"value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+				},
+				"dependsOn": [
+					"[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+				]
+			},
+			{
+				"condition": "[parameters('configureKeyVault')]",
+				"type": "Microsoft.KeyVault/vaults/secrets",
+				"name": "[concat(parameters('keyVaultName'), '/ApplicationInsights--InstrumentationKey')]",
+				"apiVersion": "2015-06-01",
+				"properties": {
+					"contentType": "text/plain",
+					"value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]"
+				},
+				"dependsOn": [
+					"[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+				]
+			},
+			{
+				"condition": "[parameters('configureKeyVault')]",
+				"type": "Microsoft.KeyVault/vaults/secrets",
+				"name": "[concat(parameters('keyVaultName'), '/Documents--Key')]",
+				"apiVersion": "2015-06-01",
+				"properties": {
+					"contentType": "text/plain",
+					"value": "[listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbAccountName')), '2015-04-08').primaryMasterKey]"
+				},
+				"dependsOn": [
+					"[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+				]
+			},
+			{
+				"condition": "[parameters('configureKeyVault')]",
+				"type": "Microsoft.KeyVault/vaults/secrets",
+				"name": "[concat(parameters('keyVaultName'), '/Search--Key')]",
+				"comments": "This uses the administrative key. This should be changed to a query key",
+				"apiVersion": "2015-06-01",
+							"properties": {
+								"contentType": "text/plain",
+								"value": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', parameters('searchName')), '2015-08-19').primaryKey]"
+							},
+				"dependsOn": [
+					"[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+				]
+			}
+	],
+  "outputs": {
+  }
+}

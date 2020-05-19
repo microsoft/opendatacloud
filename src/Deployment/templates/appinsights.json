@@ -1,0 +1,53 @@
+﻿{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"webAppName": {
+			"type": "string",
+			"minLength": 1,
+			"metadata": {
+				"description": "The name of the Web application"
+			}
+		},
+		"apiAppName": {
+			"type": "string",
+			"minLength": 1,
+			"metadata": {
+				"description": "The name of the Web API application"
+			}
+		},
+		"appInsightsName": {
+			"type": "string",
+			"defaultValue": "[concat(parameters('webAppName'),'-appinsights')]",
+			"metadata": {
+				"description": "The name of the appInsights instance"
+			}
+		}
+	},
+	"variables": {
+	},
+	"resources": [
+		{
+			"name": "[parameters('appInsightsName')]",
+			"type": "Microsoft.Insights/components",
+			"location": "southcentralus",
+			"apiVersion": "2014-08-01",
+			"dependsOn": [
+			],
+			"tags": {
+				"displayName": "Application Insights",
+				"[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource",
+				"[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('apiAppName'))]": "Resource"
+			},
+			"properties": {
+				"applicationId": "[parameters('appInsightsName')]"
+			}
+		}
+	],
+	"outputs": {
+		"instrumentationKey": {
+			"value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName')), '2014-04-01').InstrumentationKey]",
+			"type": "string"
+		}
+	}
+}

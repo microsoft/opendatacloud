@@ -1,0 +1,359 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminWebAppName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "The name of the Admin Web App"
+      }
+    },
+    "apiAppName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "[concat(parameters('webAppName'), '-api')]",
+      "metadata": {
+        "description": "The name of the API App"
+      }
+    },
+    "webAdminAppSKU": {
+      "type": "string",
+      "defaultValue": "Free",
+      "allowedValues": [
+        "Free",
+        "Shared",
+        "Basic",
+        "Standard"
+      ],
+      "metadata": {
+        "description": "The Admin Web App pricing tier"
+      }
+    },
+    "workerSize": {
+      "type": "string",
+      "defaultValue": "0",
+      "allowedValues": [
+        "0",
+        "1",
+        "2"
+      ],
+      "metadata": {
+        "description": "The Admin Web App worker size"
+      }
+    },
+    "numberOfWorkers": {
+      "type": "int",
+      "defaultValue": 1,
+      "metadata": {
+        "description": "The Admin Web App number of workers"
+      }
+    },
+    "nodeDefaultVersion": {
+      "type": "string",
+      "defaultValue": "6.9.5",
+      "metadata": {
+        "description": "The default version of nodeJS to deploy on the server"
+      }
+    },
+    "searchName": {
+      "type": "string",
+      "metadata": {
+        "description": "The azure search instance name"
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the vault"
+      }
+    },
+    "cosmosDbAccountName": {
+      "type": "string",
+      "minLength": 3,
+      "metadata": {
+        "description": "The Cosmos database account name."
+      }
+    },
+    "keyVaultClientId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The Key Vault client identifier."
+      }
+    },
+    "keyVaultClientSecret": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The Key Vault client secret."
+      }
+    },
+    "aadTenant": {
+      "type": "string",
+      "defaultValue": "xxxxxxxxxxx.onmicrosoft.com",
+      "metadata": {
+        "description": "The Azure Active Directory B2C tenant (onmicrosoft.com domain)."
+      }
+    },
+    "aadAudience": {
+      "type": "string",
+      "defaultValue": "00000000-0000-0000-0000-000000000000",
+      "metadata": {
+        "description": "The Azure Active Directory B2C audience (GUID Tenant ID)."
+      }
+    },
+    "aadB2CScopes0": {
+      "type": "string",
+      "defaultValue": "user_impersonation",
+      "metadata": {
+        "description": "The Azure Active Directory B2C required scope."
+      }
+    },
+    "aadPolicy": {
+      "type": "string",
+      "defaultValue": "B2C_1_Signup",
+      "metadata": {
+        "description": "The Azure Active Directory B2C sign-in and sign-up policy."
+      }
+    },
+    "aadWebApi": {
+      "type": "string",
+      "defaultValue": "msrodrapi",
+      "metadata": {
+        "description": "The Azure Active Directory B2C App ID URI."
+      }
+    }
+  },
+  "variables": {
+    "planName": "[concat(parameters('adminWebAppName'),'-plan')]",
+    "adminWebAppBindingName": "[concat(tolower(parameters('adminWebAppName')), '.azurewebsites.net')]",
+    "apiAppBindingName": "[concat(tolower(parameters('apiAppName')), '.azurewebsites.net')]",
+    "webAppStagingBindingName": "[concat(tolower(parameters('adminWebAppName')), '-staging.azurewebsites.net')]",
+    "apiAppStagingBindingName": "[concat(tolower(parameters('apiAppName')), '-staging.azurewebsites.net')]"
+  },
+  "resources": [
+    {
+      "name": "[variables('planName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-06-01",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "App Service Plan"
+      },
+      "properties": {
+        "name": "[variables('planName')]",
+        "sku": "[parameters('adminWebAppSKU')]",
+        "workerSize": "[parameters('workerSize')]",
+        "numberOfWorkers": "[parameters('numberOfWorkers')]"
+      }
+    },
+    {
+      "name": "[parameters('adminWebAppName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('planName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('adminWebAppName'))]": "Resource",
+        "displayName": "Admin Web App"
+      },
+      "properties": {
+        "name": "[parameters('adminWebAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('planName'))]"
+      },
+      "resources": [
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', parameters('adminWebAppName'))]"
+          ],
+          "tags": {
+            "displayName": "Admin Web AppSettings"
+          },
+          "properties": {
+            "API_BASE_URL": "[concat('https://', reference(concat('Microsoft.Web/sites/', parameters('apiAppName')),'2015-08-01').hostNames[0],'/')]",
+            "ASPNETCORE_ENVIRONMENT": "Production",
+            "WEBSITE_NODE_DEFAULT_VERSION": "[parameters('nodeDefaultVersion')]",
+            "AzureAD:Tenant": "[parameters('aadTenant')]",
+            "AzureAD:Audience": "[parameters('aadAudience')]",
+            "AzureAD:B2CScopes:0": "[parameters('aadB2CScopes0')]",
+            "AzureAD:Policy": "[parameters('aadPolicy')]",
+            "AzureAD:WebApi": "[parameters('aadWebApi')]",
+            "Application:EnableExceptionDetails": "true"
+          }
+        },
+        {
+          "type": "Microsoft.Web/sites/hostNameBindings",
+          "name": "[concat(parameters('adminWebAppName'), '/', variables('adminWeebAppBindingName'))]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "siteName": "[parameters('adminWebAppName')]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('adminWebAppName'))]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots",
+          "kind": "app",
+          "name": "[concat(parameters('adminWebAppName'), '/', 'Staging')]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "enabled": true,
+            "hostNameSslStates": [
+              {
+                "name": "[variables('adminWebAppStagingBindingName')]"
+              }
+            ],
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('adminWebAppName'))]",
+            "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots/config",
+          "name": "[concat(parameters('adminWebAppName'), '/', 'Staging', '/web')]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "API_BASE_URL": "[reference(concat('Microsoft.Web/Sites/', parameters('apiAppName'), '/slots/Staging'), '2016-08-01').hostNames[0]]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('adminWebAppName'))]",
+            "[resourceId('Microsoft.Web/sites/slots', parameters('adminWebAppName'), 'Staging')]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots/hostNameBindings",
+          "name": "[concat(parameters('adminWebAppName'), '/', 'Staging', '/', variables('adminWebAppStagingBindingName'))]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "siteName": "[concat(parameters('adminWebAppName'), ' (', 'Staging', ')')]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('adminWebAppName'))]",
+            "[resourceId('Microsoft.Web/sites/slots', parameters('adminWebAppName'), 'Staging')]"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "[parameters('apiAppName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-08-01",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('planName'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('adminWebAppName'))]": "Resource",
+        "displayName": "API App"
+      },
+      "properties": {
+        "name": "[parameters('apiAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('planName'))]"
+      },
+      "resources": [
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/sites/', parameters('apiAppName'))]"
+          ],
+          "tags": {
+            "displayName": "Web API AppSettings"
+          },
+          "properties": {
+            "ASPNETCORE_ENVIRONMENT": "Production",
+            "WEBSITE_NODE_DEFAULT_VERSION": "[parameters('nodeDefaultVersion')]",
+            "Vault:Name": "[parameters('keyVaultName')]",
+            "Vault:ClientId": "[parameters('keyVaultClientId')]",
+            "Vault:ClientSecret": "[parameters('keyVaultClientSecret')]",
+            "AzureAD:Tenant": "[parameters('aadTenant')]",
+            "AzureAD:Audience": "[parameters('aadAudience')]",
+            "AzureAD:Policy": "[parameters('aadPolicy')]",
+            "Application:EnableExceptionDetails": "true",
+            "Application:EnableSwagger": "true",
+            "Documents:Account": "[parameters('cosmosDbAccountName')]",
+            "Documents:Database": "OpenData",
+            "Documents:DatasetCollection": "Datasets",
+            "Documents:UserDataCollection": "UserData",
+            "Search:Account": "[parameters('searchName')]",
+            "Search:DatasetIndex": "dataset-ix",
+            "Search:FileIndex": "files-ix"
+          }
+        },
+        {
+          "type": "Microsoft.Web/sites/hostNameBindings",
+          "name": "[concat(parameters('apiAppName'), '/', variables('apiAppBindingName'))]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "siteName": "[parameters('apiAppName')]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('apiAppName'))]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots",
+          "kind": "app",
+          "name": "[concat(parameters('apiAppName'), '/', 'Staging')]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "enabled": true,
+            "hostNameSslStates": [
+              {
+                "name": "[variables('apiAppStagingBindingName')]"
+              }
+            ],
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('apiAppName'))]",
+            "[resourceId('Microsoft.Web/serverfarms', variables('planName'))]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots/config",
+          "name": "[concat(parameters('apiAppName'), '/', 'Staging', '/web')]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {},
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('apiAppName'))]",
+            "[resourceId('Microsoft.Web/sites/slots', parameters('apiAppName'), 'Staging')]"
+          ]
+        },
+        {
+          "type": "Microsoft.Web/sites/slots/hostNameBindings",
+          "name": "[concat(parameters('apiAppName'), '/', 'Staging', '/', variables('apiAppStagingBindingName'))]",
+          "apiVersion": "2016-08-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "siteName": "[concat(parameters('apiAppName'), ' (', 'Staging', ')')]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('apiAppName'))]",
+            "[resourceId('Microsoft.Web/sites/slots', parameters('apiAppName'), 'Staging')]"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+  }
+}
