@@ -30,7 +30,6 @@
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
-    <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="templates\cosmosdb.json" />
     <Content Include="templates\search.json" />
     <Content Include="templates\webapp.json" />
