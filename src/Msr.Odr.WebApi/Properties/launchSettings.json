@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "OdrApi": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "datasets",
+      "environmentVariables": {
+        "EnableSwagger": "true",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:31812/"
+    }
+  }
+}

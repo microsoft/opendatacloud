@@ -1,0 +1,32 @@
+{
+  "armTemplates": {
+    "create-ubuntu-dsvm": {
+      "id": "20ac9329-7e2e-4a45-9fa4-9a2c08cc3d89",
+      "template": "dsvm-ubuntu/azuredeploy.json"
+    },
+    "create-ubuntu-vm": {
+      "id": "74d24c44-4125-4440-9743-8167ad55c81d",
+      "template": "vm-ubuntu/azuredeploy.json"
+    },
+    "create-windows-dsvm": {
+      "id": "571cc746-3baa-44b3-9123-1af431b54dab",
+      "template": "dsvm-windows/azuredeploy.json"
+    },
+    "create-windows-vm": {
+      "id": "141173db-a705-43e0-b2ab-4752b2088f25",
+      "template": "vm-windows/azuredeploy.json"
+    }
+  },
+  "staticAssets": {
+    "install-run-azcopy-ubuntu.sh": {
+      "id": "f868bb53-4596-429a-ac63-97f8b35751c6",
+      "file": "dsvm-ubuntu/install-run-azcopy.sh",
+      "mimeType": "text/x-shellscript"
+    },
+    "install-run-azcopy-windows.ps1": {
+      "id": "9f7cd45b-0662-42ed-902d-72ffe0677e33",
+      "file": "dsvm-windows/install-run-azcopy.ps1",
+      "mimeType": "text/plain"
+    }
+  }
+}
