@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+	  <Compile Include="..\Msr.Odr.Model\Configuration\WellKnownIds.cs" Link="WellKnownIds.cs" />
+	  <Compile Include="..\Msr.Odr.Services\Batch\BatchConstants.cs" Link="Batch\BatchConstants.cs" />
+	</ItemGroup>
+  
+	<ItemGroup>
+		<PackageReference Include="Azure.Batch" Version="8.0.1" />
+		<PackageReference Include="Markdig" Version="0.17.1" />
+		<PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
+		<PackageReference Include="Microsoft.Azure.Batch.Conventions.Files" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.4" />
+		<PackageReference Include="Microsoft.Azure.Search" Version="5.0.3" />
+		<PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.1" />
+		<PackageReference Include="YamlDotNet" Version="4.3.0" />
+		<PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="1.7.1" />
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <None Update="appsettings*.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\Files\*">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+  
+</Project>

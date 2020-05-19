@@ -1,0 +1,8 @@
+﻿{
+  "eligible": [
+    "@microsoft\\.com$"
+  ],
+  "id": "dd71bbb6-aaa7-4f78-a0bf-1d0f6759e674",
+  "datasetId": "fd56f7c8-89a5-4997-82bc-95e955468e14",
+  "dataType": "datasetOwners"
+}

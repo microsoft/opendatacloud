@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OdrImport": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

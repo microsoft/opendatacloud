@@ -1,0 +1,71 @@
+﻿{
+  "domains": [
+    {
+      "id": "ASTRONOMY",
+      "name": "astronomy, astrophysics"
+    },
+    {
+      "id": "BIOLOGY",
+      "name": "life sciences, medical, biological, etc. i.e. internal to organisms"
+    },
+    {
+      "id": "CHEMISTRY",
+      "name": "other chemistry"
+    },
+    {
+      "id": "COMPUTER SCIENCE",
+      "name": "computer science"
+    },
+    {
+      "id": "EARTH SCIENCE",
+      "name": "geophysical, earth sciences, etc."
+    },
+    {
+      "id": "ECONOMICS",
+      "name": "economics"
+    },
+    {
+      "id": "EDUCATION",
+      "name": "education"
+    },
+    {
+      "id": "ENGINEERING",
+      "name": "engineering"
+    },
+    {
+      "id": "ENVIRONMENTAL SCIENCE",
+      "name": "environmental, including flora/fauna, other biomass, behavior, etc. i.e. organisms holistically"
+    },
+    {
+      "id": "HEALTHCARE",
+      "name": "health care, genomics"
+    },
+    {
+      "id": "INFORMATION SCIENCE",
+      "name": "scholarly communications, library and information science, etc."
+    },
+    {
+      "id": "MATHEMATICS",
+      "name": "mathematics, statistics, logic, etc."
+    },
+    {
+      "id": "PHYSICS",
+      "name": "other physics and physical sciences not specified elsewhere"
+    },
+    {
+      "id": "SOCIAL SCIENCE",
+      "name": "social sciences, social media, etc."
+    },
+    {
+      "id": "URBAN INFORMATICS",
+      "name": "urban science, transportation, logistics, etc."
+    },
+    {
+      "id": "OTHER",
+      "name": "other domains"
+    }
+  ],
+  "id": "264f5075-8ed2-4aac-b389-a42678904b12",
+  "datasetId": "fd56f7c8-89a5-4997-82bc-95e955468e14",
+  "dataType": "domains"
+}
