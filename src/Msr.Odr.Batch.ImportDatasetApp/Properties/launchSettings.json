@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Msr.Odr.Batch.ImportDatasetApp": {
+      "commandName": "Project"
+    }
+  }
+}
