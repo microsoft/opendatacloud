@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+    <Product
+        Name='MSR ODR DatasetUtil 1.0'
+        Id='44d2b34f-12ca-4994-b153-14b9fc25dffa' 
+        UpgradeCode='9d994ec1-173c-4a61-b605-8394ac25768c'
+        Manufacturer='Microsoft Research'
+        Language='1033'
+        Codepage='1252'
+        Version='1.0.0'
+    >
+
+        <Package
+            Id='*'
+            Keywords='Installer'
+            Description="MSR ODR DatasetUtil Installer"
+            Comments='Dataset upload utility for MSR ODR application.'
+            Manufacturer='Microsoft Research'
+            InstallerVersion='200'
+            Compressed='yes'
+            Languages='1033'
+            SummaryCodepage='1252'
+        />
+
+        <MediaTemplate EmbedCab="yes" />
+
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='ProgramFiles64Folder' Name='PFiles'>
+                <Directory Id='MSR' Name='Microsoft Research'>
+                    <Directory Id='INSTALLDIR' Name='DatasetUtil'>
+                        <Component Id="EnvPath" Guid="8e1cdfb9-bc54-425b-86cb-10f4632d577c" KeyPath="yes">
+                            <Environment Id="UpdatePath" Name="PATH" Value="[INSTALLDIR]" Permanent="no" Part="last" Action="set" System="yes" />
+                        </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature
+            Id='Complete'
+            Title='MSR ODR DatasetUtil 1.0'
+            Description='Install the dataset utility.'
+            Display='expand'
+            Level='1'
+            ConfigurableDirectory='INSTALLDIR'
+        >
+            <ComponentGroupRef Id="DatasetUtilGroup" />
+            <ComponentRef Id="EnvPath" />
+        </Feature>
+
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+            <UIRef Id="WixUI_ErrorProgressText" />
+
+            <!-- Skip license dialog -->
+            <Publish Dialog="WelcomeDlg"
+                     Control="Next"
+                     Event="NewDialog"
+                     Value="InstallDirDlg"
+                     Order="2">1</Publish>
+            <Publish Dialog="InstallDirDlg"
+                     Control="Back"
+                     Event="NewDialog"
+                     Value="WelcomeDlg"
+                     Order="2">1</Publish>
+        </UI>
+
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+
+    </Product>
+</Wix>
