@@ -18,7 +18,7 @@ if ( $? -eq $false ) { exit 1 }
 & "$wixPath\heat.exe" dir .\DatasetUtil\bin\release\netcoreapp2.1\win10-x64\publish -dr INSTALLDIR -cg DatasetUtilGroup -o ./build/DatasetUtilGroup.wxs -srd -scom -sfrag -sreg -ag -var var.UtilSource
 if ( $? -eq $false ) { exit 1 }
 
-& "$wixPath\candle" DatasetUtil.wxs .\build\DatasetUtilGroup.wxs -arch x64 -o .\build\ -dUtilSource=.\DatasetUtil\bin\release\netcoreapp2.1\win10-x64\publish
+& "$wixPath\candle" DatasetUtil.wxs .\build\DatasetUtilGroup.wxs -arch x64 -o .\build\ "-dUtilSource=.\DatasetUtil\bin\release\netcoreapp2.1\win10-x64\publish"
 if ( $? -eq $false ) { exit 1 }
 
 & "$wixPath\light" .\build\DatasetUtil.wixobj .\build\DatasetUtilGroup.wixobj -ext WixUIExtension -o .\build\DatasetUtil.msi
