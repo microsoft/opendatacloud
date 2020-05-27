@@ -1,0 +1,26 @@
+.dropdown-outer {
+    margin: 15px 75px 15px 0;
+
+    a {
+        color: #FFF;
+    }
+}
+
+.dropdown-toggle {
+    .caret {
+        margin-left: 4px;
+    }
+}
+
+.dropdown-menu {
+    a {
+        display: block;
+        padding: 2px 2px 2px 10px;
+        text-decoration: none;
+        color: #000;
+    }
+
+    a:hover {
+        background-color: #EEE;
+    }
+}

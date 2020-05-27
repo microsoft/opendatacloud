@@ -1,0 +1,114 @@
+<div class="well">
+    <div class="row">
+        <header class="col-lg-12">
+            <div>
+                <span>{{nomination.nominationStatus}}</span>
+                Next Step ...
+            </div>
+        </header>
+        <div class="col-lg-12">
+            <div *ngIf="isPendingApproval">
+                <div>
+                    The nomination has been submitted and now needs to be either approved
+                    or rejected.  Before approving the nomination, it may be edited to
+                    provide any additional details required. If the nomination is approved then
+                    additional validation will be performed as well.
+                </div>
+            </div>
+            <div *ngIf="isRejected">
+                <div>
+                    The nomination has been rejected.
+                </div>
+            </div>
+            <div *ngIf="isApproved">
+                <div>
+                    The nomination has been validated and approved. The dataset needs to be
+                    associated with an Azure storage location. The following container has
+                    been selected:
+                    <ul *ngIf="datasetStorage">
+                        <li>Account: <strong>{{datasetStorage.accountName}}</strong></li>
+                        <li>Container: <strong>{{datasetStorage.containerName}}</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div *ngIf="isUploading">
+                <div>
+                    The nomination has been validated and approved. The contents of the dataset
+                    now need to be uploaded to Azure Storage.  This requires the following steps.
+                </div>
+                <ul>
+                    <li>
+                        Download the dataset to some staging area (a virtual machine in the same
+                        Azure region is recommended).
+                    </li>
+                    <li>
+                        Download the
+                        <a [href]="datasetConfigUrl" download>configuration file</a>
+                        and copy it to the root directory
+                        of the location where the dataset is staged.
+                    </li>
+                    <li>
+                        Download and install the
+                        <a [href]="datasetUtilityUrl" download>utility</a>
+                        that is used to transfer the dataset from the staging area to
+                        Azure storage.
+                        <em>
+                            (It only needs to be downloaded once per machine and
+                            can be used to transfer many datasets.)
+                        </em>
+                    </li>
+                    <li>
+                        Open a command prompt and navigate to the root directory of the dataset
+                        (the same directory the configuration file was copied to). From there run
+                        the utility by typing the command:
+                        <div>
+                            <span class="command">DatasetUtil</span>
+                        </div>
+                    </li>
+                </ul>
+                <div>
+                    When the dataset is uploaded successfully, then select 'Import Dataset' to
+                    continue loading the dataset into the system.
+                </div>
+            </div>
+            <div *ngIf="isImporting">
+                <div>
+                    <strong>Working ... </strong>
+                    The dataset import process is running.
+                </div>
+            </div>
+            <div *ngIf="isComplete">
+                <div>
+                    The nomination has been successfully imported as a
+                    <a [routerLink]='["/datasets", nomination.id]'>new dataset</a>.
+                </div>
+            </div>
+            <div *ngIf="isError">
+                <div>
+                    An error occurred while importing the dataset.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 step-buttons">
+            <button type="button" class="btn btn-primary" *ngIf="isPendingApproval" (click)="updateNomination()" [disabled]="!canUpdate()">
+                Update Nomination
+            </button>
+            <button type="button" class="btn btn-success" *ngIf="isPendingApproval" (click)="approveNomination()" [disabled]="!canApprove()">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                <span>Approve</span>&nbsp;
+            </button>
+            <button type="button" class="btn btn-danger" *ngIf="isPendingApproval" (click)="rejectNomination()">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <span>Reject</span>&nbsp;
+            </button>
+            <button type="button" class="btn btn-primary" *ngIf="isApproved" (click)="createStorageForNomination()">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                Create Storage
+            </button>
+            <button type="button" class="btn btn-primary" *ngIf="isUploading" (click)="importDatasetFromStorage()">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                Import Dataset
+            </button>
+        </div>
+    </div>
+</div>

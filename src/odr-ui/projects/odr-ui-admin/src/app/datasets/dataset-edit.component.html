@@ -1,0 +1,33 @@
+<div class="container-fluid dataset-edit-component">
+    <div class="row" *ngIf="loading | async">
+        <div class="col-lg-12">
+
+          <app-dataset-edit-form
+            [controls]="controls"
+            [licenseEntry]="licenseEntry"
+            [updateCounter]="updateCounter"
+            (onSubmit)="onSubmitDataset($event)"
+            #editForm
+          >
+            <div class="form-group">
+              <button
+                data-testid="submit"
+                type="button"
+                class="btn btn-primary"
+                [disabled]="!canUpdate"
+                (click)="editForm.submitDatasetForm()"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="onDeleteDataset()"
+              >
+                Delete Dataset
+              </button>
+            </div>
+          </app-dataset-edit-form>
+        </div>
+    </div>
+</div>

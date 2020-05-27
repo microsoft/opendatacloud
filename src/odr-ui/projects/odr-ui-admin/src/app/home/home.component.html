@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Datasets by Domain</h2>
+            <app-datasets-by-domain-visualization [data]="datasetsByDomainData | async"></app-datasets-by-domain-visualization>
+        </div>
+        <div class="col-lg-6">
+            <h2>Datasets by License</h2>
+            <app-datasets-by-license-visualization [data]="datasetsByLicenseData | async"></app-datasets-by-license-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Dataset Page Views</h2>
+            <app-views-by-dataset-visualization [data]="viewByDatasetData | async"></app-views-by-dataset-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Dataset Azure Deployments</h2>
+            <app-deployments-by-dataset-visualization [data]="datasetsAzureDeploymentsData | async"></app-deployments-by-dataset-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Views by Date</h2>
+            <app-views-by-date-visualization [data]="viewsByDateData | async"></app-views-by-date-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Views by Region</h2>
+            <app-views-by-region-visualization [data]="viewsByRegionData | async"></app-views-by-region-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Searches by Domain</h2>
+            <app-search-by-domain-visualization [data]="searchByDomainData | async"></app-search-by-domain-visualization>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Search Terms</h2>
+            <app-search-terms-visualization [data]="searchTermsData | async"></app-search-terms-visualization>
+        </div>
+    </div>
+</div>

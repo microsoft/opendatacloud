@@ -1,0 +1,64 @@
+<div class='main-nav'>
+    <div class='navbar navbar-inverse'>
+        <div class='navbar-header'>
+            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+                <span class='sr-only'>Toggle navigation</span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+                <span class='icon-bar'></span>
+            </button>
+            <a class='navbar-brand' [routerLink]='["/"]'>Microsoft Research - ODR Admin</a>
+        </div>
+        <div class='clearfix'></div>
+        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }' *ngIf="currentUser | async; let user">
+            <ul class='nav navbar-nav' *ngIf="user.isAuthenticated">
+                <li [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                    <a [routerLink]='["/"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-home'></span> Home
+                    </a>
+                </li>
+                <li [routerLinkActive]='["active"]'>
+                    <a [routerLink]='["/datasets"]' [queryParams]="{ page: 1 }" (click)='collapse()'>
+                        <span class='glyphicon glyphicon-th-list'></span> Datasets
+                    </a>
+                </li>
+                <li [routerLinkActive]='["active"]'>
+                    <a [routerLink]='["/nominations"]' [queryParams]="{ page: 1 }" (click)='collapse()'>
+                        <span class='glyphicon glyphicon-inbox'></span> Nominations
+                    </a>
+                </li>
+                <li [routerLinkActive]='["active"]'>
+                    <a [routerLink]='["/nominations/create"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-plus'></span> Create Nomination
+                    </a>
+                </li>
+                <li [routerLinkActive]='["active"]'>
+                    <a [routerLink]='["/operations"]' (click)='collapse()'>
+                        <span class='glyphicon glyphicon-dashboard'></span> Operations
+                    </a>
+                </li>
+            </ul>
+            <ul class='nav navbar-nav navbar-right'>
+                <li *ngIf="user.isAuthenticated" dropdown>
+                  <a href id="user-link" dropdownToggle (click)="false" aria-controls="user-link-dropdown">
+                    {{user.name}}<span class="caret"></span>
+                  </a>
+                  <ul id="user-link-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="user-link">
+                    <li>
+                      <a class="dropdown-item" (click)="onLogout()">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                        <span>Logout</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li *ngIf="!user.isAuthenticated" data-testid="login-button">
+                    <a role="button" (click)="onLogin()">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                        <span>Login</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

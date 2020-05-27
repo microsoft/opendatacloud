@@ -1,0 +1,60 @@
+<div class="panels">
+
+    <div *appVar="batchDetails | async as batch">
+
+        <header>
+            <div>
+                Operations
+            </div>
+            <div>
+                <ul class="list-inline text-right" *ngIf="batch?.status">
+                    <li>Running <span class="badge">{{batch.status.running | number:'1.0' }}</span></li>
+                    <li>Succeeded <span class="badge">{{batch.status.succeeded | number:'1.0' }}</span></li>
+                    <li>Failed <span class="badge">{{batch.status.failed | number:'1.0' }}</span></li>
+                    <li>
+                        <button type="button" class="btn btn-sm btn-default" title="Refresh"(click)="refreshData()">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <div>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>State</th>
+                    <th>Name</th>
+                    <th class="text-right">Created</th>
+                </tr>
+                </thead>
+                <tbody *ngIf="batch?.operations">
+                <tr *ngFor="let op of batch.operations" [ngClass]="{success: op.id === selectedId}">
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs" aria-label="View Output" (click)="selectOperation(op)">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                        </button>
+                        <span>{{op.state}}</span>
+                    </td>
+                    <td>{{op.displayName}}</td>
+                    <td class="text-right">{{op.creationTime | date:'medium'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div *appVar="batchOutput | async as output">
+        <header>
+            <div>
+                Output
+            </div>
+        </header>
+        <div *ngIf="output?.text" #outputPane>
+            <pre>{{output.text}}</pre>
+        </div>
+    </div>
+
+</div>

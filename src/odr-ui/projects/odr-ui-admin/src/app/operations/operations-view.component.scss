@@ -1,0 +1,46 @@
+
+.panels {
+    display: flex;
+    padding: 2rem;
+    > div {
+        flex: 1;
+        padding: 2rem;
+        width: 0;
+        > div {
+            height: 70vh;
+            overflow-x: auto;
+            overflow-y: scroll;
+        }
+    }
+}
+
+header {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+    > div:nth-of-type(1) {
+        font-size: 2rem;
+        font-weight: bold;
+        flex: 0 1;
+    }
+    > div:nth-of-type(2) {
+        flex: 1;
+    }
+}
+
+table {
+    border: 1px solid #ddd;
+    > thead {
+        > tr {
+            th:nth-of-type(1) {
+                width: 15rem;
+            }
+            th:nth-of-type(2) {
+                width: auto;
+            }
+            th:nth-of-type(3) {
+                width: 15rem;
+            }
+        }
+    }
+}

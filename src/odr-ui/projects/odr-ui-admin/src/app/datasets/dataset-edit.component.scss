@@ -1,0 +1,39 @@
+fieldset {
+    margin: 2rem 0;
+}
+
+.edit-dates {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.clear {
+    clear: both;
+}
+
+.owner {
+  margin-left: 2rem;
+  > span {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+}
+
+.required-key {
+    color: #a94442;
+    margin-right: 10px;
+    font-size: .6em;
+    font-weight: bold;
+    float: right;
+    clear: both;
+
+}
+
+.required-icon {
+    font-size: 1.5em;
+}
+
+button {
+  margin-right: 1rem;
+}

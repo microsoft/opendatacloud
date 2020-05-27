@@ -1,0 +1,72 @@
+<div class="container-fluid dataset-edit-component">
+  <div class="row" *ngIf="nomination | async as result">
+    <div class="col-lg-12">
+      <app-dataset-edit-form
+        [controls]="controls"
+        [licenseEntry]="licenseEntry"
+        [updateCounter]="updateCounter"
+        [isNomination]="true"
+        [includeOtherLicense]="true"
+        (onSubmit)="onSubmit($event)"
+        #editForm
+      >
+        <div class="row">
+          <div class="col-lg-6">
+            <div *ngIf="isNewNomination(result)">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="onCreateNomination()"
+                [disabled]="!canUpdateCallback()"
+                data-testid="submit"
+              >
+                Create Nomination
+              </button>
+            </div>
+            <app-nomination-next-step
+              [canUpdateCallback]="canUpdateCallback"
+              [canApproveCallback]="canApproveCallback"
+              [nomination]="result"
+              [datasetStorage]="datasetStorage"
+              (onUpdateNomination)="onUpdateNomination()"
+              (onApproveNomination)="onApproveNomination()"
+              (onRejectNomination)="onRejectNomination()"
+              (onCreateStorageForNomination)="onCreateStorageForNomination()"
+              (onImportDatasetFromStorage)="onImportDatasetFromStorage()"
+              *ngIf="!isNewNomination(result)"
+            ></app-nomination-next-step>
+          </div>
+        </div>
+      </app-dataset-edit-form>
+    </div>
+  </div>
+</div>
+<!--
+      <form
+        [formGroup]="controls"
+        (submit)="onUpdateNomination()"
+        novalidate
+        enctype="multipart/form-data"
+      >
+      </form>
+
+  <div class="col-lg-3 edit-dates">
+      <div *ngIf="result.created">
+          <label class="control-label">
+              Created
+          </label>
+          <span>{{result.createdByUserName}}</span><span>&nbsp;({{result.created | date }})</span>
+      </div>
+      <div *ngIf="result.modified">
+          <label class="control-label">
+              Modified
+          </label>
+          <span>{{result.modifiedByUserName}}</span><span>&nbsp;({{result.modified | date }})</span>
+      </div>
+  </div>
+
+  <div class="clear">
+      <app-dataset-tags-editor [control]="controls.tags"></app-dataset-tags-editor>
+  </div>
+
+-->
