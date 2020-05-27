@@ -1,0 +1,385 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "odr-ui-shared": {
+      "projectType": "library",
+      "root": "projects/odr-ui-shared",
+      "sourceRoot": "projects/odr-ui-shared/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/odr-ui-shared/tsconfig.lib.json",
+            "project": "projects/odr-ui-shared/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/odr-ui-shared/src/test.ts",
+            "tsConfig": "projects/odr-ui-shared/tsconfig.spec.json",
+            "karmaConfig": "projects/odr-ui-shared/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/odr-ui-shared/tsconfig.lib.json",
+              "projects/odr-ui-shared/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "odr-ui-web": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/odr-ui-web",
+      "sourceRoot": "projects/odr-ui-web/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/odr-ui-web",
+            "index": "projects/odr-ui-web/src/index.html",
+            "main": "projects/odr-ui-web/src/main.ts",
+            "polyfills": "projects/odr-ui-web/src/polyfills.ts",
+            "tsConfig": "projects/odr-ui-web/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/odr-ui-web/src/favicon.ico",
+              "projects/odr-ui-web/src/assets"
+            ],
+            "styles": [
+              "projects/odr-ui-web/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/odr-ui-web/src/environments/environment.ts",
+                  "with": "projects/odr-ui-web/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "odr-ui-web:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "odr-ui-web:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "odr-ui-web:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/odr-ui-web/src/test.ts",
+            "polyfills": "projects/odr-ui-web/src/polyfills.ts",
+            "tsConfig": "projects/odr-ui-web/tsconfig.spec.json",
+            "karmaConfig": "projects/odr-ui-web/karma.conf.js",
+            "assets": [
+              "projects/odr-ui-web/src/favicon.ico",
+              "projects/odr-ui-web/src/assets"
+            ],
+            "styles": [
+              "projects/odr-ui-web/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/odr-ui-web/tsconfig.app.json",
+              "projects/odr-ui-web/tsconfig.spec.json",
+              "projects/odr-ui-web/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/odr-ui-web/e2e/protractor.conf.js",
+            "devServerTarget": "odr-ui-web:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "odr-ui-web:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "odr-ui-admin": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/odr-ui-admin",
+      "sourceRoot": "projects/odr-ui-admin/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/odr-ui-admin",
+            "index": "projects/odr-ui-admin/src/index.html",
+            "main": "projects/odr-ui-admin/src/main.ts",
+            "polyfills": "projects/odr-ui-admin/src/polyfills.ts",
+            "tsConfig": "projects/odr-ui-admin/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/odr-ui-admin/src/favicon.ico",
+              "projects/odr-ui-admin/src/assets"
+            ],
+            "styles": [
+              "projects/odr-ui-admin/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/odr-ui-admin/src/environments/environment.ts",
+                  "with": "projects/odr-ui-admin/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "odr-ui-admin:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "odr-ui-admin:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "odr-ui-admin:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/odr-ui-admin/src/test.ts",
+            "polyfills": "projects/odr-ui-admin/src/polyfills.ts",
+            "tsConfig": "projects/odr-ui-admin/tsconfig.spec.json",
+            "karmaConfig": "projects/odr-ui-admin/karma.conf.js",
+            "assets": [
+              "projects/odr-ui-admin/src/favicon.ico",
+              "projects/odr-ui-admin/src/assets"
+            ],
+            "styles": [
+              "projects/odr-ui-admin/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/odr-ui-admin/tsconfig.app.json",
+              "projects/odr-ui-admin/tsconfig.spec.json",
+              "projects/odr-ui-admin/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/odr-ui-admin/e2e/protractor.conf.js",
+            "devServerTarget": "odr-ui-admin:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "odr-ui-admin:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "test-harness": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:module": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        }
+      },
+      "root": "projects/test-harness",
+      "sourceRoot": "projects/test-harness/src",
+      "prefix": "test",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/test-harness",
+            "index": "projects/test-harness/src/index.html",
+            "main": "projects/test-harness/src/main.ts",
+            "polyfills": "projects/test-harness/src/polyfills.ts",
+            "tsConfig": "projects/test-harness/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/test-harness/src/favicon.ico",
+              "projects/test-harness/src/assets"
+            ],
+            "styles": [
+              "projects/test-harness/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/test-harness/src/environments/environment.ts",
+                  "with": "projects/test-harness/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "test-harness:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "test-harness:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "test-harness:build"
+          }
+        }
+      }
+    }},
+  "defaultProject": "odr-ui-shared"
+}
