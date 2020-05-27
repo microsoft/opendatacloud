@@ -1,0 +1,76 @@
+<div class="form-group" [ngClass]="rootClasses">
+  <label class="control-label">
+    <span>Dataset License</span>
+    <span class="required" *ngIf="required">*</span>
+  </label>
+  <div *ngIf="!showAll" class="common-licenses">
+    <div>
+      <label>
+        <input
+          type="radio"
+          [formControl]="radioSelectControl"
+          [value]="oudaAgreementId"
+        />
+        <span>O-UDA</span>
+      </label>
+      <label>
+        <input
+          type="radio"
+          [formControl]="radioSelectControl"
+          [value]="cudaAgreementId"
+        />
+        <span>C-UDA</span>
+      </label>
+    </div>
+    <div *ngIf="radioSelectControl.value === oudaAgreementId">
+      <h4>
+        Open Use of Data Agreement
+        <app-license-view-link [licenseId]="selectedLicenseId"></app-license-view-link>
+      </h4>
+      <p>
+        Microsoft created the dataset and any non-owned materials are already in
+        the public domain, or Microsoft has permissions to include and publicly
+        distribute all non-owned materials without restriction.
+      </p>
+    </div>
+    <div *ngIf="radioSelectControl.value === cudaAgreementId">
+      <h4>
+        Computational Use of Data Agreement
+        <app-license-view-link [licenseId]="selectedLicenseId"></app-license-view-link>
+      </h4>
+      <p>
+        The materials in the dataset were obtained from publicly available
+        sources that were lawfully accessed, and there are no binding
+        contractual agreements that restrict whether and how the materials can
+        be distributed.
+      </p>
+    </div>
+    <div>
+      <button type="button" (click)="showAllLicenseOptions()">
+        Show All License Options
+      </button>
+    </div>
+  </div>
+  <div *ngIf="showAll" class="all-licenses">
+    <div>
+      <select
+        class="form-control"
+        [formControl]="control"
+        [compareWith]="matchLicenseId"
+      >
+        <option *ngFor="let license of licenses | async" [ngValue]="license">{{
+          license.name
+        }}</option>
+      </select>
+      <app-license-view-link [licenseId]="selectedLicenseId"></app-license-view-link>
+    </div>
+    <div *ngIf="isOtherLicenseSelected">
+      <button type="button" (click)="enterLicense()">Enter</button>
+      <span>other license information</span>
+      <span class="required">*</span>
+    </div>
+    <span class="help-block" *ngIf="hasLicenseErrors">
+      Errors were found when entering license information.
+    </span>
+  </div>
+</div>

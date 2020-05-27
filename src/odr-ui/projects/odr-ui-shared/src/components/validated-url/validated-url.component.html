@@ -1,0 +1,22 @@
+<div class="form-group"
+     [ngClass]="rootClasses"
+     [formGroup]="formGroup">
+    <label class="control-label">
+        <input type="checkbox" [(checked)]="isLabelChecked" (change)="onClickLabelCheckbox()"
+               *ngIf="isLabelCheckboxVisible"/>
+        {{labelText}}<span class="required" *ngIf="required">*</span>
+        <div class="input-group">
+            <input type="text" class="form-control url" placeholder="URL to Dataset"
+                   (input)="onChangeInputValue()"
+                   [formControl]="inputControl">
+            <div class="input-group-addon">
+                <app-outside-link [hideUnderline]="true" title="Go to dataset Url" [url]="inputControl.value" *ngIf="inputControl.value">
+                    Go <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                </app-outside-link>
+            </div>
+        </div>
+    </label>
+    <div *ngIf="isErrorVisible(inputControl)">
+        <ng-content></ng-content>
+    </div>
+</div>

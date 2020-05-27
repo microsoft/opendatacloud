@@ -1,0 +1,33 @@
+label {
+    width: 100%;
+}
+
+label input {
+    font-weight: normal;
+}
+
+.tag {
+    display: inline-block;
+    button {
+        margin-right: 1rem;
+        border-radius: 2rem;
+        &:hover {
+            border-radius: 2rem;
+        }
+        span {
+            margin-left: 1rem;
+        }
+    }
+}
+
+.has-error .tag button {
+    border-color: #a94442;
+    color: #a94442;
+}
+
+.tag-lookup {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    min-height: 2rem;
+}
+

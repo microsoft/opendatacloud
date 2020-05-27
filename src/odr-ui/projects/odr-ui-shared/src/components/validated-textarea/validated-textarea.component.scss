@@ -1,0 +1,18 @@
+.form-group > label {
+  width: 100%;
+}
+
+textarea {
+  height: 10rem;
+}
+
+label > textarea {
+    font-weight: normal;
+}
+
+label span.required {
+  color: #a94442;
+  padding-left: 3px;
+  font-size: 1.3em;
+  font-weight: bold;
+}

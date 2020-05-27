@@ -1,0 +1,45 @@
+.form-group > label {
+    width: 100%;
+    padding: 0 15px;
+}
+
+.radio-list {
+    margin: 10px;
+}
+
+.content-container {
+    margin: 10px;
+}
+
+.control-container {
+    padding: 0 15px;
+}
+
+label span.required {
+    color: #a94442;
+    padding-left: 3px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+input[type="file"].has-error {
+    color: #a94442;
+}
+
+.help-block {
+    color: #a94442;
+    margin-left: 15px;
+}
+
+label span.required {
+    color: #a94442;
+    padding-left: 3px;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.dialog-actions {
+    margin: 20px 0;
+    padding: 0;
+    text-align: center;
+}

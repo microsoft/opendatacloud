@@ -1,0 +1,15 @@
+label {
+    width: 100%;
+}
+
+label input {
+    font-weight: normal;
+}
+
+.filetype {
+    display: inline-block;
+    button {
+        margin-right: 1rem;
+        border-radius: 2rem;
+    }
+}

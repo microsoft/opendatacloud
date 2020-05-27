@@ -1,0 +1,11 @@
+<div class="form-group"
+     [ngClass]="rootClasses"
+     [formGroup]="formGroup">
+  <label class="control-label">
+    {{labelText}}<span class="required" *ngIf="required">*</span>
+    <textarea class="form-control" [formControl]="inputControl"></textarea>
+  </label>
+  <div *ngIf="isErrorVisible(inputControl)">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="container-fluid dialog-container">
+
+    <div class="row dialog-header">
+        <div class="col-sm-12">
+            <h3>Enter License</h3>
+        </div>
+    </div>
+
+    <div class="row dialog-content">
+        <div class="col-sm-12">
+            <app-validated-input [inputControl]="licenseName" [size]="12" labelText="License Name" [required]="true">
+                <app-errmsg errorCode="required">
+                    License name is required.
+                </app-errmsg>
+                <app-errmsg errorCode="maxlength">
+                    License name cannot be greater than {{controlErrors(licenseName, 'maxlength').requiredLength}} characters.
+                </app-errmsg>
+            </app-validated-input>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="control-label">
+                    URL for Additional Info
+                    <input type="text" class="form-control" [formControl]="licenseUrl">
+                </label>
+                <div class="help-block" *ngIf="controlErrors(licenseUrl, 'maxlength').requiredLength">
+                    Url cannot be greater than {{controlErrors(licenseUrl, 'maxlength').requiredLength}} characters.
+                </div>
+                <div class="help-block" *ngIf="controlErrors(licenseUrl, 'url')">
+                    {{ controlErrors(licenseUrl, 'url').message  }}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="control-label">
+                    License Content<span class="required" *ngIf="true">*</span>
+                </label>
+                <div class="control-container">
+                    <div class="radio-list">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="licenseContent" [checked]="!isFileUpload" [disabled]="isReadOnly"
+                                    (click)="toggleFileUpload(false)">Paste License Content
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="licenseContent" [checked]="isFileUpload" [disabled]="isReadOnly"
+                                       (click)="toggleFileUpload(true)">Upload License Content as file (pdf, docx, txt only)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="content-container">
+                        <div class="help-block" *ngIf="isFileUploadRequiredErrorVisible()">
+                            License File is required.
+                        </div>
+                        <label class="control-label" *ngIf="isFileUpload">
+                            <input type="file" (change)="fileChange($event)"
+                                    class="hidden" [disabled]="isReadOnly"
+                                    accept=".pdf,.doc,.docx,.txt">
+                            <span class="btn btn-default">Choose file...</span>
+                        </label>
+                        
+                        <span *ngIf="isFileUpload && fileName" >
+                            <a *ngIf="otherLicenseFileUrl" [href]="otherLicenseFileUrl" download>{{fileName}}</a>
+                            <span *ngIf="!otherLicenseFileUrl">{{fileName}}</span>
+                        </span>
+                        <div class="help-block" *ngIf="isContentHtmlRequiredErrorVisible()">
+                            License Content is required.
+                        </div>
+                        <div class="help-block" *ngIf="isContentHtmlMaxLengthErrorVisible()">
+                            License Content must be less than 2,000,000 characters.
+                        </div>
+                        <angular-editor *ngIf="!isFileUpload" [config]="editorConfig" [(ngModel)]="contentHtml"></angular-editor>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row dialog-actions">
+        <div class="col-sm-12">
+
+            <button class="btn btn-primary" (click)="onSave()" [disabled]="!isValidForSave()" *ngIf="!isReadOnly">
+                Save
+            </button>
+            <button class="btn btn-default" (click)="onCancel()" *ngIf="!isReadOnly"> 
+                Cancel
+            </button>
+            <button class="btn btn-default" (click)="onCancel()" *ngIf="isReadOnly">
+                Close
+            </button>
+
+        </div>
+    </div>
+</div>
+

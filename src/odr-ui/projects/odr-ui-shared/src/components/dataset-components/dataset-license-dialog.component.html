@@ -1,0 +1,144 @@
+<div class="container-fluid dialog-container">
+  <div class="row dialog-header">
+    <div class="col-sm-12">
+      <h3>License Details</h3>
+    </div>
+  </div>
+
+  <div class="row dialog-content">
+    <div class="col-sm-12">
+      <app-validated-input
+        [inputControl]="licenseName"
+        [size]="12"
+        labelText="License Name"
+        [required]="true"
+      >
+        <app-errmsg errorCode="required">
+          License name is required.
+        </app-errmsg>
+        <app-errmsg errorCode="maxlength">
+          License name cannot be greater than
+          {{ licenseName.getError("maxlength")?.requiredLength }} characters.
+        </app-errmsg>
+      </app-validated-input>
+    </div>
+
+    <div class="col-sm-12">
+      <app-validated-input
+        [inputControl]="licenseUrl"
+        [size]="12"
+        labelText="URL for Additional Info"
+      >
+        <app-errmsg errorCode="maxlength">
+          Url cannot be greater than
+          {{ licenseUrl.getError("maxlength")?.requiredLength }} characters.
+        </app-errmsg>
+        <app-errmsg errorCode="url">
+          {{ licenseUrl.getError("url")?.message }}
+        </app-errmsg>
+      </app-validated-input>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label class="control-label">
+          License Content<span class="required" *ngIf="true">*</span>
+        </label>
+        <div class="control-container">
+          <div class="radio-list">
+            <div class="radio">
+              <label>
+                <input
+                  type="radio"
+                  [formControl]="isFileUpload"
+                  [value]="false"
+                />
+                Paste License Content
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input
+                  type="radio"
+                  [formControl]="isFileUpload"
+                  [value]="true"
+                />
+                Upload License Content as file (pdf, docx, txt only)
+              </label>
+            </div>
+          </div>
+
+          <div class="content-container">
+            <ng-container *ngIf="!isReadOnly">
+              <ng-container *ngIf="!isFileUpload.value">
+                <angular-editor
+                  [config]="editorConfig"
+                  [formControl]="contentHtml"
+                ></angular-editor>
+                <app-errmsg [inputControl]="contentHtml" errorCode="required">
+                  License content is required.
+                </app-errmsg>
+                <app-errmsg [inputControl]="contentHtml" errorCode="maxlength">
+                  License content cannot be greater than
+                  {{ contentHtml.getError("maxlength")?.requiredLength }}
+                  characters.
+                </app-errmsg>
+              </ng-container>
+
+              <ng-container *ngIf="isFileUpload.value">
+                <label class="control-label">
+                  <input
+                    type="file"
+                    (change)="onFileChange($event)"
+                    accept=".pdf,.doc,.docx,.txt"
+                  />
+                </label>
+                <app-errmsg [inputControl]="fileInput" errorCode="required">
+                  License file is required.
+                </app-errmsg>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="isReadOnly">
+              <ng-container *ngIf="!isFileUpload.value">
+                <div class="read-only-content" [innerHtml]="this.entry.contentHtml"></div>
+              </ng-container>
+
+              <ng-container *ngIf="isFileUpload.value">
+                <div>
+                  <a
+                    *ngIf="otherLicenseFileUrl"
+                    [href]="otherLicenseFileUrl"
+                    download
+                    >{{ fileName }}</a
+                  >
+                  <span *ngIf="!otherLicenseFileUrl">{{ fileName }}</span>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row dialog-actions">
+    <div class="col-sm-12">
+      <button
+        data-testid="save-license"
+        type="button"
+        class="btn btn-primary"
+        (click)="onSave()"
+        [disabled]="!isFormValid"
+        *ngIf="!isReadOnly"
+      >
+        Save
+      </button>
+      <button type="button" class="btn btn-default" (click)="onCancel()" *ngIf="!isReadOnly">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-default" (click)="onCancel()" *ngIf="isReadOnly">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

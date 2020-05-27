@@ -1,0 +1,42 @@
+.help-block {
+  color: #a94442;
+}
+
+span.required {
+  color: #a94442;
+  padding-left: 3px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.common-licenses {
+  label {
+    display: inline-block;
+    &:nth-of-type(n+2) {
+      margin-left: 1rem;
+    }
+  }
+
+  h4 {
+    font-size: 1rem;
+    margin: 1rem 0 0 2rem;
+  }
+
+  p {
+    margin: 0 0 1rem 2rem;
+  }
+}
+
+.all-licenses {
+  > div:nth-of-type(1) {
+    margin-bottom: 1rem;
+  }
+  button {
+    margin-right: 1rem;
+  }
+
+  select {
+    width: 84%;
+    display: inline-block;
+  }
+}

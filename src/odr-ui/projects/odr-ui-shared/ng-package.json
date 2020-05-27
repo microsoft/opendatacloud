@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/odr-ui-shared",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@kolkov/angular-editor": "AngularEditor",
+      "ngx-bootstrap/datepicker": "NgxDatePicker",
+      "ngx-bootstrap/typeahead": "NgxTypeAhead",
+      "lodash": "LoDash"
+    }
+  }
+}
