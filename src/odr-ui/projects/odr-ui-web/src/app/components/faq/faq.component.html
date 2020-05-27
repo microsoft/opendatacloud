@@ -1,0 +1,10 @@
+<div class="layout-page container">
+  <div class="editorial">
+    <h2>Frequently Asked Questions (FAQs)</h2>
+
+    <dl *ngFor="let faq of faqs | async">
+      <dt>{{faq.title}}</dt>
+      <dd [innerHtml]="faq.content"></dd>
+    </dl>
+  </div>
+</div>

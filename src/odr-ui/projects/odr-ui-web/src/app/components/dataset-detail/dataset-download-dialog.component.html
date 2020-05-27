@@ -1,0 +1,53 @@
+<div class="container-fluid dialog-container">
+
+    <div class="row dialog-header">
+        <h3>Dataset: {{dataset.name}}</h3>
+    </div>
+
+    <div class="row dialog-content">
+        <div class="download-warning">
+            <strong>Note that the dataset download link cannot be used directly in a browser</strong>
+        </div>
+        <div class="download-instructions">
+            <div class="prompt">
+                <strong>How do I use a download link for an entire dataset?</strong>
+            </div>
+            <div>
+                <p>
+                    A download link for an entire dataset provides the location of the dataset in
+                    Azure as well as a special time-limited key that allows you to download the
+                    entire dataset. This link can be used with tools that can copy files from Azure, like
+                    the following:
+                </p>
+                <ul>
+                    <li>
+                        <a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy">AzCopy</a> - a
+                        command-line tool for Windows or Linux that copies files to and from Azure.
+                    </li>
+                    <li>
+                        <a href="https://azure.microsoft.com/en-us/features/storage-explorer/">Azure Storage Explorer</a> -
+                        a utility that is used to manage Azure storage.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="download">
+            <div class="download-url">
+                <textarea type="text" rows="5" readonly="readonly" class="download-link" [(ngModel)]="datasetUrl"></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row dialog-actions">
+        <button class="button button-secondary" (click)="onClose(false)">
+            Close
+        </button>
+        <button class="button copy-button" type="button"
+        title="Copy"
+        ngxClipboard
+        [cbContent]="datasetUrl"
+        (cbOnSuccess)="onUrlCopy()">
+            Copy
+        </button>
+    </div>
+</div>

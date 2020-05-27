@@ -1,0 +1,58 @@
+<div class="container-fluid dialog-container">
+
+    <div class="row dialog-header">
+        <h3>License</h3>
+    </div>
+    <div class="row dialog-content">
+      <div class="license-file">
+        {{license.name}}
+        <app-license-view-link [licenseId]="license.id"></app-license-view-link>
+      </div>
+    </div>
+
+<!--
+    <div class="row dialog-content">
+        <div class="license-container" *ngIf="!license.isFileBased">
+            <div class="loading" *ngIf="isBusy">
+                <app-loading-spinner></app-loading-spinner>
+              </div>
+
+            <angular-editor [config]="editorConfig" [(ngModel)]="licenseContent"></angular-editor>
+        </div>
+        <div class="license-file" *ngIf="license.isFileBased && license.fileName">
+            <label class="control-label">
+                Click to download/view the license file:
+            </label>
+            <div>
+                <a *ngIf="license.contentUri" [href]="licenseFileUrl" download>{{license.fileName}}</a>
+                <span *ngIf="!license.contentUri">{{license.fileName}}</span>
+            </div>
+        </div>
+    </div>
+-->
+
+    <div class="row user-reason" *ngIf="isAuthenticated && !acceptedLicense">
+        <label>
+            Dataset usage reason:
+            <small>({{minimumUserReasonLength}} character minimum required.)</small>
+        </label>
+        <textarea rows="5" maxlength="512" [disabled]="isBusy" [(ngModel)]="userReason"></textarea>
+    </div>
+
+    <div class="row dialog-actions">
+
+        <button *ngIf="!isAuthenticated || acceptedLicense" class="button" (click)="onClose(false)">
+            Close
+        </button>
+
+        <button *ngIf="isAuthenticated && !acceptedLicense" class="button button-secondary" (click)="onClose(false)">
+            Disagree
+        </button>
+
+        <button *ngIf="isAuthenticated && !acceptedLicense" class="button" (click)="onClose(true)"
+            [disabled]="!isValid">
+            Agree
+        </button>
+
+    </div>
+</div>

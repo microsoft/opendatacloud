@@ -1,0 +1,39 @@
+// button {
+//     background-color: #5bc0de;
+//     color: white;
+//     font-weight: 600;
+//     height: 4rem;
+//     padding: 0 2rem;
+//     display: flex;
+
+//     > span {
+//         flex: auto;
+//     }
+// }
+
+// .glyphicon {
+//     font-size: 2.2rem;
+//     margin-right: 1rem;
+// }
+
+.size {
+    font-size: .9em;
+}
+
+button {
+    // background: transparent;
+    // color: #0D6AB6;
+    // font-size: 1em;
+    // padding: 0.25em 0;
+    margin-bottom: 1em;
+    // display: block;
+    text-align: left;
+
+    .icon {
+        margin-right: 0.25em;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

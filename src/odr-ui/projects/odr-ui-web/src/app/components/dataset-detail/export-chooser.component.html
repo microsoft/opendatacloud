@@ -1,0 +1,66 @@
+<h4>Export Dataset</h4>
+
+<div *ngIf="!isAuthenticated" class="well">
+    <div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeOptions()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div>
+        <div *ngIf="!isAuthenticated">
+            Please <a role="button" (click)="showLogin()">login</a> in order to export this dataset.
+        </div>
+    </div>
+</div>
+
+<div class="button-list" *ngIf="isAuthenticated">
+    <app-download-button (click)="downloadDataset()"
+                         buttonText="Download" [size]="dataset.size"></app-download-button>
+    <app-download-button (click)="downloadZipFile()" *ngIf="isCompressedAvailable"
+                         buttonText="Download zip file" [size]="dataset.zipFileSize"></app-download-button>
+    <app-download-button (click)="downloadGzipFile()" *ngIf="isCompressedAvailable"
+                         buttonText="Download tar.gz file" [size]="dataset.gzipFileSize"></app-download-button>
+    <app-azure-deploy-button (click)="toggleDeployOptions()"></app-azure-deploy-button>
+</div>
+
+<div *ngIf="areDeployOptionsVisible" class="well">
+    <div class="deploy-azure">
+        <h5>Deploy Dataset to Azure</h5>
+        <ul class="list-unstyled">
+            <li *ngFor="let t of deploymentTypes">
+                <label>
+                    <input type="radio" name="deployType" [value]="t.deploymentId" [(ngModel)]="deploymentId">
+                    {{t.description}}
+                </label>
+            </li>
+        </ul>
+
+        <p *ngIf="enableLink">
+            This feature must first
+            <app-outside-link [url]="enableLink" title="be enabled"></app-outside-link>
+            within your Azure subscription. This only needs to be done once per
+            subscription.
+        </p>
+
+        <p>
+            Clicking the "Deploy Dataset" button will transfer to the Azure Portal
+            and begin the process of deploying the dataset to your Azure subscription.
+            There is no charge for the dataset, but there are charges for using
+            Azure virtual machines and other resources.
+        </p>
+
+        <p>
+            <button class="button" type="button" (click)="deployDataset()">
+                Deploy Dataset
+            </button>
+        </p>
+        <p class="more-help">
+            <a [routerLink]="['/faq']">
+                <span class='glyphicon glyphicon-question-sign'></span>
+                What does it mean to "Deploy to Azure"?
+            </a>
+        </p>
+    </div>
+
+</div>

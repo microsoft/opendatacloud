@@ -1,0 +1,21 @@
+<div class="layout-page container">
+    <header>
+        <h1>Categories</h1>
+    </header>
+    <section class="layout-twocol comfy spacing-top-lg" >
+        <div  *ngFor="let result of domains | async">
+            <div class="category">
+                <div>
+                    <img src="{{result.iconPath}}" class="icon" height="80" width="80"  />
+                </div>
+                <div>
+                    <h3 class="subheading">{{result.id}}</h3>
+                    <!-- <p class="description"></p> -->
+                    <a [routerLink]="['datasets']" [queryParams]="{ domain: result.id }" aria-label="View dataset" class="call-to-action">
+                        <span>VIEW DATASETS</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

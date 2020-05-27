@@ -1,0 +1,116 @@
+    .breadcrumb {
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    list-style-type: none;
+    padding: 0.5em;
+    font-size: 14px;
+
+    li {
+        display: inline;
+    }
+
+    li:after {
+        content: '/';
+        display: inline-block;
+        margin: 0 0.25em;
+    }
+
+    .btn {
+        background: transparent;
+        color: #0D6AB6;
+        font-size: 1em;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+}
+
+.file-list {
+
+    position: relative;
+    min-height: 16rem;
+    padding: 0;
+    border: 1px solid #ccc;
+
+    .icon {
+        width: 1em;
+        height: 1em;
+    }
+
+    .pager {
+        padding: 0 0.5em;
+    }
+
+    .file-list-item {
+        // IE Layout
+        display: table;
+        width: 100%;
+
+        > * {
+            display: table-cell;
+        }
+
+        // Modern Layout
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        grid-gap: 0;
+        padding: 0;
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        button[disabled] {
+            cursor: not-allowed;
+        }
+
+        > div:nth-of-type(1) {
+            padding: 0.5em;
+            > span {
+                > span:nth-of-type(3) {
+                    font-style: italic;
+                    font-size: 1.2rem;
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        > div:nth-of-type(2) {
+            text-align: right;
+            padding: 5px 16px 5px 0;
+        }
+
+        > div:nth-of-type(3) {
+            grid-column: 1 / 3;
+            grid-row: 2;
+            margin: 2rem;
+        }
+    }
+
+    .file-list-item:nth-of-type(2n+1) {
+        background-color: #f9f9f9;
+    }
+}
+
+.download-url {
+    display: flex;
+    > input {
+        flex: 1;
+    }
+    > button {
+        flex: 0;
+        margin-top: 0;
+    }
+}
+
+.pager {
+    user-select: none;
+}
+
+.more-help {
+    margin: 1.5rem 0 0.5rem 0;
+}

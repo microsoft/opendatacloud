@@ -1,0 +1,104 @@
+<nav class="navbar  navbar-fixed-top " (window:resize)="onResize($event)">
+    <div class="container" *appVar="isAuthenticated | async as userAuthenticated">
+        <div id="navbar" class="collapse navbar-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"
+                aria-label="Toggle navigation" (click)="isMenuOpen = !isMenuOpen">
+                <svg class="icon">
+                    <use xlink:href="#icon-menu"></use>
+                </svg>
+            </button>
+            <a [routerLink]="['/']" class="navbar-brand-image" tabindex="5">
+                <img class="logo" alt="Microsoft" src="/assets/images/microsoft-white.svg" width="120" height="26" />
+                <strong>Microsoft Research Open Data</strong>
+            </a>
+            <ul class="nav navbar-nav" [ngClass]="{ 'show' : isMenuOpen }">
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/categories']" (click)="isMenuOpen = false" tabindex="10">Categories</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" (click)="isMenuOpen = false">
+                    <a [routerLink]="['/about']" tabindex="15">About</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" (click)="isMenuOpen = false">
+                    <a [routerLink]="['/faq']" tabindex="20">FAQs</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" (click)="isMenuOpen = false">
+                    <a [routerLink]="['/feedback']" tabindex="25">Feedback</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" (click)="isMenuOpen = false" *ngIf="canNominateDataset | async">
+                  <a [routerLink]="['/nominate']" tabindex="27">Nominate</a>
+                </li>
+                <li class="credentials">
+                    <a *ngIf="!userAuthenticated; else isAuthenticatedHamburgerBlock" role="button"
+                        (click)="onLogin()" tabindex="30" data-testid="login-button">
+                        <span>Login</span>
+                    </a>
+                    <ng-template #isAuthenticatedHamburgerBlock>
+                        <div class="username">{{userName}}</div>
+                        <a class="logout" role="button" (click)="onLogout()" data-testid="logout-button">
+                            <span>Logout</span>
+                        </a>
+                    </ng-template>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <li *ngIf="userAuthenticated" dropdown class="dropdown">
+                    <a href id="user-link" dropdownToggle (click)="false" aria-controls="user-link-dropdown">
+                      {{userName}}<span class="caret">&#9660;</span>
+                    </a>
+                    <ul id="user-link-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="user-link">
+                      <li data-testid="logout-button">
+                        <a class="dropdown-item" (click)="onLogout()">
+                          <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                          <span>Logout</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li *ngIf="!userAuthenticated" data-testid="login-button">
+                      <a role="button" (click)="onLogin()">
+                          <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                          <span>Login</span>
+                      </a>
+                  </li>
+<!--
+                <li [routerLinkActive]="['link-active']">
+                    <a *ngIf="!(isAuthenticated | async); else isAuthenticatedBlock" role="button" (click)="onLogin()"
+                        tabindex="35" data-testid="login-button">
+                        <span>Login</span>
+                    </a>
+                    <ng-template #isAuthenticatedBlock>
+                        <nz-dropdown [nzTrigger]="'click'" data-testid="logout-button">
+                            <a nz-dropdown> {{userName}} <i nz-icon type="down"></i> </a>
+                            <ul nz-menu>
+                                <li nz-menu-item (click)="onLogout()">Logout</li>
+                            </ul>
+                        </nz-dropdown>
+                    </ng-template>
+                </li>
+-->
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+<div class="">
+    <toaster-container></toaster-container>
+    <router-outlet></router-outlet>
+    <div class="container">
+        <footer class="site-footer">
+            <p>
+                &copy; 2018 - Microsoft Research<br />
+            </p>
+            <ul class="list-inline">
+                <li><a href="https://go.microsoft.com/fwlink/?LinkId=521839" title="Privacy & Cookies">Privacy &
+                        Cookies</a></li>
+                <li><a href="https://www.microsoft.com/en-us/servicesagreement" title="Terms of Usage">Terms of
+                        Usage</a></li>
+            </ul>
+        </footer>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.download-url {
+    display: block;
+    margin: 0;
+    clear: both;
+    height: 130px;
+
+    .download-link {
+        width: 85%;
+        float: left;
+        height: 120px;
+        vertical-align: text-top;
+    }
+}

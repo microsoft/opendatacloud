@@ -1,0 +1,50 @@
+
+// Typographic Intro
+// ---------------------------------------------------------------
+.typographic-intro {
+  background-color: #142a3b;
+  color: #fff;
+  background-image: 
+  url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/5401/home-bg.svg);
+  background-repeat: no-repeat;
+  background-size: 220%;
+  background-position: 50%;
+  padding: 5% 0;
+  padding: calc(10vh + 2em) 0;
+  
+  @media (min-width: 720px){
+    background-size: 115%;
+    background-position: 70% center;
+  }
+
+  .badge {
+    background: #0d6ab6;
+    font-size: 1rem;
+    padding: 0.5em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0.75rem 0 0 0.25rem;
+    position: relative;
+    vertical-align: top;
+    display: inline-block;
+    color: #fff;
+    height: auto;
+  }
+
+  .heading {
+    font-size: 46px;
+    line-height: 56px;
+    padding-bottom: 18px;
+  }
+
+  @media (min-width: 600px) {
+    .input-group {
+      max-width: 50em;
+    }
+    .subheading {
+      column-count: 2;
+      column-gap: 2em;
+      max-width: 50em;
+    }
+  }
+}

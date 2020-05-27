@@ -1,0 +1,85 @@
+<div class="layout-sidebar container">
+    <div class="dataset-main">
+        <header>
+            <h2>{{dataset.name}}</h2>
+            <span class="badge" *ngIf="dataset.isFeatured">Featured</span>
+            <div>{{dataset.description}}</div>
+        </header>
+
+        <div class="layout-twocol">
+            <div class="dataset-result-item">
+                <div *ngIf="dataset.domain">
+                    <strong >Category: </strong>{{dataset.domain}}
+                </div>
+                <div class="dataset-file-license" *ngIf="dataset.licenseName">
+                    <strong>License: </strong>
+                    <button class="btn btn-link" (click)="openLicense()">{{dataset.licenseName}}</button>
+                    <br />
+                    <div *ngIf="isAuthenticated && acceptedLicense">
+                        <svg class="icon"><use xlink:href="#icon-check"></use></svg>
+                        License accepted
+                    </div>
+                </div>
+            </div>
+
+            <div class="dataset-result-item">
+                <div class="dataset-last-mod-date" *ngIf="dataset.projectUrl">
+                    <strong>Project URL: </strong>
+                    <app-outside-link url="{{dataset.projectUrl}}" title="{{dataset.projectUrl}}">{{dataset.projectUrl}}</app-outside-link>
+                </div>
+<!--
+                <div *ngIf="dataset.tags.length > 0">
+                    <strong>Tags: </strong>
+                    <span>
+                        <span class="label label-default">{{dataset.tags | comma_delimited}}</span>
+                    </span>
+                </div>
+-->
+            </div>
+        </div>
+
+        <div>
+            <app-dataset-file-explorer
+                [dataset]="dataset"
+                [isAuthenticated]="isAuthenticated"
+                [acceptedLicense]="acceptedLicense"
+                [datasetFileDownloadUrl]="datasetFileDownloadUrl"
+                (onDownloadFile)="onDownloadFile($event)"
+            ></app-dataset-file-explorer>
+        </div>
+        <div>
+            <app-dataset-detail-properties
+            [dataset]="dataset"
+        ></app-dataset-detail-properties>
+        </div>
+    </div>
+
+    <div class="dataset-detail">
+        <a class="download-link" #downloadLink></a>
+
+        <app-export-chooser
+            [dataset]="dataset"
+            [datasetDownloadUrl]="datasetDownloadUrl"
+            [isAuthenticated]="isAuthenticated"
+            [acceptedLicense]="acceptedLicense"
+            [isCompressedAvailable]="isCompressedAvailable"
+            (onShowDownloadDialog)="onShowDownloadDialog()"
+            (onDownloadZipFile)="onDownloadZipFile()"
+            (onDownloadGzipFile)="onDownloadGzipFile()"
+            (onDeployDataset)="onDeployDataset($event)"
+            (openLicense)="openLicense()">
+        </app-export-chooser>
+
+        <p *ngIf="isAuthenticated">
+            <button class="btn-link" (click)="openIssue()">
+                Report an Issue with this dataset <span class='glyphicon glyphicon-exclamation-sign'></span>
+            </button>
+        </p>
+
+        <p *ngIf="isAuthenticated && dataset.isCurrentUserOwner">
+            <a [routerLink]="['edit']" aria-label="Edit this dataset">
+              <span>Edit this Dataset</span>
+            </a>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container-fluid dialog-container">
+  <div class="row dialog-header">
+    <h3>{{ config.title }}</h3>
+  </div>
+  <div class="row dialog-content">
+    <div>
+      {{ config.content }}
+    </div>
+    <div>
+      <textarea
+        type="text"
+        rows="5"
+        readonly="readonly"
+        class="download-link"
+        [(ngModel)]="datasetToken"
+      ></textarea>
+    </div>
+  </div>
+  <div class="row dialog-actions">
+    <button
+      class="button"
+      ngxClipboard
+      [cbContent]="datasetToken"
+      (cbOnSuccess)="onCopyToken()"
+      [disabled]="!datasetToken"
+    >
+      Copy
+    </button>
+    <button class="button button-secondary" (click)="onClose()">
+      Close
+    </button>
+  </div>
+</div>

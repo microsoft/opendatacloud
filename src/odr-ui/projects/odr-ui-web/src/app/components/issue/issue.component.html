@@ -1,0 +1,96 @@
+<div class="layout-page container" *ngIf="isAuthenticated | async">
+  <div class="editorial">
+
+    <h1>Dataset Issue Report</h1>
+
+    <div *ngIf="submission | async; let submission">
+
+      <div [ngSwitch]="submission.status">
+        <div *ngSwitchCase="submissionStatus.success">
+
+          <p>
+            Thank you for reporting this issue.
+          </p>
+
+        </div>
+        <div *ngSwitchDefault>
+
+          <p>
+            If there is an issue with a dataset, please let us know so
+            that we can review and correct it.
+          </p>
+
+          <form [formGroup]="issueForm" (submit)="submitIssue()" novalidate>
+
+            <fieldset>
+              <legend>Dataset Details</legend>
+
+              <!-- Dataset Name -->
+              <div class="form-group col-lg-12" [ngClass]="{'has-error': !datasetName.valid && !datasetName.pristine}">
+                <label class="control-label">
+                  Dataset
+                  <ng2-completer
+                    formControlName="datasetName"
+                    [datasource]="datasetDataService"
+                    [minSearchLength]="0"
+                    inputClass="form-control"
+                    (selected)="onDatasetNameChanged($event)"
+                    (blur)="onBlurDataset()"
+                  ></ng2-completer>
+                </label>
+                <div *ngIf="!datasetName.pristine">
+                  <app-errmsg [inputControl]="datasetName" errorCode="required">
+                    Dataset name is required.
+                  </app-errmsg>
+                  <app-errmsg [inputControl]="datasetName" errorCode="maxlength">
+                    Dataset name cannot be greater than {{datasetNameErrors('maxlength').requiredLength}} characters.
+                  </app-errmsg>
+                </div>
+              </div>
+
+              <!-- Issue Description -->
+              <app-validated-textarea [inputControl]="issueDesc" labelText="Description of Issue">
+                <app-errmsg errorCode="required">
+                  Description is required.
+                </app-errmsg>
+                <app-errmsg errorCode="maxlength">
+                  Description cannot be greater than {{issueDescErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-textarea>
+            </fieldset>
+
+            <fieldset>
+              <legend>Your Details</legend>
+
+              <!-- Contact Name -->
+              <app-validated-input [inputControl]="submitterName" [size]="10" labelText="Your Name">
+                <app-errmsg errorCode="maxlength">
+                  Entry cannot be greater than {{submitterNameErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-input>
+
+              <!-- Contact Information (Email, Phone, etc.) -->
+              <app-validated-input [inputControl]="contactInfo" [size]="10" labelText="Contact Information (email/phone)">
+                <app-errmsg errorCode="maxlength">
+                  Entry cannot be greater than {{contactInfoErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-input>
+
+            </fieldset>
+
+            <div class="form-group col-lg-12">
+              <button type="submit" class="button" [disabled]="issueForm.invalid || submission.status === submissionStatus.submitting">
+                Submit Issue
+              </button>
+              <span class="help-block" *ngIf="submission.status === submissionStatus.error">
+                Error occurred while submitting the issue.
+              </span>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

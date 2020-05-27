@@ -1,0 +1,73 @@
+<div class="layout-page container" *ngIf="isAuthenticated | async">
+  <div class="editorial">
+
+    <h1>Feedback / Issue</h1>
+
+    <div *ngIf="submission | async as submission">
+
+      <div [ngSwitch]="submission.status">
+        <div *ngSwitchCase="submissionStatus.success">
+
+          <p>
+            Thank you for submitting this feedback.
+          </p>
+
+        </div>
+        <div *ngSwitchDefault>
+
+          <p>
+            Please provide your feedback.
+          </p>
+
+          <form [formGroup]="issueForm" (submit)="submitIssue()" novalidate>
+
+            <fieldset>
+              <legend>Feedback</legend>
+
+              <!-- Issue Description -->
+              <app-validated-textarea [inputControl]="issueDesc" labelText="Description of Issue">
+                <app-errmsg errorCode="required">
+                  Description is required.
+                </app-errmsg>
+                <app-errmsg errorCode="maxlength">
+                  Description cannot be greater than {{issueDescErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-textarea>
+
+            </fieldset>
+
+            <fieldset>
+              <legend>Your Details</legend>
+
+              <!-- Contact Name -->
+              <app-validated-input [inputControl]="submitterName" [size]="10" labelText="Your Name">
+                <app-errmsg errorCode="maxlength">
+                  Entry cannot be greater than {{submitterNameErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-input>
+
+              <!-- Contact Information (Email, Phone, etc.) -->
+              <app-validated-input [inputControl]="contactInfo" [size]="10" labelText="Contact Information (email/phone)">
+                <app-errmsg errorCode="maxlength">
+                  Entry cannot be greater than {{contactInfoErrors('maxlength').requiredLength}} characters.
+                </app-errmsg>
+              </app-validated-input>
+
+            </fieldset>
+
+            <div class="form-group col-lg-12">
+              <button type="submit" class="button" [disabled]="issueForm.invalid || submission.status === submissionStatus.submitting">
+                Submit Issue
+              </button>
+              <span class="help-block" *ngIf="submission.status === submissionStatus.error">
+                Error occurred while submitting the issue.
+              </span>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

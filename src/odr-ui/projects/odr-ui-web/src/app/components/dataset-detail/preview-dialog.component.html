@@ -1,0 +1,32 @@
+<div class="container-fluid dialog-container">
+    <div class="row dialog-header">
+        <div class="col-sm-12">
+            <h3>
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                {{config.name}}
+            </h3>
+        </div>
+    </div>
+    <div class="row dialog-content">
+        <div class="col-xs-12">
+            <div class="loading" *ngIf="isBusy">
+                <app-loading-spinner></app-loading-spinner>
+              </div>
+            <div *ngIf="contentText | async as rawText">
+                <div *ngIf="isTextFile">
+                    <pre class="raw-text">{{rawText}}</pre>
+                </div>
+                <div *ngIf="isSpreadsheetFile && rowData">
+                    <ag-grid-angular #agGrid class="ag-theme-fresh" [gridOptions]="gridOptions" [columnDefs]="columnDefs"
+                        [rowData]="rowData">
+                    </ag-grid-angular>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row dialog-actions">
+        <div class="col-xs-12">
+            <button class="btn btn-primary" color="primary" (click)="onClose(false)">Close</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div>
+    <h4>License</h4>
+    <div>
+        <a *ngIf="!isAuthenticated" role="button" class="button" (click)="onLogin()">
+            Login
+        </a>
+<!--  <button class="btn btn-default" (click)="openLicenseClicked()">
+            {{license.name}}
+        </button> -->
+        <p *ngIf="!isAuthenticated">
+            Login to accept license and export dataset.
+        </p>
+        <p  *ngIf="isAuthenticated && !acceptedLicense">
+            <button class="btn btn-link" (click)="openLicenseClicked()">Accept the license</button>
+            to export dataset.
+        </p>
+        <p *ngIf="isAuthenticated && acceptedLicense">
+            <svg class="icon"><use xlink:href="#icon-check"></use></svg>
+            License accepted
+        </p>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="header-bar">
+  <div>
+    <div *ngIf="unmodified">
+      No pending changes
+    </div>
+    <div *ngIf="detailsModified">
+      Dataset has pending changes.
+    </div>
+    <div *ngIf="contentModified">
+      Dataset has pending changes (including content modifications).
+    </div>
+    <div *ngIf="isImporting">
+      The changes to the dataset are being incorporated into the system.
+    </div>
+    <div>
+      <a
+        [routerLink]="['/datasets', datasetId]"
+        aria-label="Return to dataset details"
+      >
+        <span>Close</span>
+      </a>
+    </div>
+    <div *ngIf="contentModified">
+      <p>
+        Copy the contents of the dataset into the storage container that has
+        been created for you. You may use one of these tools, along with the
+        tokens below, to move the dataset contents into the storage container:
+      </p>
+      <ul>
+        <li>
+          <a
+            href="https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy"
+            >AzCopy</a
+          >
+          - a command-line tool for Windows or Linux that copies files to and
+          from Azure.
+        </li>
+        <li>
+          <a href="https://azure.microsoft.com/en-us/features/storage-explorer/"
+            >Azure Storage Explorer</a
+          >
+          - a utility that is used to manage Azure storage.
+        </li>
+      </ul>
+      <p>
+        Retreive a token that can be used to access the storage container for
+        the updated dataset contents, or a token for the original storage
+        container (if you need to copy some of the original content).
+      </p>
+      <p>
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="onGetUpdatedToken()"
+        >
+          Updated Contents
+        </button>
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="onGetOriginalToken()"
+        >
+          Original Contents
+        </button>
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <button
+      type="button"
+      class="button"
+      *ngIf="allowModifyContents"
+      (click)="onModifyContent()"
+    >
+      Modify Contents
+    </button>
+
+    <button
+      type="button"
+      class="button"
+      *ngIf="allowPublishChanges"
+      (click)="onPublishChanges()"
+    >
+      Publish Changes
+    </button>
+
+    <button
+      type="button"
+      class="button"
+      *ngIf="allowPublishChanges"
+      (click)="onAbandonChanges()"
+    >
+      Abandon Changes
+    </button>
+  </div>
+</div>

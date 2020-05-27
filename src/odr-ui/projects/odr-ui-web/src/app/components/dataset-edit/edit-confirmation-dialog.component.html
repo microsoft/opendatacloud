@@ -1,0 +1,19 @@
+<div class="container-fluid dialog-container">
+  <div class="row dialog-header">
+    <h3>{{ title }}</h3>
+  </div>
+  <div class="row dialog-content" *ngIf="!working">
+    {{ config.content }}
+  </div>
+  <div class="row dialog-actions" *ngIf="!working">
+    <button class="button" (click)="onConfirm()">
+      {{ config.confirmText }}
+    </button>
+    <button class="button button-secondary" (click)="onCancel()">
+      {{ config.cancelText }}
+    </button>
+  </div>
+  <div class="row dialog-actions" *ngIf="working">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+</div>

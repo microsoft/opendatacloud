@@ -1,0 +1,25 @@
+<button class="list-group-item" (click)="onToggleClick()" [tabindex]="tabindex">
+  <strong>Categories</strong>
+  <span *ngIf="isCollapsed">
+    <svg class="icon">
+      <use xlink:href="#icon-caret-down"></use>
+    </svg>
+  </span>
+  <span *ngIf="!isCollapsed">
+    <svg class="icon">
+      <use xlink:href="#icon-caret-up"></use>
+    </svg>
+  </span>
+</button>
+
+<div [ngClass]="{ show: !isCollapsed }" class="collapse">
+  <a
+    role="button"
+    class="list-group-item"
+    *ngFor="let domain of domainsList | async"
+    (click)="onDomainSelected(domain)"
+    title="{{ domain.name }}"
+  >
+    {{ domain.id }}
+  </a>
+</div>

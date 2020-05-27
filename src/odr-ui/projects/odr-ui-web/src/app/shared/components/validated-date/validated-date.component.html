@@ -1,0 +1,12 @@
+<div class="form-group"
+     [ngClass]="rootClasses"
+     [formGroup]="form">
+  <label class="control-label">
+    {{labelText}}<span class="required" *ngIf="required">*</span>
+    <input [type]="inputType" class="form-control" [formControlName]="name"
+        bsDatepicker [bsConfig]="{ showWeekNumbers: false }">
+  </label>
+  <div *ngIf="!inputControl.pristine">
+    <ng-content></ng-content>
+  </div>
+</div>

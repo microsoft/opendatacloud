@@ -1,0 +1,26 @@
+/* Dialogs */
+.dialog-container {
+}
+
+.dialog-header {
+}
+
+.dialog-content {
+}
+
+.dialog-actions {
+    margin: 20px 0;
+    padding: 0;
+    text-align: center;
+}
+
+.dialog-actions.row {
+    display: block;
+    margin-top: 20px;
+}
+
+.row.dialog-content {
+    padding: 20px;
+    display: block;
+    min-height: 200px;
+}

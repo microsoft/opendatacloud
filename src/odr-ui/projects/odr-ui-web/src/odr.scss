@@ -1,0 +1,846 @@
+
+// Fonts
+// ---------------------------------------------------------------
+@font-face {
+  font-family: SegoeUI;
+  src: local("Segoe UI"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff2)
+      format("woff2"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.woff)
+      format("woff"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/normal/latest.ttf)
+      format("ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: SegoeUI;
+  src: local("Segoe UI"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Light/latest.woff2)
+      format("woff2"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Light/latest.woff)
+      format("woff"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Light/latest.ttf)
+      format("ttf");
+  font-weight: 100;
+}
+@font-face {
+  font-family: SegoeUI;
+  src: local("Segoe UI"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semilight/latest.woff2)
+      format("woff2"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semilight/latest.woff)
+      format("woff"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semilight/latest.ttf)
+      format("ttf");
+  font-weight: 200;
+}
+@font-face {
+  font-family: SegoeUI;
+  src: local("Segoe UI"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.woff2)
+      format("woff2"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.woff)
+      format("woff"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.ttf)
+      format("ttf");
+  font-weight: 600;
+}
+@font-face {
+  font-family: SegoeUI;
+  src: local("Segoe UI"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Bold/latest.woff2)
+      format("woff2"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Bold/latest.woff)
+      format("woff"),
+    url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Bold/latest.ttf)
+      format("ttf");
+  font-weight: 700;
+}
+
+// Reset
+// ---------------------------------------------------------------
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body,
+h1,h2,h3,h4,h5,input,label {
+  font-family: "Segoe UI", SegoeUI, system-ui, sans-serif;
+}
+
+body {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden; // To prevent ngx-loader spinner from toggling browser sidebar
+}
+
+h1,h2,h3,h4,h5{
+  margin: 0;
+}
+
+h4 {
+  margin-bottom: 0.5em;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+// Buttons
+// ---------------------------------------------------------------
+a, button {
+  cursor: pointer;
+}
+
+.btn {
+  -webkit-appearance: none;
+  //   background: #0D6AB6;
+  border: 1px solid transparent;
+  border-radius: none;
+//   color: #fff;
+//   display: inline-block;
+//   padding: 0.5em 2em;
+//   min-width: 200px;
+  text-decoration: none;
+  text-align: center;
+  padding: 4px 5px;
+  margin-right: 5px;
+  min-width: 30px;
+}
+
+.btn-link {
+  background: none;
+  font-size: 1em;
+  padding: 0;
+  border: 0;
+  color: #0D6AB6;
+  text-decoration: underline;
+
+  &:hover {
+    color: #005da6;
+  }
+}
+
+.button {
+  -webkit-appearance: none;
+  background: #0D6AB6;
+  border: 1px solid transparent;
+  border-radius: none;
+  color: #fff;
+  display: inline-block;
+  padding: 0.5em 2em;
+  min-width: 200px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+
+  &:hover,
+  &:focus {
+    background: #005da6;
+    color: #fff;
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+  }
+}
+
+.button-secondary {
+  background: #d0d0d0;
+  color: #000;
+}
+
+a {
+  color: #0D6AB6;
+  text-decoration: underline;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: #005da6;
+
+    span {
+      text-decoration: underline;
+    }
+
+  }
+}
+
+.call-to-action {
+  margin-top: 1em;
+  color: #0D6AB6;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+  &:hover {
+    color: #005da6;
+
+    span {
+      text-decoration: underline;
+    }
+
+  }
+
+  &:after {
+      content: '〉';
+      margin-left: 0.5em;
+  }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
+
+// Grids
+// ---------------------------------------------------------------
+.container {
+  max-width: 1200px;
+  padding-right: 2.5%;
+  padding-left: 2.5%;
+  margin: auto;
+}
+
+
+
+// Skip Nav Link
+// ---------------------------------------------------------------
+// .m-skip-to-main {
+//   position: absolute !important;
+//   height: 1px; width: 1px;
+//   overflow: hidden;
+//   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+//   clip: rect(1px, 1px, 1px, 1px);
+//   display: block;
+
+//   &:focus {
+//     background: #fff;
+//     padding: 0.5em;
+//     width:auto;
+//     height:auto;
+//     clip: auto;
+//   }
+// }
+
+
+// Headings
+// ---------------------------------------------------------------
+h1 {
+  font-size: 46px;
+  line-height: 56px;
+  margin: 0;
+  font-weight: bold;
+}
+
+h2 {
+    font-size: 34px;
+    line-height: 40px;
+    padding-bottom: 10px;
+  }
+
+h3,
+h4 {
+  font-size: 20px;
+  line-height: 24px;
+  // padding-bottom: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+// Category
+// ---------------------------------------------------------------
+.category {
+  // IE11 Layout
+  display: table;
+
+  > * {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  > *:first-of-type {
+    width: 80px;
+    margin-right: 3em;
+  }
+
+  // Modern Layout
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-gap: 3em;
+
+  .icon {
+    width: 80px;
+    height: auto;
+    display: block;
+  }
+
+  .metatext {
+    margin-top: 0;
+  }
+}
+
+// Editorial
+// ---------------------------------------------------------------
+.editorial {
+  max-width: 90ch;
+
+  a {
+    color: #0D6AB6;
+  }
+
+  dl {
+
+    dt {
+      font-size: 20px;
+      line-height: 24px;
+      font-family: "Segoe UI", SegoeUI, system-ui, sans-serif;
+      font-weight: bold;
+    }
+
+    dd {
+      margin-bottom: 2em;
+      margin-left: 0;
+
+    }
+  }
+
+  blockquote {
+    font-style: italic;
+    margin-left: 0;
+    margin-right: 0;
+
+    cite {
+      font-style: normal;
+    }
+  }
+
+}
+
+// Grids
+// ---------------------------------------------------------------
+.layout-page {
+  margin-top: 5vw;
+}
+
+.layout-sidebar {
+  margin-top: 5vw;
+
+  @media (min-width: 720px) {
+
+      // IE11 Layout
+      width: 100%;
+      overflow: hidden;
+
+      > *:first-of-type {
+        float: right;
+        width: calc(100% - 300px);
+      }
+
+      > *:last-of-type {
+        float: left;
+        width: 250px;
+      }
+
+      // Modern Layout
+      @supports( display: grid ) {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-gap: 5vw;
+
+      > *:first-of-type {
+        float: none;
+        width: auto;
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      > *:last-of-type {
+        float: none;
+        width: auto;
+        grid-column: 1;
+        grid-row: 1;
+      }
+    }
+  }
+}
+
+.layout-twocol {
+  display: grid;
+  grid-row-gap: 2em;
+
+  @media(min-width: 720px) {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5vw;
+
+    &.comfy {
+      grid-row-gap: 4em;
+    }
+  }
+
+}
+
+.col-fullwidth {
+  grid-column: 1 / -1;
+}
+
+// Spacing
+// ---------------------------------------------------------------
+
+.spacing-top-lg {
+  margin-top: 5vw;
+}
+
+
+.spacing-top-sm {
+  margin-top: 2em;
+}
+
+// Modals
+// ---------------------------------------------------------------
+
+$zindex-modal-background:       1040 !default;
+$zindex-modal:                  1050 !default;
+$modal-content-border-color:    rgba(0, 0, 0, .2) !default;
+$modal-content-bg:            #fff !default;
+$border-radius-large:           6px !default;
+$modal-backdrop-bg:           #000 !default;
+$modal-backdrop-opacity:        .5 !default;
+$screen-sm:                     768px !default;
+$screen-sm-min:                 $screen-sm !default;
+$screen-md:                     992px !default;
+$screen-md-min:                 $screen-md !default;
+$modal-lg:                      900px !default;
+$modal-md:                      600px !default;
+$modal-sm:                      300px !default;
+
+// .modal-open      - body class for killing the scroll
+// .modal           - container to scroll within
+// .modal-dialog    - positioning shell for the actual modal
+// .modal-content   - actual modal w/ bg and corners and shit
+
+// Kill the scroll on the body
+.modal-open {
+  overflow: hidden;
+}
+
+// Container that the modal scrolls within
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+
+  // When fading in the modal, animate it to slide down
+  &.fade .modal-dialog {
+    transform: translate(0, -25%);
+    transition: transform(0.3s ease-out);
+  }
+  &.in .modal-dialog {
+    transform: translate(0, 0);
+  }
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+// Shell div to position the modal with bottom padding
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+
+// Actual modal
+.modal-content {
+  position: relative;
+  background-color: $modal-content-bg;
+  background-clip: padding-box;
+  border: 1px solid $modal-content-border-color;
+  border-radius: $border-radius-large;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+  // Remove focus outline from opened modal
+  outline: 0;
+  padding: 2rem;
+}
+
+// Modal background
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal-background;
+  background-color: $modal-backdrop-bg;
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+  &.in { opacity: $modal-backdrop-opacity; }
+}
+
+// // Modal header
+// // Top section of the modal w/ title and dismiss
+// .modal-header {
+//   padding: $modal-title-padding;
+//   border-bottom: 1px solid $modal-header-border-color;
+//   @include clearfix;
+// }
+// // Close icon
+// .modal-header .close {
+//   margin-top: -2px;
+// }
+
+// // Title text within header
+// .modal-title {
+//   margin: 0;
+//   line-height: $modal-title-line-height;
+// }
+
+// // Modal body
+// // Where all modal content resides (sibling of .modal-header and .modal-footer)
+// .modal-body {
+//   position: relative;
+//   padding: $modal-inner-padding;
+// }
+
+// // Footer (for actions)
+// .modal-footer {
+//   padding: $modal-inner-padding;
+//   text-align: right; // right align buttons
+//   border-top: 1px solid $modal-footer-border-color;
+//   @include clearfix; // clear it in case folks use .pull-* classes on buttons
+
+//   // Properly space out buttons
+//   .btn + .btn {
+//     margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+//     margin-left: 5px;
+//   }
+//   // but override that for button groups
+//   .btn-group .btn + .btn {
+//     margin-left: -1px;
+//   }
+//   // and override it for block buttons as well
+//   .btn-block + .btn-block {
+//     margin-left: 0;
+//   }
+// }
+
+// Measure scrollbar width for padding body during modal show/hide
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+// Scale up the modal
+@media (min-width: $screen-sm-min) {
+  // Automatically set modal's width for larger viewports
+  .modal-dialog {
+    width: $modal-md;
+    margin: 30px auto;
+  }
+  .modal-content {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  }
+
+  // Modal sizes
+  .modal-sm { width: $modal-sm; }
+}
+
+@media (min-width: $screen-md-min) {
+  .modal-lg { width: $modal-lg; }
+}
+
+// Original:
+
+// .modal-backdrop {
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   min-height: 100vh;
+//   background: rgba(255,255,0,0.80);
+// }
+
+// .modal-backdrop.show {
+//   opacity: .80;
+// }
+
+// .modal {
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate3d(-50%, -50%, 0);
+//   animation: flyinModal 0.2s ease-out;
+//   will-change: auto;
+// }
+
+// .modal-content {
+//   padding: 2rem;
+// }
+
+// .modal-dialog {
+//   background: white;
+//   border: 1px solid #999;
+//   filter: drop-shadow(10px 10px 5px #ccc);
+//   &:focus, &:focus-within {
+//     outline: none;
+//   }
+// }
+
+// @keyframes flyinModal {
+//   0% { opacity: 0; transform: translate3d(-50%, 0%, 0) }
+//   100% { opacity: 1; transform: translate3d(-50%, -50%, 0) }
+// }
+
+// Well
+// --------------------------------------------------------------
+.well {
+  background: #f0f0f0;
+  padding: 1em 2em 1em 1em;
+  font-size: 0.8em;
+  position: relative;
+
+  h5 {
+    font-size: 1em;
+  }
+
+  .close {
+    position: absolute;
+    right: 0.5em;
+    top: 0.25em;
+    font-size: 2em;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+}
+
+// Forms
+// --------------------------------------------------------------
+.input-group {
+  margin-bottom: 1em;
+  position: relative;
+
+  input[type="text"] {
+      border: 1px solid #3a3a3a;
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+
+      &::-ms-clear {
+          display: none;
+      }
+  }
+
+  .input-group-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
+
+  .btn {
+      border: 1px solid transparent;
+      -webkit-appearance: none;
+      padding: 0.5em 0.75em;
+      background: transparent;
+      font-size: 1em;
+      margin-top: 1px;
+
+      &:hover,
+      &:focus {
+          background: #0D6AB6;
+          color: #fff;
+      }
+
+      .icon {
+          display: inline-block;
+          height: 1em;
+          width: 1em;
+      }
+
+  }
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  font-size: 20px;
+  line-height: 24px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  padding: 0;
+  display: block;
+}
+
+label {
+  color: #000;
+  display: block;
+  margin-bottom: 0.25em;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid #000;
+  padding: 0.5em;
+  width: 100%;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline-block;
+  width: auto;
+  margin-right: 0.5em;
+}
+
+
+// Badge
+// ---------------------------------------------------------------
+
+
+.badge {
+  background-color: #ffd800;
+  color: #000;
+  font-size: 13px;
+  font-weight: 400;
+  display: inline-block;
+  letter-spacing: .075em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  line-height: 18px;
+  height: 18px;
+  padding: 0 7px 1px;
+  text-transform: uppercase;
+}
+
+
+// Search Results
+// ---------------------------------------------------------------
+
+.search-results {
+  margin: 20px 0;
+  position: relative;
+  min-height: 400px;
+
+
+  .search-result {
+      padding: 1.5em 0;
+      border-top: 1px solid #d2d2d2;
+      cursor: default;
+
+      &:last-of-type {
+        border-bottom: 1px solid #d2d2d2;
+      }
+  }
+
+  .dataset-name {
+      cursor: pointer;
+      color: black;
+      text-decoration: none;
+  }
+
+  .dataset-name h4 {
+    margin-bottom: 0;
+  }
+
+  .dataset-description {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    word-break: break-word;
+  }
+
+  .metatext {
+      margin-top: 0;
+      color: #676767;
+
+      .badge {
+        position: relative;
+        top: 2px;
+      }
+  }
+
+  &.is-loading .search-result {
+      opacity: 0.2;
+  }
+}
+
+// Pagination
+// ---------------------------------------------------------------
+.pager {
+  text-align: left;
+  padding-left: 0;
+
+  li { display: inline; }
+
+  a {
+      display: inline-block;
+      color: #0D6AB6;
+      margin-right: 2em;
+      text-decoration: none;
+  }
+}
+
+// Dataset (Search & Dataset-Detail)
+// ---------------------------------------------------------------
+.dataset-info {
+  > div {
+    margin-bottom: 1em;
+  }
+}
+
+.dataset-result-item {
+  > div {
+    margin-bottom: 1em;
+  }
+
+  strong {
+      display: block;
+  }
+}
+
+.loading {
+  position: absolute;
+  top: 20%;
+  left: auto;
+  right: auto;
+  width: 100%;
+  text-align: center;
+  min-height: 200px;
+
+  h3 {
+      margin-top: 150px;
+  }
+
+  .ng-star-inserted {
+    margin: 20px 20px 20px 0;
+  }
+}

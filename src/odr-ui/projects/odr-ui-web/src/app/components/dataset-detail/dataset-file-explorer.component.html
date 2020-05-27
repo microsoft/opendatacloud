@@ -1,0 +1,81 @@
+<h4>File Explorer</h4>
+
+<div>
+
+    <ol class="breadcrumb">
+        <li>
+            <button class="btn btn-link" (click)="navigateFileExplorerRoot()">
+                Root
+            </button>
+        </li>
+        <li *ngFor="let folder of currentFolders; last as isLast;" [ngClass]="{active: isLast}">
+            <span *ngIf="isLast">
+                {{folder.name}}
+            </span>
+            <button *ngIf="!isLast" class="btn btn-link" (click)="navigateFolderBreadcrumb(folder)">
+                {{folder.name}}
+            </button>
+        </li>
+    </ol>
+
+    <div class="file-list">
+        <div class="loading" *ngIf="isFileExplorerBusy">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+
+        <div class="file-list-item" *ngFor="let file of displayedFiles | async">
+
+            <div>
+                <span *ngIf="file.entryType === FileEntryType.file">
+                    <svg class="icon">
+                        <use xlink:href="#icon-file"></use>
+                    </svg>
+                    <span>{{file.name}}</span>
+                    <span>({{file.length | filesize}})</span>
+                </span>
+                <span *ngIf="file.entryType === FileEntryType.folder">
+                    <a role="button" (click)="navigateToFolder(file)">
+                        <svg class="icon">
+                            <use xlink:href="#icon-folder"></use>
+                        </svg>
+                        <span>{{file.name}}</span>
+                    </a>
+                </span>
+            </div>
+
+            <div>
+                <button *ngIf="file.canPreview" class="btn btn-default" (click)="openPreview(file)" title="Preview">
+                    <svg class="icon">
+                        <use xlink:href="#icon-preview"></use>
+                    </svg>
+                </button>
+                <button *ngIf="file.entryType === FileEntryType.file" class="btn btn-default"
+                    [disabled]="!isAuthenticated" (click)="selectFileToDownload(file)" [title]="getDownloadTitle()">
+                    <svg class="icon">
+                        <use xlink:href="#icon-download"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="canNextPage || canPrevPage">
+            <nav aria-label="Files navigation">
+                <ul class="pager">
+                    <li>
+                        <a role="button" *ngIf="canPrevPage" (click)="navigateToPrevPage()">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            Previous
+                        </a>
+                    </li>
+                    <li>
+                        <a role="button" *ngIf="canNextPage" (click)="navigateToNextPage()">
+                            Next
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,163 @@
+<section class="typographic-intro">
+    <div class="container">
+        <h1 class="heading">Microsoft Research Open Data <span class="badge">Beta</span></h1>
+
+        <form [formGroup]="form" role="form" class="form-horizontal" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group form-group-lg">
+                <div class="input-group input-group-lg">
+                    <input type="text" class="form-control" id="mainSearch" placeholder="Search datasets"
+                        formControlName="terms">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <svg class="icon">
+                                <use xlink:href="#icon-search"></use>
+                            </svg>
+                        </button>
+                    </span>
+                </div>
+                <div *ngIf="formErrors.terms" class="alert alert-danger">
+                    {{ formErrors.terms }}
+                </div>
+            </div>
+        </form>
+
+        <p class="subheading">A collection of free datasets from Microsoft Research to advance state-of-the-art research
+            in areas such as natural language processing, computer vision, and domain specific sciences. Download or
+            copy directly to a cloud-based Data Science Virtual Machine for a seamless development experience. </p>
+    </div>
+</section>
+
+<section class="container layout-page">
+    <header>
+        <h2 class="heading">Dataset Categories</h2>
+    </header>
+
+    <div class="layout-twocol comfy spacing-top-sm">
+        <div>
+            <div class="category">
+                <div>
+                    <img src="/assets/icons/computerscience.svg" class="icon" height="80" width="80" />
+                </div>
+                <div>
+                    <h3 class="subheading">Computer Science</h3>
+                    <a [routerLink]="" (click)="loadCategory('Computer Science')" aria-label="View dataset"
+                        class="call-to-action">
+                        <span>VIEW DATASETS</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="category">
+                <div>
+                    <img src="/assets/icons/socialscience.svg" class="icon" />
+                </div>
+                <div>
+                    <h3 class="subheading">Social Science</h3>
+                    <a [routerLink]="" (click)="loadCategory('Social Science')" aria-label="View dataset"
+                        class="call-to-action">
+                        <span>VIEW DATASETS</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="category">
+                <div>
+                    <img src="/assets/icons/physics.svg" class="icon" />
+                </div>
+                <div>
+                    <h3 class="subheading">Physics</h3>
+                    <a [routerLink]="" (click)="loadCategory('Physics')" aria-label="View dataset"
+                        class="call-to-action">
+                        <span>VIEW DATASETS</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="category">
+                <div>
+                    <img src="/assets/icons/informationscience.svg" class="icon" />
+                </div>
+                <div>
+                    <h3 class="subheading">Information Science</h3>
+                    <a [routerLink]="" (click)="loadCategory('Information Science')" aria-label="View dataset"
+                        class="call-to-action">
+                        <span>VIEW DATASETS</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spacing-top-sm">
+        <a [routerLink]="['/categories']" aria-label="View all categories" class="call-to-action">
+            <span>VIEW ALL CATEGORIES</span>
+        </a>
+    </div>
+</section>
+
+<section class="container layout-page">
+    <header>
+        <h2 class="heading">Featured Datasets</h2>
+    </header>
+    <div class="search-results spacing-top-sm">
+        <div>
+            <div class="search-result" *ngFor="let result of featuredDatasets | async">
+                <a role="button" class="dataset-name" (click)="selectResult(result)">
+                    <h4>{{result.name}}</h4>
+                </a>
+                <p class="metatext">{{result.size | filesize}}, {{result.modified | date: 'MMMM yyyy' }}</p>
+                <div class="dataset-description block-with-text">
+                    {{result.description}}
+                </div>
+
+                <div class="layout-twocol">
+
+                    <!-- <div class="row dataset-result-item">
+                        <div class="col-md-6">
+                            <div class="dataset-owner">
+                                <strong>Owner: </strong>{{result.owner}}
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="dataset-info">
+                        <div>
+                            <span class="dataset-file-types">
+                                <strong>File Types: </strong>
+                            </span>
+                            <span>
+                                <span class="label label-default">{{result.fileTypes | comma_delimited}}</span>
+                            </span>
+                        </div>
+                        <div class="dataset-file-license">
+                            <strong>License: </strong>{{result.licenseName}}
+                        </div>
+                    </div>
+
+                    <div class="dataset-info">
+                        <div class="dataset-last-mod-date">
+                            <strong>Last Modified: </strong>{{result.modified | date: 'shortDate' }}
+                        </div>
+                        <div class="dataset-file-license" *ngIf="result.domain">
+                            <strong>Category: </strong>{{result.domain}}
+                        </div>
+                    </div>
+                </div>
+
+                <a class="call-to-action" (click)="selectResult(result)">SEE MORE</a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="spacing-top-sm">
+        <a [routerLink]="['/datasets']" aria-label="View all datasets"
+            class="call-to-action">
+            <span>VIEW ALL DATASETS</span>
+        </a>
+    </div>
+</section>

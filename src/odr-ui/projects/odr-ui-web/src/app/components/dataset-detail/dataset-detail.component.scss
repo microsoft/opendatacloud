@@ -1,0 +1,25 @@
+.dataset-main > * + *,
+.dataset-detail > * + * {
+    margin-top: 2em;
+}
+
+
+.dataset-main h4,
+.dataset-sidebar h3,
+.dataset-sidebar h4 {
+    margin-bottom: 0.5em;
+}
+
+.dataset-main {
+    word-break: break-word;
+}
+
+.download-link {
+    display: none;
+}
+
+.dataset-file-license {
+    button {
+        text-align: left;
+    }
+}

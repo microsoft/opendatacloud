@@ -1,0 +1,17 @@
+<div class="spacing-top-lg">
+
+    <div class="text-center loading" *ngIf="isLoading">
+        <app-loading-spinner></app-loading-spinner>
+        <h3>Loading Dataset Details...</h3>
+    </div>
+
+    <div class="text-center" *ngIf="notFound">
+        The requested dataset is unavailable.
+    </div>
+
+    <div *ngIf="datasetDetails | async; let details">
+        <app-dataset-detail [isAuthenticated]="details.isAuthenticated" [acceptedLicense]="details.acceptedLicense"
+            [dataset]="details.dataset" (onUserAcceptedLicense)="userDidAcceptLicense($event)"></app-dataset-detail>
+    </div>
+
+</div>

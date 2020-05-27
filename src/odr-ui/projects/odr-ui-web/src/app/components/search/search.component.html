@@ -1,0 +1,263 @@
+<div class="layout-sidebar container">
+  <!--Search Content START-->
+  <div class="search-page">
+    <div class="search-controls">
+      <form
+        [formGroup]="searchForm"
+        role="form"
+        class="form-horizontal"
+        novalidate
+      >
+        <div class="form-group form-group-lg">
+          <div class="input-group input-group-lg">
+            <input
+              type="text"
+              class="form-control"
+              id="mainSearch"
+              placeholder="Search datasets"
+              formControlName="term"
+              tabindex="55"
+              (keyup.enter)="searchForTerm()"
+            />
+            <span class="input-group-btn">
+              <button
+                class="btn btn-default"
+                type="button"
+                tabindex="60"
+                (click)="searchForTerm()"
+              >
+                <svg class="icon">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </button>
+            </span>
+          </div>
+          <div
+            *ngIf="searchForm.controls.term.errors?.maxlength"
+            class="alert alert-danger"
+          >
+            {{ termLengthErrorMessage }}
+          </div>
+        </div>
+        <div class="search-header">
+          <div class="search-count">
+            <h2 *ngIf="currentSearchTerm">
+              Results for "{{ currentSearchTerm }}"
+            </h2>
+            <p class="metatext">{{ totalRecordCount }} dataset(s) found</p>
+          </div>
+          <div class="form-group">
+            <label for="inputSort" class="col-sm-3 control-label">Sort</label>
+            <select
+              id="inputSort"
+              class="form-control"
+              tabindex="65"
+              formControlName="sortOrder"
+            >
+              <option
+                *ngFor="let sort of SortOrders | enum"
+                [value]="sort.key"
+                >{{ sort.value }}</option
+              >
+            </select>
+          </div>
+        </div>
+      </form>
+
+      <div class="search-facets-container">
+        <div
+          class="search-facet search-facet-domains"
+          *ngIf="selectedFacetDomain"
+        >
+          <strong>Category:</strong><br />
+          <div class="chip-list">
+            <button
+              type="button"
+              class="btn"
+              (click)="removeFacetDomain()"
+              tabindex="70"
+            >
+              {{ selectedFacetDomain }}
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="search-facet search-facet-formats"
+          *ngIf="selectedFacetFileTypes"
+        >
+          <strong>Formats:</strong><br />
+          <div
+            *ngFor="let fileType of selectedFacetFileTypes"
+            class="chip-list"
+          >
+            <button
+              type="button"
+              class="btn"
+              (click)="removeFacetFileType(fileType)"
+              tabindex="80"
+            >
+              {{ fileType }}
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="search-facet search-facet-licenses"
+          *ngIf="selectedFacetLicense"
+        >
+          <strong>License:</strong><br />
+          <div class="chip-list">
+            <button
+              type="button"
+              class="btn"
+              (click)="removeFacetLicense()"
+              tabindex="85"
+            >
+              {{ searchLicenses.lookupLicenseName(selectedFacetLicense) }}
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="hasSelectedFacets">
+          <button class="link" (click)="clearFacets()" tabindex="90">
+            Clear filters
+          </button>
+        </div>
+
+        <!--
+        <div class="search-facet search-facet-tags" *ngIf="managedFacet[facetTagName].length > 0">
+            <strong>Tags:</strong><br />
+            <div *ngFor="let tag of managedFacet[facetTagName]" class="chip-list">
+                <button type="button" class="btn" (click)="removeTag(tag)" tabindex="75">
+                    {{tag}}
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+-->
+      </div>
+    </div>
+
+    <!--Search Results - START-->
+    <div class="search-results row" [ngClass]="{ 'is-loading': isSearchBusy }">
+      <div class="text-center loading" *ngIf="isSearchBusy">
+        <app-loading-spinner></app-loading-spinner>
+        <h3>Searching...</h3>
+      </div>
+      <div>
+        <div
+          class="search-result"
+          *ngFor="let result of searchResults | async; index as i"
+        >
+          <a
+            role="button"
+            class="dataset-name"
+            (click)="selectResult(result)"
+            [tabindex]="200 + i + 10"
+          >
+            <h4>{{ result.name }}</h4>
+          </a>
+          <p class="metatext">
+            <span class="badge" *ngIf="result.isFeatured">Featured</span>
+            {{ result.size | filesize }},
+            {{ result.modified | date: "MMMM yyyy" }}
+          </p>
+
+          <div class="dataset-description block-with-text">
+            {{ result.description }}
+          </div>
+
+          <div class="layout-twocol">
+            <div class="dataset-info">
+              <div>
+                <span class="dataset-file-types">
+                  <strong>File Types: </strong>
+                </span>
+                <span>
+                  <span class="label label-default">{{
+                    result.fileTypes | comma_delimited
+                  }}</span>
+                </span>
+              </div>
+              <div class="dataset-file-license">
+                <strong>License: </strong>{{ result.licenseName }}
+              </div>
+            </div>
+
+            <div class="dataset-info">
+              <div class="dataset-last-mod-date">
+                <strong>Last Modified: </strong
+                >{{ result.modified | date: "shortDate" }}
+              </div>
+              <div class="dataset-file-license" *ngIf="result.domainId">
+                <strong>Category: </strong>{{ result.domainId }}
+              </div>
+            </div>
+          </div>
+
+          <a
+            class="call-to-action"
+            (click)="selectResult(result)"
+            [tabindex]="200 + i + 11"
+            >SEE MORE</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination-container" *ngIf="canNextPage || canPreviousPage">
+      <nav class="search-results-pagination" aria-label="Page navigation">
+        <ul class="pager">
+          <li>
+            <a
+              role="button"
+              *ngIf="canPreviousPage"
+              (click)="onPreviousPage()"
+              tabindex="300"
+              >Previous</a
+            >
+          </li>
+          <li>
+            <a
+              role="button"
+              *ngIf="canNextPage"
+              (click)="onNextPage()"
+              tabindex="305"
+              >Next</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <!--Search Results - END-->
+  </div>
+  <!--Search Content END-->
+  <!--Search Sidebar START-->
+  <div class="sidebar">
+    <div class="list-group facets">
+      <app-search-categories
+        [isCollapsed]="isDomainsCollapsed"
+        [tabindex]="40"
+        (toggleCollapsed)="toggleDomainsCollapsed()"
+        (selectCategory)="selectCategory($event)"
+      ></app-search-categories>
+
+      <app-search-formats
+        [isCollapsed]="isFormatsCollapsed"
+        [tabindex]="45"
+        (toggleCollapsed)="toggleFormatsCollapsed()"
+        (selectFormat)="selectFormat($event)"
+      ></app-search-formats>
+
+      <app-search-licenses
+        #searchLicenses
+        [isCollapsed]="isLicensesCollapsed"
+        [tabindex]="50"
+        (toggleCollapsed)="toggleLicensesCollapsed()"
+        (selectLicense)="selectLicense($event)"
+      ></app-search-licenses>
+    </div>
+  </div>
+  <!--Search Sidebar END-->
+</div>

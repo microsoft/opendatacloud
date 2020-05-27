@@ -1,0 +1,96 @@
+<div>
+  <form
+    [formGroup]="controls"
+    (submit)="submitDatasetForm()"
+    novalidate
+    enctype="multipart/form-data"
+  >
+    <fieldset>
+      <legend>
+        Dataset Details
+        <span class="required-key">
+          <span class="required-icon">*</span> Required field
+        </span>
+      </legend>
+
+      <div class="layout-twocol">
+        <app-dataset-name-editor [control]="name"></app-dataset-name-editor>
+
+        <app-dataset-published-editor
+          [control]="published"
+          [required]="true"
+        ></app-dataset-published-editor>
+
+        <div class="col-fullwidth">
+          <app-dataset-description-editor
+            [control]="description"
+          ></app-dataset-description-editor>
+        </div>
+
+        <app-project-url-editor
+          [control]="projectUrl"
+          (inputValueChanged)="onProjectUrlChanged()"
+        ></app-project-url-editor>
+
+        <app-dataset-url-editor
+          [control]="datasetUrl"
+          [isDatasetUrlDistinct]="isDatasetUrlDistinct"
+          (datasetUrlDistinctChanged)="onDatasetUrlDistinctChanged()"
+        ></app-dataset-url-editor>
+
+        <div>
+          <div>
+            <app-dataset-license-editor
+              [control]="license"
+              [includeOtherLicense]="true"
+              [required]="false"
+              (onEnterLicense)="onEnterLicense()"
+            ></app-dataset-license-editor>
+          </div>
+          <!--
+          <div>
+            <app-dataset-tags-editor
+              [control]="tags"
+            ></app-dataset-tags-editor>
+          </div>
+-->
+        </div>
+
+        <div>
+          <div>
+            <app-dataset-domain-editor
+              [control]="domain"
+            ></app-dataset-domain-editor>
+          </div>
+
+          <div>
+            <app-dataset-version-editor
+              [control]="version"
+              [required]="false"
+            ></app-dataset-version-editor>
+          </div>
+
+          <div>
+            <app-dataset-doi-editor
+              [control]="digitalObjectIdentifier"
+            ></app-dataset-doi-editor>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Dataset Owner</legend>
+      <div class="layout-twocol">
+        <app-dataset-contact-name-editor
+          [control]="contactName"
+        ></app-dataset-contact-name-editor>
+        <app-dataset-contact-info-editor
+          [control]="contactInfo"
+        ></app-dataset-contact-info-editor>
+      </div>
+    </fieldset>
+
+    <ng-content></ng-content>
+  </form>
+</div>

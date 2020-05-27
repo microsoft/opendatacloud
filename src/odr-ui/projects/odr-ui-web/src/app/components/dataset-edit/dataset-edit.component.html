@@ -1,0 +1,46 @@
+<div class="layout-page container">
+  <app-dataset-edit-loader #loader>
+    <div class="spacing-top-lg">
+      <div class="text-center" *ngIf="loader.isLoading">
+        <app-loading-spinner></app-loading-spinner>
+        <h3>Loading Dataset ...</h3>
+      </div>
+
+      <div class="text-center" *ngIf="loader.hasLoadError">
+        Error loading dataset.
+      </div>
+
+      <div class="text-center" *ngIf="loader.isSaving">
+        Saving dataset update ...
+      </div>
+
+      <ng-container *ngIf="loader.isLoaded">
+        <app-dataset-edit-navbar
+          [datasetId]="loader.datasetId"
+          [editStatus]="loader.editStatus"
+          (refreshDataset)="loader.refreshDataset($event)"
+        ></app-dataset-edit-navbar>
+        <app-dataset-edit-form
+          *ngIf="!isImporting"
+          [controls]="loader.controls"
+          [licenseEntry]="loader.licenseEntry"
+          [updateCounter]="loader.updateCounter"
+          (onSubmit)="onSubmitDataset($event)"
+          #editForm
+        >
+          <div class="form-group">
+            <button
+              data-testid="submit"
+              type="button"
+              class="button"
+              (click)="editForm.submitDatasetForm()"
+              [disabled]="isSubmitDisabled"
+            >
+              Save Pending
+            </button>
+          </div>
+        </app-dataset-edit-form>
+      </ng-container>
+    </div>
+  </app-dataset-edit-loader>
+</div>

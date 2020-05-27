@@ -1,0 +1,55 @@
+button {
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: "Segoe UI", SegoeUI, system-ui, sans-serif;
+
+  strong {
+    flex: 1;
+  }
+
+  .icon {
+    height: 1rem;
+    width: 1rem;
+  }
+}
+
+.list-group-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.75em 0.5em;
+}
+
+a {
+  display: block;
+  font-size: 1em;
+  background: transparent;
+  border: none;
+  color: black;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #f0f0f0;
+  }
+
+  &.active {
+    background-repeat: no-repeat;
+    background-position: calc(100% - 1em) center;
+    background-size: 1em 1em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='currentColor' d='M28.203 5.203L17.422 16l10.781 10.797-1.406 1.406L16 17.422 5.203 28.203l-1.406-1.406L14.578 16 3.797 5.203l1.406-1.406L16 14.578 26.797 3.797l1.406 1.406z'/%3E%3C/svg%3E");
+  }
+}
+
+.collapse {
+  display: none;
+}
+
+.collapse.show {
+  display: block;
+}

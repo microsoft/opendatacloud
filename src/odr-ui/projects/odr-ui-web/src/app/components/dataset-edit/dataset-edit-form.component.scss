@@ -1,0 +1,56 @@
+legend {
+  width: 100%;
+}
+
+.layout-twocol {
+  > div {
+    > div {
+      margin-bottom: 2em;
+    }
+  }
+}
+
+fieldset {
+  margin: 4rem 0;
+}
+
+textarea {
+  height: 16rem;
+}
+
+.form-group > label {
+  width: 100%;
+}
+
+.required-key {
+  color: #a94442;
+  margin-right: 10px;
+  font-size: .6em;
+  font-weight: bold;
+  float: right;
+  clear: both;
+}
+
+.required-icon {
+  font-size: 1.5em;
+}
+
+.chip-list {
+  display: inline-block;
+
+  button {
+      margin-right: 1rem;
+      border-radius: 2rem;
+  }
+}
+
+label span.required {
+  color: #a94442;
+  padding-left: 3px;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.clear {
+  clear: both;
+}

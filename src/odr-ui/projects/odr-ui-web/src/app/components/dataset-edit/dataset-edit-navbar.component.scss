@@ -1,0 +1,15 @@
+.header-bar {
+  border: 1px solid #000;
+  background-color: #eee;
+  padding: 1rem;
+  display: flex;
+  > div:nth-of-type(1) {
+    flex: 0;
+  }
+  > div:nth-of-type(1) {
+    flex: 1;
+  }
+  button:nth-of-type(n+2) {
+    margin-left: 1rem;
+  }
+}

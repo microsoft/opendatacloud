@@ -1,0 +1,84 @@
+<h4>Additional Details</h4>
+
+<div class="layout-twocol">
+    
+    <div class="row dataset-result-item">
+        <div class="dataset-last-mod-date">
+            <strong>Created: </strong>{{dataset.created | date: 'shortDate' }}
+        </div>
+        <div class="dataset-last-mod-date">
+            <strong>Last Modified: </strong>{{dataset.modified | date: 'shortDate' }}
+        </div>
+    </div>
+
+    <div class="row dataset-result-item">
+        <div class="dataset-file-types">
+            <strong >File Types: </strong>
+            <span>
+                <span class="label label-default">{{dataset.fileTypes | comma_delimited}}</span>
+            </span>
+        </div>
+        <div class="dataset-file-count">
+            <strong >File count: </strong>{{dataset.fileCount | number}}
+        </div>
+    </div>
+
+</div>
+<!--     
+
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>Name:</th>
+            <td>{{dataset.name}}</td>
+        </tr>
+        <tr>
+            <th>Project Page:</th>
+            <td>
+                <span *ngIf="dataset.projectUrl">
+                    <app-outside-link url="{{dataset.projectUrl}}" title="{{dataset.projectUrl}}"></app-outside-link>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th>Domain:</th>
+            <td>{{ dataset.domainId }} - {{ dataset.domain }}</td>
+        </tr>
+        <tr>
+            <th>Created:</th>
+            <td>{{dataset.created | date: 'shortDate'}}</td>
+        </tr>
+        <tr>
+            <th>Modified:</th>
+            <td>{{dataset.modified | date: 'shortDate'}}</td>
+        </tr>
+        <tr>
+            <th>File Count:</th>
+            <td>{{dataset.fileCount | number}}</td>
+        </tr>
+        <tr>
+            <th>Size:</th>
+            <td>{{dataset.size | filesize}}</td>
+        </tr>
+        <tr>
+            <th>File Types:</th>
+            <td>
+                <div *ngFor="let fileType of dataset.fileTypes" class="chip-list">
+                    <button type="button" class="btn btn-default btn-sm" [disabled]="true">
+                        {{fileType}}
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Tags:</th>
+            <td>
+                <div *ngFor="let tag of dataset.tags" class="chip-list">
+                    <button type="button" class="btn btn-default btn-sm" [disabled]="true">
+                        {{tag}}
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table> -->
