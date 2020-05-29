@@ -1,6 +1,6 @@
 # Microsoft Research Open Data Platform
 
-An open source version of the Microsoft Research Open Data platform.
+An open source version of the Microsoft Research Open Data platform (forked from the original code that implements https://msropendata.com).
 
 ## Code of Conduct
 
