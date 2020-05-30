@@ -40,13 +40,6 @@
 				"description": "Specifies if the vault is enabled for volume encryption"
 			}
 		},
-		"configureKeyVault": {
-					"type": "bool",
-					"defaultValue": false,
-			"metadata": {
-				"description": "Determines whether the default values for the secrets should be deployed."
-			}
-		},
 		"cosmosDbAccountName": {
 			"type": "string",
 			"minLength": 3,
@@ -78,7 +71,6 @@
   },
 	"resources": [
 			{
-				"condition": "[parameters('configureKeyVault')]",
 				"type": "Microsoft.KeyVault/vaults",
 				"name": "[parameters('keyVaultName')]",
 				"apiVersion": "2015-06-01",
@@ -99,7 +91,6 @@
 				}
 			},
 			{
-				"condition": "[parameters('configureKeyVault')]",
 				"type": "Microsoft.KeyVault/vaults/secrets",
 				"name": "[concat(parameters('keyVaultName'), '/Storage--Accounts--', parameters('storageAccountName'))]",
 				"apiVersion": "2015-06-01",
@@ -112,7 +103,6 @@
 				]
 			},
 			{
-				"condition": "[parameters('configureKeyVault')]",
 				"type": "Microsoft.KeyVault/vaults/secrets",
 				"name": "[concat(parameters('keyVaultName'), '/ApplicationInsights--InstrumentationKey')]",
 				"apiVersion": "2015-06-01",
@@ -125,7 +115,6 @@
 				]
 			},
 			{
-				"condition": "[parameters('configureKeyVault')]",
 				"type": "Microsoft.KeyVault/vaults/secrets",
 				"name": "[concat(parameters('keyVaultName'), '/Documents--Key')]",
 				"apiVersion": "2015-06-01",
@@ -138,7 +127,6 @@
 				]
 			},
 			{
-				"condition": "[parameters('configureKeyVault')]",
 				"type": "Microsoft.KeyVault/vaults/secrets",
 				"name": "[concat(parameters('keyVaultName'), '/Search--Key')]",
 				"comments": "This uses the administrative key. This should be changed to a query key",

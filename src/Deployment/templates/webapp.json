@@ -89,20 +89,6 @@
 				"description": "The Cosmos database account name."
 			}
 		},
-		"keyVaultClientId": {
-			"type": "string",
-			"defaultValue": "",
-			"metadata": {
-				"description": "The Key Vault client identifier."
-			}
-		},
-		"keyVaultClientSecret": {
-			"type": "string",
-			"defaultValue": "",
-			"metadata": {
-				"description": "The Key Vault client secret."
-			}
-		},
 		"aadTenant": {
 			"type": "string",
 			"defaultValue": "xxxxxxxxxxx.onmicrosoft.com",
@@ -294,8 +280,6 @@
             "ASPNETCORE_ENVIRONMENT": "Production",
             "WEBSITE_NODE_DEFAULT_VERSION": "[parameters('nodeDefaultVersion')]",
             "Vault:Name": "[parameters('keyVaultName')]",
-            "Vault:ClientId": "[parameters('keyVaultClientId')]",
-            "Vault:ClientSecret": "[parameters('keyVaultClientSecret')]",
             "AzureAD:Tenant": "[parameters('aadTenant')]",
             "AzureAD:Audience": "[parameters('aadAudience')]",
             "AzureAD:Policy": "[parameters('aadPolicy')]",

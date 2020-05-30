@@ -124,13 +124,6 @@
         "description": "Name of the vault"
       }
     },
-    "configureKeyVault": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Determines whether the default values for the Key Vault secrets should be deployed."
-      }
-    },
     "vaultSKU": {
       "type": "string",
       "defaultValue": "Standard",
@@ -140,20 +133,6 @@
       ],
       "metadata": {
         "description": "SKU for the vault"
-      }
-    },
-    "keyVaultClientId": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The Key Vault client identifier."
-      }
-    },
-    "keyVaultClientSecret": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The Key Vault client secret."
       }
     },
     "aadTenant": {
@@ -302,8 +281,6 @@
           "searchName": { "value": "[parameters('searchName')]" },
           "keyVaultName": { "value": "[parameters('keyVaultName')]" },
           "cosmosDbAccountName": { "value": "[parameters('cosmosDbAccountName')]" },
-          "keyVaultClientId": { "value": "[parameters('keyVaultClientId')]" },
-          "keyVaultClientSecret": { "value": "[parameters('keyVaultClientSecret')]" },
           "aadTenant": { "value": "[parameters('aadTenant')]" },
           "aadAudience": { "value": "[parameters('aadAudience')]" },
           "aadB2CScopes0": { "value": "[parameters('aadB2CScopes0')]" },
@@ -330,8 +307,6 @@
           "searchName": { "value": "[parameters('searchName')]" },
           "keyVaultName": { "value": "[parameters('keyVaultName')]" },
           "cosmosDbAccountName": { "value": "[parameters('cosmosDbAccountName')]" },
-          "keyVaultClientId": { "value": "[parameters('keyVaultClientId')]" },
-          "keyVaultClientSecret": { "value": "[parameters('keyVaultClientSecret')]" },
           "aadTenant": { "value": "[parameters('aadTenant')]" },
           "aadAudience": { "value": "[parameters('aadAudience')]" },
           "aadB2CScopes0": { "value": "[parameters('aadB2CScopes0')]" },
@@ -420,8 +395,7 @@
           "storageAccountName": { "value": "[parameters('storageAccountName')]" },
           "appInsightsName": { "value": "[parameters('appInsightsName')]" },
           "searchName": { "value": "[parameters('searchName')]" },
-          "cosmosDbAccountName": { "value": "[parameters('cosmosDbAccountName')]" },
-          "configureKeyVault": { "value": "[parameters('configureKeyVault')]" }
+          "cosmosDbAccountName": { "value": "[parameters('cosmosDbAccountName')]" }
         }
       }
     }
