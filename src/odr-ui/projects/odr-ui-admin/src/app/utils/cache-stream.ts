@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Observable, Subject } from 'rxjs';
 import { mergeMap, isEmpty, shareReplay } from 'rxjs/operators';
 

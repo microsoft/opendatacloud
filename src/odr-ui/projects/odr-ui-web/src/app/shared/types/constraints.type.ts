@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * Global constraints for model values.
  */
 export class Constraints {

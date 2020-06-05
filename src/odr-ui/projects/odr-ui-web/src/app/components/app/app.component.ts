@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';

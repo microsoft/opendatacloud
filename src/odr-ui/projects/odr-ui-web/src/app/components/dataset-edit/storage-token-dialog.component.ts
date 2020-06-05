@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, Input, OnInit } from "@angular/core";
 import { ModalDialogService } from "odr-ui-shared";
 import { ToasterService } from "angular2-toaster";

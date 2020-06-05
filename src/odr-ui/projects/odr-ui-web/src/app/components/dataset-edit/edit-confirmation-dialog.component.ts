@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, Input, OnInit } from "@angular/core";
 import { DatasetEditStatus, ModalDialogService } from "odr-ui-shared";
 import { OdrService } from "../../shared/services";

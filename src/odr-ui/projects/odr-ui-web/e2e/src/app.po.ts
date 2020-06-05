@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { browser, by, element } from 'protractor';
 
 export class AppPage {

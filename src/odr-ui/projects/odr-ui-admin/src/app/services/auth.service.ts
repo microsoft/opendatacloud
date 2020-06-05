@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { UserAgentApplication, Logger, LogLevel, Configuration } from "msal";

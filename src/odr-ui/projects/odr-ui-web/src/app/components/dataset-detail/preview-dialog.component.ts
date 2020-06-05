@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, OnInit, Input } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { DatasetService, OdrService } from '../../shared/services';

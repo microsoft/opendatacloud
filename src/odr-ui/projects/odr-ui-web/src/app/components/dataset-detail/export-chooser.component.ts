@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Dataset } from '../../shared/types/dataset.type';
 import { AuthService } from '../../shared/services';

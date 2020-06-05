@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Dataset } from '../../shared/types/dataset.type';
 import { Observable, Subject, of } from 'rxjs';

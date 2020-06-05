@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 
 const DatasetNominationTemplateId = '286353d1-2d54-4d25-8930-00465136cb96';
 const DatasetIssueTemplateId = 'ab4313a8-b3fc-447a-bf61-413e6a6c983f';

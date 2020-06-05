@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';

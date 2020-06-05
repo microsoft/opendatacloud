@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { memoize } from 'lodash';
 import { AbstractControl } from '@angular/forms';
 

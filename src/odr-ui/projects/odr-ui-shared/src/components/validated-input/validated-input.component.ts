@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {AfterContentInit, Component, ContentChildren, Input, QueryList} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 import {ErrMsgComponent} from '../errmsg/errmsg.component';

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BatchService } from '../services';
 import { Observable, Subject, of } from 'rxjs';

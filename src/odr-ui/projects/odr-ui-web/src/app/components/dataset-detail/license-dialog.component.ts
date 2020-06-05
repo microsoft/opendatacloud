@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { OdrService } from '../../shared/services';
 import { LicenseDialogConfig, LicenseDialogResult } from '../../shared/types';

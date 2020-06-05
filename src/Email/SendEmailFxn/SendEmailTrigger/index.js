@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 
 const {evaluateDocument} = require('../src/evaluate-document');
 

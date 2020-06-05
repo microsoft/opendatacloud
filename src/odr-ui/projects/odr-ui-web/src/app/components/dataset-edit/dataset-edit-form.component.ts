@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { DatasetEdit, DatasetLicenseDialogComponent, DatasetNomination, LicenseEntryType, ModalDialogService } from "odr-ui-shared";

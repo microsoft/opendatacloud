@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 
 export class AppVarContext {

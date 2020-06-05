@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 const {generateEmail} = require('./generate-email');
 
 const logPrefix = '[EVAL-DOC]';

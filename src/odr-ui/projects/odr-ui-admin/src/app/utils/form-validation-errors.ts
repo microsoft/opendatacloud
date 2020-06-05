@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {FormGroup, ValidationErrors} from '@angular/forms';
 
 export function getFormValidationErrors(theForm: FormGroup) {

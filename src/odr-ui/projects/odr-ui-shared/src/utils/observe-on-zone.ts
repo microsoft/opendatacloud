@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { NgZone } from "@angular/core";
 import { Observable, Observer } from "rxjs";
 

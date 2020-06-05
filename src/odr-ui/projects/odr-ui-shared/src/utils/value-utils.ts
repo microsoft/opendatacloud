@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 
 export function isEmptyValue(value: any) {
   if(value === undefined || value === null) {

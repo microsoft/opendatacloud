@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Component, NgModule, ViewEncapsulation } from "@angular/core";
 import { ModalDialogService } from "./modal-dialog.service";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Dataset, DatasetDownloadDialogConfig, LicenseDialogConfig, FileEntry } from '../../shared/types';
 import { Router } from '@angular/router';

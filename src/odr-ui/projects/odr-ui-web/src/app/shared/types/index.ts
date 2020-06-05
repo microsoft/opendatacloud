@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 export { AcceptLicense } from './accept-license.type';
 export { CurrentUserDetails } from './current-user.type';
 export { Constraints } from './constraints.type';

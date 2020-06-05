@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 

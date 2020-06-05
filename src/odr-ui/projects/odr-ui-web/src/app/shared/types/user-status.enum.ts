@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * User status
  */
 export enum UserStatus {

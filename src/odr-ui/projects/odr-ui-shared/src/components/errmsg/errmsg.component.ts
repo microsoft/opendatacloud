@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {Component, Input} from '@angular/core';
 import {AbstractControl} from '@angular/forms';
 

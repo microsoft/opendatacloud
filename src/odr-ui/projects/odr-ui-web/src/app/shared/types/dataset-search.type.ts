@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * Criteria for searching a dataset
  */
 export interface DatasetSearch {

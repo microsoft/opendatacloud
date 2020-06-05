@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { SortOrder } from './sort-order.enum';
 
 export class DatasetQueryParams {

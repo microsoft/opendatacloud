@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { NominationLicenseType } from "./nomination-license-type.enum";
 
 export enum DatasetEditStatus {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Observable } from "rxjs";
 import { OdrService } from "../../shared/services";

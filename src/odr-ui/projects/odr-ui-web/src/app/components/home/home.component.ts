@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable, merge, pipe } from 'rxjs';
 import { OdrService } from '../../shared/services';

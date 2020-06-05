@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {AppInsights, TelemetryContext} from 'applicationinsights-js';
 import {environment} from './environments/environment';
 import {Observable, ReplaySubject} from 'rxjs';

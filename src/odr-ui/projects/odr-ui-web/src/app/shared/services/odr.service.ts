@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import {
     HttpClient, HttpParams

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ModuleWithProviders } from "@angular/core";
 import { RouterModule } from "@angular/router";
 

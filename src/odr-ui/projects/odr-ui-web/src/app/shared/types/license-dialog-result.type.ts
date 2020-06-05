@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * The configuration for license dialog results
  */
 export class LicenseDialogResult {

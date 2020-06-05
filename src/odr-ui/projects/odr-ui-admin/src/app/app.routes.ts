@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {RouterModule} from '@angular/router';
 
 import {HomeComponent} from './home/home.component';

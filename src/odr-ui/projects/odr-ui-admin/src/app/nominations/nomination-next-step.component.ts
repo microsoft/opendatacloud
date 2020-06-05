@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {DatasetNomination} from 'odr-ui-shared';
 import {NominationStatus} from '../models/nomination-status.enum';

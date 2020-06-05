@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, ViewChild } from "@angular/core";
 import { DatasetEdit, DatasetEditStatus } from "odr-ui-shared";
 import {

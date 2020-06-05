@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { ValidatorFn, FormGroup } from "@angular/forms";
 import { from } from "rxjs";
 import { tap, mergeMap } from 'rxjs/operators';

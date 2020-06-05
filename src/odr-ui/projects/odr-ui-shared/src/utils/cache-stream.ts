@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Observable, of } from "rxjs";
 import { mergeMap, tap } from "rxjs/operators";
 

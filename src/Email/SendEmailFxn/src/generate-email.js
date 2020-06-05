@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 const {format} = require('date-fns');
 const {encode} = require('ent');
 const {loadEmailTemplates} = require('./email-templates');

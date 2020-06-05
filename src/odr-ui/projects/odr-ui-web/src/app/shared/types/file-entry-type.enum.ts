@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * Specifies the type of file entry for a dataset member.
  */
 export const FileEntryType = {

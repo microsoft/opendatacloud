@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Injectable } from "@angular/core";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { take } from "rxjs/operators";

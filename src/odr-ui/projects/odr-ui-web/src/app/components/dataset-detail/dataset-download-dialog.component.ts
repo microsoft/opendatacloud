@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component, Input, OnInit } from '@angular/core';
 import { DatasetDownloadDialogConfig, Dataset } from '../../shared/types';
 import { ToasterService } from 'angular2-toaster';

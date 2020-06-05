@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { Component } from '@angular/core';
 import {OdrService} from '../../shared/services/odr.service';
 import {FAQType} from '../../shared/types/faq.type';

@@ -1,4 +1,7 @@
-﻿/**
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
  * Payload for dataset accepted licenses
  */
 export class AcceptLicense {
