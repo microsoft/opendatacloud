@@ -1,0 +1,11 @@
+{
+  "name": "SendEmailFxn",
+  "version": "1.1.0",
+  "description": "Send Email Azure Function.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "date-fns": "^1.29.0",
+    "email-addresses": "^3.0.1",
+    "ent": "^2.2.0"
+  }
+}

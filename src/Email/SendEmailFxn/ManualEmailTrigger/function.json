@@ -1,0 +1,42 @@
+{
+  "disabled": true,
+  "bindings": [
+    {
+      "name": "selectedItem",
+      "type": "manualTrigger",
+      "direction": "in"
+    },
+    {
+      "name": "emailTemplates",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "OpenData",
+      "collectionName": "Datasets",
+      "sqlQuery" : "SELECT c.id, c.html FROM c WHERE (c.dataType = 'email-templates' AND c.datasetId = 'fd56f7c8-89a5-4997-82bc-95e955468e14')",
+      "connectionStringSetting": "DbConnectionString"
+    },
+    {
+      "name": "inputDoc",
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "OpenData",
+      "collectionName": "UserData",
+      "sqlQuery" : "SELECT * FROM c WHERE (c.id = {id})",
+      "connectionStringSetting": "DbConnectionString"
+    },
+    {
+      "name": "outputDoc",
+      "type": "cosmosDB",
+      "direction": "out",
+      "databaseName": "OpenData",
+      "collectionName": "UserData",
+      "connectionStringSetting": "DbConnectionString"
+    },
+    {
+      "name": "outputEmail",
+      "type": "sendGrid",
+      "direction": "out",
+      "apiKey": "SendGridKey"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "msr-opendata-email-templates",
+  "version": "1.0.0",
+  "description": "Notification email templates for MSR Open Data application.",
+  "scripts": {
+    "build": "node scripts/generate-templates.js"
+  },
+  "dependencies": {
+    "mjml": "^4.6.3",
+    "rimraf": "^2.6.3"
+  }
+}
