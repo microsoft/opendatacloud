@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using FluentValidation;
 
 namespace Msr.Odr.Model.Validators
 {

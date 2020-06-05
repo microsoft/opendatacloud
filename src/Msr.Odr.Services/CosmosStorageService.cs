@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Documents.Client;

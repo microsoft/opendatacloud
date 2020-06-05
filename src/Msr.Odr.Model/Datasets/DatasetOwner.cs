@@ -1,4 +1,7 @@
-﻿using Microsoft.Azure.Search.Models;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.Azure.Search.Models;
 using Newtonsoft.Json;
 
 namespace Msr.Odr.Model.Datasets

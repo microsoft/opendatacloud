@@ -1,4 +1,7 @@
-﻿using System.Linq;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Linq;
 using McMaster.Extensions.CommandLineUtils;
 using Msr.Odr.Admin.Commands.Options;
 

@@ -1,4 +1,7 @@
-﻿using FluentValidation.Results;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using FluentValidation.Results;
 using Msr.Odr.Model;
 using Msr.Odr.Model.UserData;
 using Msr.Odr.Model.Validators;

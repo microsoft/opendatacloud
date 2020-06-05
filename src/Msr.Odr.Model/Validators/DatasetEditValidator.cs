@@ -1,4 +1,7 @@
-﻿using System.Linq;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Linq;
 using FluentValidation;
 using Msr.Odr.Model.UserData;
 

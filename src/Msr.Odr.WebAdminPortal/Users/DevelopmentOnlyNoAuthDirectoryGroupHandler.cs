@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 
 namespace Msr.Odr.WebAdminPortal.Users

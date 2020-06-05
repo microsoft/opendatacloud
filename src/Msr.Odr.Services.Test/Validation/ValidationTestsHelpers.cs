@@ -1,4 +1,7 @@
-﻿using Msr.Odr.Model;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Msr.Odr.Model;
 
 namespace Msr.Odr.Services.Test.Validation
 {

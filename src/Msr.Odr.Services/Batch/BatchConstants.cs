@@ -1,4 +1,7 @@
-﻿namespace Msr.Odr.Services.Batch
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Msr.Odr.Services.Batch
 {
     public static class BatchConstants
     {

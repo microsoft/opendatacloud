@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 namespace Msr.Odr.Model.Configuration
 {
     public static class FacetKey

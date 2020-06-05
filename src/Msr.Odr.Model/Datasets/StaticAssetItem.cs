@@ -1,4 +1,7 @@
-﻿namespace Msr.Odr.Model.Datasets
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Msr.Odr.Model.Datasets
 {
     public class StaticAssetItem
     {

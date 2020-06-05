@@ -1,4 +1,7 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using McMaster.Extensions.CommandLineUtils;
 using Msr.Odr.Admin.Commands.Batch;
 using Msr.Odr.Admin.Commands.Dataset;
 

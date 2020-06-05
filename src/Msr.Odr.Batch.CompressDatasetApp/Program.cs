@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
 using Msr.Odr.Batch.Shared;
 
 namespace Msr.Odr.Batch.CompressDatasetApp

@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 using Msr.Odr.Admin.Commands.Options;
 

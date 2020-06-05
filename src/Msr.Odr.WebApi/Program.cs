@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Msr.Odr.Api
