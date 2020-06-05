@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 # Installs AzCopy and copies dataset from Azure Storage.
 
 Param (

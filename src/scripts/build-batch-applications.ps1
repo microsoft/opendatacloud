@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 
 $root = Join-Path $PSScriptRoot ".."
 $buildPath = Join-Path $PSScriptRoot "build"
