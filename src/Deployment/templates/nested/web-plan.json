@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of service plan for web applications."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2016-09-01",
+      "name": "[parameters('webPlanName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "S3",
+        "tier": "Standard",
+        "size": "S3",
+        "family": "S",
+        "capacity": 1
+      },
+      "kind": "app",
+      "properties": {
+        "name": "[parameters('webPlanName')]",
+        "perSiteScaling": false,
+        "reserved": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      }
+    }
+  ],
+  "outputs": {}
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "databaseAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "CosmosDB database account name."
+      }
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('databaseAccountName'))]",
+    "apiVersion": "[providers('Microsoft.DocumentDB', 'databaseAccounts').apiVersions[0]]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "apiVersion": "2015-04-08",
+      "name": "[parameters('databaseAccountName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "defaultExperience": "Core (SQL)"
+      },
+      "kind": "GlobalDocumentDB",
+      "properties": {
+        "enableAutomaticFailover": false,
+        "enableMultipleWriteLocations": false,
+        "isVirtualNetworkFilterEnabled": false,
+        "virtualNetworkRules": [],
+        "databaseAccountOfferType": "Standard",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "Session",
+          "maxIntervalInSeconds": 5,
+          "maxStalenessPrefix": 100
+        },
+        "locations": [
+          {
+            "locationName": "[resourceGroup().location]",
+            "provisioningState": "Succeeded",
+            "failoverPriority": 0
+          }
+        ],
+        "capabilities": []
+      }
+    }
+  ],
+  "outputs": {
+    "data": {
+      "type": "object",
+      "value": {
+        "name": {
+          "type": "string",
+          "value": "[parameters('databaseAccountName')]"
+        },
+        "accountKey": {
+          "type": "string",
+          "value": "[listKeys(variables('resourceId'), variables('apiVersion')).secondaryMasterKey]"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "databaseAccountName": {
+      "value": "wtopendata-db"
+    },
+    "searchAccountName": {
+      "value": "wtopendata-search"
+    },
+    "datasetStorageName": {
+      "value": "wtopendataset01"
+    },
+    "applicationStorageName": {
+      "value": "wtopendatastorage"
+    },
+    "webPlanName": {
+      "value": "wtopendata-web-plan"
+    },
+    "webAppName": {
+      "value": "wtopendata-web"
+    },
+    "webApiName": {
+      "value": "wtopendata-web-api"
+    },
+    "webApiAllowedOrigins": {
+      "value": [
+        "http://localhost:53048",
+        "https://wtopendata-web.azurewebsites.net",
+        "https://portal.azure.com"
+      ]
+    },
+    "webAdminName": {
+      "value": "wtopendata-web-admin"
+    },
+    "batchAccountName": {
+      "value": "wtopendata-batch"
+    },
+    "appInsightsName": {
+      "value": "wtopendata-insights"
+    },
+    "keyVaultName": {
+      "value": "wtopendata-keyvault"
+    }
+  }
+}

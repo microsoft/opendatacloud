@@ -1,0 +1,376 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "databaseAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "CosmosDB database account name."
+      }
+    },
+    "searchAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure search account name."
+      }
+    },
+    "datasetStorageName": {
+      "type": "string",
+      "metadata": {
+        "description": "Dataset storage account name."
+      }
+    },
+    "applicationStorageName": {
+      "type": "string",
+      "metadata": {
+        "description": "Application storage account name."
+      }
+    },
+    "webPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of service plan for web applications."
+      }
+    },
+    "webAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web application."
+      }
+    },
+    "webApiName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web API application."
+      }
+    },
+    "webApiAllowedOrigins": {
+      "type": "array",
+      "metadata": {
+        "descritpion": "Array of allowed CORS origins for the Web API."
+      }
+    },
+    "webAdminName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web admin application."
+      }
+    },
+    "batchAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure batch account name."
+      }
+    },
+    "appInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Insights account name."
+      }
+    },
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure key vault name."
+      }
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The base URI where artifacts required by this template are located including a trailing '/'"
+      },
+      "defaultValue": "[deployment().properties.templateLink.uri]"
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated. Use the defaultValue if the staging location is not secured."
+      },
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+    "nestedTemplatesUrl": "[concat(parameters('_artifactsLocation'), 'nested/')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-05-10",
+      "name": "cosmosDbLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'cosmos-db.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "databaseAccountName": {
+            "value": "[parameters('databaseAccountName')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "searchLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'search.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "searchAccountName": {
+            "value": "[parameters('searchAccountName')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "datasetStorageLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'dataset-storage.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "datasetStorageName": {
+            "value": "[parameters('datasetStorageName')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "applicationStorageLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'application-storage.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "applicationStorageName": {
+            "value": "[parameters('applicationStorageName')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "webPlanLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'web-plan.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webPlanName": {
+            "value": "[parameters('webPlanName')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "webAppLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'web-app.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webAppName": {
+            "value": "[parameters('webAppName')]"
+          },
+          "webPlanName": {
+            "value": "[parameters('webPlanName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "webPlanLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "webApiLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'web-api.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webApiName": {
+            "value": "[parameters('webApiName')]"
+          },
+          "webApiAllowedOrigins": {
+            "value": "[parameters('webApiAllowedOrigins')]"
+          },
+          "webPlanName": {
+            "value": "[parameters('webPlanName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "webPlanLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "webAdminLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'web-admin.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "webAdminName": {
+            "value": "[parameters('webAdminName')]"
+          },
+          "webPlanName": {
+            "value": "[parameters('webPlanName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "webPlanLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "batchLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'batch.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "batchAccountName": {
+            "value": "[parameters('batchAccountName')]"
+          },
+          "applicationStorageName": {
+            "value": "[parameters('applicationStorageName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "applicationStorageLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "appInsightsLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'app-insights.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "appInsightsName": {
+            "value": "[parameters('appInsightsName')]"
+          },
+          "webAppName": {
+            "value": "[parameters('webAppName')]"
+          },
+          "webApiName": {
+            "value": "[parameters('webApiName')]"
+          },
+          "webAdminName": {
+            "value": "[parameters('webAdminName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "webAppLinkedTemplate",
+        "webApiLinkedTemplate",
+        "webAdminLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "keyVaultLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'key-vault.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "keyVaultResourceIds": [
+            "[reference('webAppLinkedTemplate').outputs.data.value.resourceId]",
+            "[reference('webApiLinkedTemplate').outputs.data.value.resourceId]",
+            "[reference('webAdminLinkedTemplate').outputs.data.value.resourceId]"
+          ]
+        }
+      },
+      "dependsOn": [
+        "webAppLinkedTemplate",
+        "webApiLinkedTemplate",
+        "webAdminLinkedTemplate"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "keyVaultSecretsLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'key-vault-secrets.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          },
+          "datasetStorageName": {
+            "value": "[parameters('datasetStorageName')]"
+          },
+          "appInsights": {
+            "value": "[reference('appInsightsLinkedTemplate').outputs.data.value]"
+          },
+          "cosmosDb": {
+            "value": "[reference('cosmosDbLinkedTemplate').outputs.data.value]"
+          },
+          "search": {
+            "value": "[reference('searchLinkedTemplate').outputs.data.value]"
+          },
+          "batch": {
+            "value": "[reference('batchLinkedTemplate').outputs.data.value]"
+          },
+          "datasetStorage": {
+            "value": "[reference('datasetStorageLinkedTemplate').outputs.data.value]"
+          }
+        }
+      },
+      "dependsOn": [
+        "webAppLinkedTemplate",
+        "webApiLinkedTemplate",
+        "webAdminLinkedTemplate"
+      ]
+    }
+  ],
+  "outputs": {}
+}

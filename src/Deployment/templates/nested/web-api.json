@@ -1,0 +1,145 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webApiName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web API application."
+      }
+    },
+    "webApiAllowedOrigins": {
+      "type": "array",
+      "metadata": {
+        "descritpion": "Array of allowed CORS origins for the Web API."
+      }
+    },
+    "webPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of service plan for web applications."
+      }
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.Web/sites', parameters('webApiName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2016-08-01",
+      "name": "[parameters('webApiName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "app",
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('webApiName'), '.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('webApiName'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webPlanName'))]",
+        "reserved": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": true
+      },
+      "resources": [
+        {
+          "type": "config",
+          "apiVersion": "2016-08-01",
+          "name": "web",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('webApiName'))]"
+          ],
+          "properties": {
+            "numberOfWorkers": 1,
+            "defaultDocuments": [
+              "Default.htm",
+              "Default.html",
+              "Default.asp",
+              "index.htm",
+              "index.html",
+              "iisstart.htm",
+              "default.aspx",
+              "index.php",
+              "hostingstart.html"
+            ],
+            "netFrameworkVersion": "v4.6",
+            "phpVersion": "5.6",
+            "requestTracingEnabled": true,
+            "requestTracingExpirationTime": "9999-12-31T23:59:00Z",
+            "remoteDebuggingEnabled": false,
+            "httpLoggingEnabled": true,
+            "logsDirectorySizeLimit": 35,
+            "detailedErrorLoggingEnabled": true,
+            "use32BitWorkerProcess": true,
+            "webSocketsEnabled": false,
+            "alwaysOn": false,
+            "appCommandLine": "",
+            "managedPipelineMode": "Integrated",
+            "virtualApplications": [
+              {
+                "virtualPath": "/",
+                "physicalPath": "site\\wwwroot",
+                "preloadEnabled": false
+              }
+            ],
+            "winAuthAdminState": 0,
+            "winAuthTenantState": 0,
+            "customAppPoolIdentityAdminState": false,
+            "customAppPoolIdentityTenantState": false,
+            "loadBalancing": "LeastRequests",
+            "routingRules": [],
+            "experiments": {
+              "rampUpRules": []
+            },
+            "autoHealEnabled": false,
+            "vnetName": "",
+            "siteAuthEnabled": false,
+            "cors": {
+              "allowedOrigins": "[parameters('webApiAllowedOrigins')]",
+              "supportCredentials": true
+            },
+            "http20Enabled": false,
+            "minTlsVersion": "1.2",
+            "ftpsState": "AllAllowed",
+            "reservedInstanceCount": 0
+          }
+        },
+        {
+          "type": "hostNameBindings",
+          "apiVersion": "2016-08-01",
+          "name": "[concat(parameters('webApiName'), '.azurewebsites.net')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "siteName": "[parameters('webApiName')]",
+            "hostNameType": "Verified"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('webApiName'))]"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "data": {
+      "type": "object",
+      "value": {
+        "resourceId": "[variables('resourceId')]"
+      }
+    }
+  }
+}

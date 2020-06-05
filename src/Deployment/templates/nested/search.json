@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "searchAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure search account name."
+      }
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.Search/searchServices', parameters('searchAccountName'))]",
+    "apiVersion": "[providers('Microsoft.Search', 'searchServices').apiVersions[0]]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2015-08-19",
+      "name": "[parameters('searchAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "standard"
+      },
+      "properties": {
+        "replicaCount": 1,
+        "partitionCount": 1,
+        "hostingMode": "default"
+      }
+    }
+  ],
+  "outputs": {
+    "data": {
+      "type": "object",
+      "value": {
+        "name": {
+          "type": "string",
+          "value": "[parameters('searchAccountName')]"
+        },
+        "accountKey": {
+          "type": "string",
+          "value": "[listAdminKeys(variables('resourceId'), variables('apiVersion')).secondaryKey]"
+        }
+      }
+    }
+  }
+}

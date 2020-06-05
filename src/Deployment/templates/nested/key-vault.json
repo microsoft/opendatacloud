@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure key vault name."
+      }
+    },
+    "keyVaultResourceIds": {
+      "type": "array",
+      "metadata": {
+        "description": "List of object IDs that should be granted access to the key vault."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2016-10-01",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "tenantId": "[subscription().tenantId]",
+        "enabledForDeployment": false,
+        "enabledForDiskEncryption": false,
+        "enabledForTemplateDeployment": true,
+        "copy": [
+          {
+            "name": "accessPolicies",
+            "count": "[length(parameters('keyVaultResourceIds'))]",
+            "input": {
+              "tenantId": "[subscription().tenantId]",
+              "objectId": "[reference(parameters('keyVaultResourceIds')[copyIndex('accessPolicies')], '2016-08-01', 'Full').identity.principalId]",
+              "permissions": {
+                "secrets": [
+                  "list",
+                  "get"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {}
+}

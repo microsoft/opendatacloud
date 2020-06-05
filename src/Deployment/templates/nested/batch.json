@@ -1,0 +1,118 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "batchAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure batch account name."
+      }
+    },
+    "applicationStorageName": {
+      "type": "string",
+      "metadata": {
+        "description": "Application storage account name."
+      }
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountName'))]",
+    "apiVersion": "[providers('Microsoft.Batch', 'batchAccounts').apiVersions[0]]",
+    "storageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('applicationStorageName'))]",
+    "storageApiVersion": "[providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Batch/batchAccounts",
+      "apiVersion": "2017-09-01",
+      "name": "[parameters('batchAccountName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "autoStorage": {
+          "storageAccountId": "[variables('storageResourceId')]"
+        },
+        "poolAllocationMode": "BatchService"
+      },
+      "resources": [
+        {
+          "type": "pools",
+          "apiVersion": "2017-09-01",
+          "name": "DatasetPool",
+          "dependsOn": [
+            "[resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountName'))]"
+          ],
+          "properties": {
+            "displayName": "Dataset Operations Pool",
+            "vmSize": "STANDARD_A2",
+            "interNodeCommunication": "Disabled",
+            "maxTasksPerNode": 1,
+            "taskSchedulingPolicy": {
+              "nodeFillType": "Spread"
+            },
+            "deploymentConfiguration": {
+              "virtualMachineConfiguration": {
+                "imageReference": {
+                  "publisher": "MicrosoftWindowsServer",
+                  "offer": "WindowsServer",
+                  "sku": "2016-Datacenter",
+                  "version": "latest"
+                },
+                "nodeAgentSkuId": "batch.node.windows amd64",
+                "dataDisks": [
+                  {
+                    "lun": 0,
+                    "caching": "None",
+                    "diskSizeGB": 20,
+                    "storageAccountType": "Standard_LRS"
+                  }
+                ],
+                "windowsConfiguration": {
+                  "enableAutomaticUpdates": true
+                }
+              }
+            },
+            "scaleSettings": {
+              "autoScale": {
+                "formula": "\n$maxNodeLimit = 3;\n$totalTasks = max($PendingTasks.GetSample(TimeInterval_Minute * 60));\n$TargetDedicated = min($totalTasks, $maxNodeLimit);\n$NodeDeallocationOption = taskcompletion;\n",
+                "evaluationInterval": "PT10M"
+              }
+            },
+            "applicationPackages": [
+              {
+                "id": "[concat(resourceId('Microsoft.Batch/batchAccounts', parameters('applicationStorageName')), '/applications/compressdatasetapp')]",
+                "version": "1.0"
+              },
+              {
+                "id": "[concat(resourceId('Microsoft.Batch/batchAccounts', parameters('applicationStorageName')), '/applications/importdatasetapp')]",
+                "version": "1.0"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "data": {
+      "type": "object",
+      "value": {
+        "name": {
+          "type": "string",
+          "value": "[parameters('batchAccountName')]"
+        },
+        "url": {
+          "type": "string",
+          "value": "[concat('https://', reference(variables('resourceId'), variables('apiVersion')).accountEndpoint)]"
+        },
+        "storageName": {
+          "type": "string",
+          "value": "[parameters('applicationStorageName')]"
+        },
+        "storageKey": {
+          "type": "string",
+          "value": "[listKeys(variables('storageResourceId'), variables('storageApiVersion')).keys[0].value]"
+        }
+      }
+    }
+  }
+}

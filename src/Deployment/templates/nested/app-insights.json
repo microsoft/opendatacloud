@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Insights account name."
+      }
+    },
+    "webAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web application."
+      }
+    },
+    "webApiName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web API application."
+      }
+    },
+    "webAdminName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of web admin application."
+      }
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.Insights/components', parameters('appInsightsName'))]",
+    "apiVersion": "[providers('Microsoft.Insights', 'components').apiVersions[0]]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/actionGroups",
+      "apiVersion": "2019-03-01",
+      "name": "[concat(parameters('appInsightsName'),'-action-group')]",
+      "location": "Global",
+      "properties": {
+        "groupShortName": "SmartDetect",
+        "enabled": true
+      }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2015-05-01",
+      "name": "[parameters('appInsightsName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webApiName'))]": "Resource",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAdminName'))]": "Resource"
+      },
+      "kind": "web",
+      "properties": {
+        "Application_Type": "web"
+      }
+    }
+  ],
+  "outputs": {
+    "data": {
+      "type": "object",
+      "value": {
+        "instrumentationKey": "[reference(variables('resourceId'), variables('apiVersion')).instrumentationKey]"
+      }
+    }
+  }
+}
