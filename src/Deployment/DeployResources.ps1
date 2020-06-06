@@ -4,7 +4,8 @@ param (
     [string] $StorageContainerName = 'azure-arm-deploy',
     [Parameter(Mandatory=$true)]
     [string] $ResourceGroupName,
-    [switch] $ShowDebug
+    [switch] $ShowDebug,
+    [switch] $Deploy
 )
 
 $ErrorActionPreference = 'Stop'
@@ -69,16 +70,31 @@ Try
             $params.Add($_.Name, $_.Value.Value)
         }
 
-    # Test the ARM templates
-    Write-Output "Testing $($blobUri)"
-    Test-AzResourceGroupDeployment `
-        -Mode Incremental `
-        -ResourceGroupName $ResourceGroupName `
-        -TemplateUri $blobUriSas `
-        -TemplateParameterObject $params `
-        -SkipTemplateParameterPrompt `
-        -Verbose `
-        -Debug:$ShowDebug
+    if($Deploy) {
+
+        # Test the ARM templates
+        Write-Output "Deploying $($blobUri)"
+        New-AzResourceGroupDeployment `
+            -Mode Incremental `
+            -ResourceGroupName $ResourceGroupName `
+            -TemplateUri $blobUriSas `
+            -TemplateParameterObject $params `
+            -SkipTemplateParameterPrompt `
+            -Confirm
+
+    } else {
+
+        # Test the ARM templates
+        Write-Output "Testing $($blobUri)"
+        Test-AzResourceGroupDeployment `
+            -Mode Incremental `
+            -ResourceGroupName $ResourceGroupName `
+            -TemplateUri $blobUriSas `
+            -TemplateParameterObject $params `
+            -SkipTemplateParameterPrompt `
+            -Verbose `
+            -Debug:$ShowDebug
+    }
 }
 Catch
 {

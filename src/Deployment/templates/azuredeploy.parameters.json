@@ -3,44 +3,40 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "databaseAccountName": {
-      "value": "wtopendata-db"
+      "value": ""
     },
     "searchAccountName": {
-      "value": "wtopendata-search"
+      "value": ""
     },
     "datasetStorageName": {
-      "value": "wtopendataset01"
+      "value": ""
     },
     "applicationStorageName": {
-      "value": "wtopendatastorage"
+      "value": ""
     },
     "webPlanName": {
-      "value": "wtopendata-web-plan"
+      "value": ""
     },
     "webAppName": {
-      "value": "wtopendata-web"
+      "value": ""
     },
     "webApiName": {
-      "value": "wtopendata-web-api"
+      "value": ""
     },
     "webApiAllowedOrigins": {
-      "value": [
-        "http://localhost:53048",
-        "https://wtopendata-web.azurewebsites.net",
-        "https://portal.azure.com"
-      ]
+      "value": []
     },
     "webAdminName": {
-      "value": "wtopendata-web-admin"
+      "value": ""
     },
     "batchAccountName": {
-      "value": "wtopendata-batch"
+      "value": ""
     },
     "consumptionPlanName": {
-      "value": "wtemail-plan"
+      "value": ""
     },
     "emailFxnName": {
-      "value": "wtemail-fxn"
+      "value": ""
     },
     "fromEmail": {
       "value": ""
@@ -52,10 +48,10 @@
       "value": ""
     },
     "appInsightsName": {
-      "value": "wtopendata-insights"
+      "value": ""
     },
     "keyVaultName": {
-      "value": "wtopendata-keyvault"
+      "value": ""
     }
   }
 }
