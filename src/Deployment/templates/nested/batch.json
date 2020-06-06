@@ -74,17 +74,7 @@
                 "formula": "\n$maxNodeLimit = 3;\n$totalTasks = max($PendingTasks.GetSample(TimeInterval_Minute * 60));\n$TargetDedicated = min($totalTasks, $maxNodeLimit);\n$NodeDeallocationOption = taskcompletion;\n",
                 "evaluationInterval": "PT10M"
               }
-            },
-            "applicationPackages": [
-              {
-                "id": "[concat(variables('resourceId'), '/applications/compressdatasetapp')]",
-                "version": "1.0"
-              },
-              {
-                "id": "[concat(variables('resourceId'), '/applications/importdatasetapp')]",
-                "version": "1.0"
-              }
-            ]
+            }
           }
         }
       ]
