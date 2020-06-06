@@ -77,11 +77,11 @@
             },
             "applicationPackages": [
               {
-                "id": "[concat(resourceId('Microsoft.Batch/batchAccounts', parameters('applicationStorageName')), '/applications/compressdatasetapp')]",
+                "id": "[concat(variables('resourceId'), '/applications/compressdatasetapp')]",
                 "version": "1.0"
               },
               {
-                "id": "[concat(resourceId('Microsoft.Batch/batchAccounts', parameters('applicationStorageName')), '/applications/importdatasetapp')]",
+                "id": "[concat(variables('resourceId'), '/applications/importdatasetapp')]",
                 "version": "1.0"
               }
             ]
