@@ -1,0 +1,135 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "consumptionPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the consumption plan to use for the email Azure function."
+      }
+    },
+    "emailFxnName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of email Azure function."
+      }
+    },
+    "storageConnection": {
+      "type": "string",
+      "metadata": {
+        "description": "Connection string for application storage."
+      }
+    },
+    "databaseConnection": {
+      "type": "string",
+      "metadata": {
+        "description": "Connection string for Cosmos DB database."
+      }
+    },
+    "instrumentationKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Insights instrumentation key."
+      }
+    },
+    "fromEmail": {
+      "type": "string",
+      "metadata": {
+        "description": "From address for delivered emails, for example, \"Joe User <joe.user@mail.com>\"."
+      }
+    },
+    "toEmail": {
+      "type": "string",
+      "metadata": {
+        "description": "A semi-colon separated list of email addresses to send notifications to, for example, \"Joe User <joe.user@mail.com>;Jane User <joe.user@mail.com>\"."
+      }
+    },
+    "sendGridApiKey": {
+      "type": "string",
+      "metadata": {
+        "description": "API key for SendGrid."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2016-09-01",
+      "name": "[parameters('consumptionPlanName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('consumptionPlanName')]",
+        "computeMode": "Dynamic"
+      },
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic",
+        "size": "Y1",
+        "family": "Y",
+        "capacity": 0
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[parameters('emailFxnName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "functionapp",
+      "properties": {
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+              "value": "[parameters('instrumentationKey')]"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[parameters('storageConnection')]"
+            },
+            {
+              "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+              "value": "[parameters('storageConnection')]"
+            },
+            {
+              "name": "WEBSITE_CONTENTSHARE",
+              "value": "[parameters('emailFxnName')]"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "node"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~10"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~2"
+            },
+            {
+              "name": "DbConnectionString",
+              "value": "[parameters('databaseConnection')]"
+            },
+            {
+              "name": "FromEmail",
+              "value": "[parameters('fromEmail')]"
+            },
+            {
+              "name": "ToEmail",
+              "value": "[parameters('toEmail')]"
+            },
+            {
+              "name": "SendGridKey",
+              "value": "[parameters('sendGridApiKey')]"
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('consumptionPlanName'))]"
+      ]
+    }
+  ],
+  "outputs": {}
+}

@@ -17,9 +17,7 @@
   },
   "variables": {
     "resourceId": "[resourceId('Microsoft.Batch/batchAccounts', parameters('batchAccountName'))]",
-    "apiVersion": "[providers('Microsoft.Batch', 'batchAccounts').apiVersions[0]]",
-    "storageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('applicationStorageName'))]",
-    "storageApiVersion": "[providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]]"
+    "apiVersion": "[providers('Microsoft.Batch', 'batchAccounts').apiVersions[0]]"
   },
   "resources": [
     {
@@ -29,7 +27,7 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "autoStorage": {
-          "storageAccountId": "[variables('storageResourceId')]"
+          "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('applicationStorageName'))]"
         },
         "poolAllocationMode": "BatchService"
       },
@@ -103,14 +101,6 @@
         "url": {
           "type": "string",
           "value": "[concat('https://', reference(variables('resourceId'), variables('apiVersion')).accountEndpoint)]"
-        },
-        "storageName": {
-          "type": "string",
-          "value": "[parameters('applicationStorageName')]"
-        },
-        "storageKey": {
-          "type": "string",
-          "value": "[listKeys(variables('storageResourceId'), variables('storageApiVersion')).keys[0].value]"
         }
       }
     }

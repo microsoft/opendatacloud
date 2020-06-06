@@ -25,6 +25,12 @@
       "metadata": {
         "description": "Name of web admin application."
       }
+    },
+    "emailFxnName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of email Azure function."
+      }
     }
   },
   "variables": {
@@ -50,11 +56,13 @@
       "tags": {
         "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource",
         "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webApiName'))]": "Resource",
-        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAdminName'))]": "Resource"
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAdminName'))]": "Resource",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('emailFxnName'))]": "Resource"
       },
       "kind": "web",
       "properties": {
-        "Application_Type": "web"
+        "Application_Type": "web",
+        "ApplicationId": "[parameters('appInsightsName')]"
       }
     }
   ],

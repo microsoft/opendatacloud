@@ -62,6 +62,36 @@
         "description": "Azure batch account name."
       }
     },
+    "consumptionPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the consumption plan to use for the email Azure function."
+      }
+    },
+    "emailFxnName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of email Azure function."
+      }
+    },
+    "fromEmail": {
+      "type": "string",
+      "metadata": {
+        "description": "From address for delivered emails, for example, \"Joe User <joe.user@mail.com>\"."
+      }
+    },
+    "toEmail": {
+      "type": "string",
+      "metadata": {
+        "description": "A semi-colon separated list of email addresses to send notifications to, for example, \"Joe User <joe.user@mail.com>;Jane User <joe.user@mail.com>\"."
+      }
+    },
+    "sendGridApiKey": {
+      "type": "string",
+      "metadata": {
+        "description": "API key for SendGrid."
+      }
+    },
     "appInsightsName": {
       "type": "string",
       "metadata": {
@@ -275,6 +305,44 @@
     },
     {
       "apiVersion": "2017-05-10",
+      "name": "emailFxnLinkedTemplate",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('nestedTemplatesUrl'), 'email-fxn.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "consumptionPlanName": {
+            "value": "[parameters('consumptionPlanName')]"
+          },
+          "emailFxnName": {
+            "value": "[parameters('emailFxnName')]"
+          },
+          "fromEmail": {
+            "value": "[parameters('fromEmail')]"
+          },
+          "toEmail": {
+            "value": "[parameters('toEmail')]"
+          },
+          "sendGridApiKey": {
+            "value": "[parameters('sendGridApiKey')]"
+          },
+          "storageConnection": {
+            "value": "[reference('applicationStorageLinkedTemplate').outputs.data.value.storageConnection]"
+          },
+          "databaseConnection": {
+            "value": "[reference('cosmosDbLinkedTemplate').outputs.data.value.databaseConnection]"
+          },
+          "instrumentationKey": {
+            "value": "[reference('appInsightsLinkedTemplate').outputs.data.value.instrumentationKey]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2017-05-10",
       "name": "appInsightsLinkedTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -295,14 +363,12 @@
           },
           "webAdminName": {
             "value": "[parameters('webAdminName')]"
+          },
+          "emailFxnName": {
+            "value": "[parameters('emailFxnName')]"
           }
         }
-      },
-      "dependsOn": [
-        "webAppLinkedTemplate",
-        "webApiLinkedTemplate",
-        "webAdminLinkedTemplate"
-      ]
+      }
     },
     {
       "apiVersion": "2017-05-10",
@@ -324,12 +390,7 @@
             "[reference('webAdminLinkedTemplate').outputs.data.value.resourceId]"
           ]
         }
-      },
-      "dependsOn": [
-        "webAppLinkedTemplate",
-        "webApiLinkedTemplate",
-        "webAdminLinkedTemplate"
-      ]
+      }
     },
     {
       "apiVersion": "2017-05-10",
@@ -360,16 +421,14 @@
           "batch": {
             "value": "[reference('batchLinkedTemplate').outputs.data.value]"
           },
+          "applicationStorage": {
+            "value": "[reference('applicationStorageLinkedTemplate').outputs.data.value]"
+          },
           "datasetStorage": {
             "value": "[reference('datasetStorageLinkedTemplate').outputs.data.value]"
           }
         }
-      },
-      "dependsOn": [
-        "webAppLinkedTemplate",
-        "webApiLinkedTemplate",
-        "webAdminLinkedTemplate"
-      ]
+      }
     }
   ],
   "outputs": {}

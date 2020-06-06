@@ -56,6 +56,10 @@
         "accountKey": {
           "type": "string",
           "value": "[listKeys(variables('resourceId'), variables('apiVersion')).secondaryMasterKey]"
+        },
+        "databaseConnection": {
+          "type": "string",
+          "value": "[concat('AccountEndpoint=https://', parameters('databaseAccountName'), '.documents.azure.com:443/;AccountKey=', listKeys(variables('resourceId'), variables('apiVersion')).secondaryMasterKey, ';')]"
         }
       }
     }

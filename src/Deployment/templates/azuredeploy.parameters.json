@@ -36,6 +36,21 @@
     "batchAccountName": {
       "value": "wtopendata-batch"
     },
+    "consumptionPlanName": {
+      "value": "wtemail-plan"
+    },
+    "emailFxnName": {
+      "value": "wtemail-fxn"
+    },
+    "fromEmail": {
+      "value": ""
+    },
+    "toEmail": {
+      "value": ""
+    },
+    "sendGridApiKey": {
+      "value": ""
+    },
     "appInsightsName": {
       "value": "wtopendata-insights"
     },
