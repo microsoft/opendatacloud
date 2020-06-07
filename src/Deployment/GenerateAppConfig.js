@@ -106,6 +106,18 @@ async function updateConfigurationFiles() {
       "src/Msr.Odr.WebAdminPortal/appsettings.production.json",
       transformJsonFile(updateWebAdminProductionSettings),
     ],
+    [
+      "src/Msr.Odr.Admin/appsettings.json",
+      transformJsonFile(updateAdminConsoleSettings),
+    ],
+    [
+      "src/Msr.Odr.Admin/appsettings.development.json",
+      transformJsonFile(updateAdminConsoleDevelopmentSettings),
+    ],
+    [
+      "src/Msr.Odr.Admin/appsettings.production.json",
+      transformJsonFile(updateAdminConsoleProductionSettings),
+    ],
   ];
 
   for ([relativeFile, transformFn] of configMap) {
@@ -230,6 +242,21 @@ function updateWebAdminDevelopmentSettings(config, data) {
 function updateWebAdminProductionSettings(config, data) {
   data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
   data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
+  return data;
+}
+
+function updateAdminConsoleSettings(config, data) {
+  const [, name, email] = config.fromEmail.match(/^(.*)<(.*)>/);
+  data.contact.name = name;
+  data.contact.email = email;
+  return data;
+}
+function updateAdminConsoleDevelopmentSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
+  return data;
+}
+function updateAdminConsoleProductionSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
   return data;
 }
 
