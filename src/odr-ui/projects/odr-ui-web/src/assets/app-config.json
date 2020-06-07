@@ -1,0 +1,8 @@
+{
+  "apiBaseUrl": "http://localhost:31812/",
+  "azureAD": {
+    "tenant": "",
+    "audience": "",
+    "policy": ""
+  }
+}

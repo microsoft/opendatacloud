@@ -135,6 +135,10 @@ async function updateConfigurationFiles() {
       "src/odr-ui/projects/odr-ui-admin/src/environments/environment.prod.ts",
       transformSourceFile(updateWebAdminProductionEnvironmentFile),
     ],
+    [
+      "src/odr-ui/projects/odr-ui-web/src/assets/app-config.json",
+      transformJsonFile(updateWebAppConfig),
+    ],
   ];
 
   for ([relativeFile, transformFn] of configMap) {
@@ -294,6 +298,15 @@ function updateWebAdminProductionEnvironmentFile(config, content) {
   content = content.replace(/policy:\s*(".*?"|'.*?')/, `policy: "${config.b2cAdminPolicy}"`);
   content = content.replace(/apiBaseUrl:\s*(".*?"|'.*?')/, `apiBaseUrl: "https://${config.webAdminName}.azurewebsites.net/api/"`);
   return content;
+}
+
+function updateWebAppConfig(config, data) {
+  data.azureAD = {
+    tenant: config.b2cTenant,
+    audience: config.b2cWebAudience,
+    policy: config.b2cWebPolicy,
+  };
+  return data;
 }
 
 function fileExists(fileName) {
