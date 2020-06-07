@@ -46,6 +46,7 @@ async function generateNewFile() {
     ],
     sendGridApiKey: "SEND-GRID-API-KEY",
     appInsightsName: `${prefix}-insights`,
+    instrumentationKey: "INSTRUMENTATION-KEY",
     keyVaultName: `${prefix}-keyvault`,
     domainName: `${prefix}-web-app.azurewebsites.net`,
     b2cTenant: "B2C-TENANT-NAME",
@@ -117,6 +118,22 @@ async function updateConfigurationFiles() {
     [
       "src/Msr.Odr.Admin/appsettings.production.json",
       transformJsonFile(updateAdminConsoleProductionSettings),
+    ],
+    [
+      "src/odr-ui/projects/odr-ui-web/src/environments/environment.ts",
+      transformSourceFile(updateWebAppEnvironmentFile),
+    ],
+    [
+      "src/odr-ui/projects/odr-ui-web/src/environments/environment.prod.ts",
+      transformSourceFile(updateWebAppEnvironmentFile),
+    ],
+    [
+      "src/odr-ui/projects/odr-ui-admin/src/environments/environment.ts",
+      transformSourceFile(updateWebAdminEnvironmentFile),
+    ],
+    [
+      "src/odr-ui/projects/odr-ui-admin/src/environments/environment.prod.ts",
+      transformSourceFile(updateWebAdminProductionEnvironmentFile),
     ],
   ];
 
@@ -260,6 +277,25 @@ function updateAdminConsoleProductionSettings(config, data) {
   return data;
 }
 
+function updateWebAppEnvironmentFile(config, content) {
+  content = content.replace(/instrumentationKey:\s*(".*?"|'.*?')/, `instrumentationKey: "${config.instrumentationKey}"`);
+  return content;
+}
+
+function updateWebAdminEnvironmentFile(config, content) {
+  content = content.replace(/tenant:\s*(".*?"|'.*?')/, `tenant: "${config.b2cTenant}"`);
+  content = content.replace(/audience:\s*(".*?"|'.*?')/, `audience: "${config.b2cAdminAudience}"`);
+  content = content.replace(/policy:\s*(".*?"|'.*?')/, `policy: "${config.b2cAdminPolicy}"`);
+  return content;
+}
+function updateWebAdminProductionEnvironmentFile(config, content) {
+  content = content.replace(/tenant:\s*(".*?"|'.*?')/, `tenant: "${config.b2cTenant}"`);
+  content = content.replace(/audience:\s*(".*?"|'.*?')/, `audience: "${config.b2cAdminAudience}"`);
+  content = content.replace(/policy:\s*(".*?"|'.*?')/, `policy: "${config.b2cAdminPolicy}"`);
+  content = content.replace(/apiBaseUrl:\s*(".*?"|'.*?')/, `apiBaseUrl: "https://${config.webAdminName}.azurewebsites.net/api/"`);
+  return content;
+}
+
 function fileExists(fileName) {
   return new Promise((resolve) => {
     accessCallback(fileName, F_OK, (err) => {
@@ -281,6 +317,16 @@ function transformJsonFile(transformFn) {
     }
     data = transformFn(config, data);
     content = JSON.stringify(data, null, 2);
+    await writeFile(fileName, content, "utf8");
+  };
+}
+
+function transformSourceFile(transformFn) {
+  return async (relativeFile, config) => {
+    console.log(` - ${relativeFile}`);
+    const fileName = join(rootPath, relativeFile);
+    let content = await readFile(fileName, "utf8");
+    content = transformFn(config, content);
     await writeFile(fileName, content, "utf8");
   };
 }
