@@ -51,6 +51,7 @@ async function generateNewFile() {
     b2cTenant: "[B2C-TENANT-NAME]",
     b2cAudience: "[B2C-AUDIENCE-GUID]",
     b2cWebPolicy: "[B2C-POLICY-NAME]",
+    authorizedAdminUsers: ["one@example.com", "two@example.com"],
   };
   const content = JSON.stringify(data, null, 2);
   await writeFile(configFile, content, "utf8");
@@ -78,6 +79,18 @@ async function updateConfigurationFiles() {
     [
       "src/Msr.Odr.Web/appsettings.production.json",
       transformJsonFile(updateWebAppProductionSettings),
+    ],
+    [
+      "src/Msr.Odr.WebApi/appsettings.json",
+      transformJsonFile(updateWebApiSettings),
+    ],
+    [
+      "src/Msr.Odr.WebApi/appsettings.development.json",
+      transformJsonFile(updateWebApiDevelopmentSettings),
+    ],
+    [
+      "src/Msr.Odr.WebApi/appsettings.production.json",
+      transformJsonFile(updateWebApiProductionSettings),
     ],
   ];
 
@@ -143,6 +156,9 @@ function updateAzureDeployParameters(config, data) {
     keyVaultName: {
       value: config.keyVaultName,
     },
+    authorizedAdminUsers: {
+      value: config.authorizedAdminUsers.join(";"),
+    },
   };
   return data;
 }
@@ -161,6 +177,23 @@ function updateWebAppDevelopmentSettings(config, data) {
 }
 function updateWebAppProductionSettings(config, data) {
   data.apiBaseUrl = `https://${config.webApiName}.azurewebsites.net/`;
+  return data;
+}
+
+function updateWebApiSettings(config, data) {
+  data.SiteMap = `https://${config.domainName}`;
+  return data;
+}
+function updateWebApiDevelopmentSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
+  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
+  data.authorizedAdminUsers = config.authorizedAdminUsers.join(";");
+  return data;
+}
+function updateWebApiProductionSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
+  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
+  data.WebServer.URL = `https://${config.webApiName}.azurewebsites.net/`;
   return data;
 }
 
