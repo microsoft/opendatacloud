@@ -230,7 +230,6 @@ function updateWebAdminDevelopmentSettings(config, data) {
 function updateWebAdminProductionSettings(config, data) {
   data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
   data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
-  data.WebServer.URL = `https://${config.webAdminName}.azurewebsites.net/`;
   return data;
 }
 
