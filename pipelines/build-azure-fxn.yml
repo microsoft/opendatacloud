@@ -1,0 +1,38 @@
+# Build Email Notifications Azure Function.
+
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/Email/SendEmailFxn/*
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+
+- task: NodeTool@0
+  displayName: 'Use NodeJS'
+  inputs:
+    versionSpec: '10.16.0'
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: src/Email/SendEmailFxn
+    verbose: false
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: src/Email/SendEmailFxn
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/email-fn.zip'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'function'

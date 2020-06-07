@@ -1,0 +1,79 @@
+# Build Open Data Platform applications
+
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/*
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK'
+  inputs:
+    packageType: sdk
+    version: '2.1.x'
+
+- task: NodeTool@0
+  displayName: 'Use NodeJS'
+  inputs:
+    versionSpec: '10.16.0'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore .NET Core packages'
+  inputs:
+    command: restore
+    projects: 'src/**/*.csproj'
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: src/odr-ui
+    verbose: false
+
+- task: Npm@1
+  displayName: 'Build Shared Angular components'
+  inputs:
+    command: 'custom'
+    workingDir: 'src/odr-ui'
+    customCommand: 'run build:shared'
+
+- task: Npm@1
+  displayName: 'Build Angular Web app'
+  inputs:
+    command: 'custom'
+    workingDir: 'src/odr-ui'
+    customCommand: 'run build:web'
+
+- task: Npm@1
+  displayName: 'Build Angular Admin app'
+  inputs:
+    command: 'custom'
+    workingDir: 'src/odr-ui'
+    customCommand: 'run build:admin'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: 'src/**/*.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Web Applications'
+  inputs:
+    command: publish
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Web Application Artifacts'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: WebApps
