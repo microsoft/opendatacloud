@@ -139,12 +139,15 @@ function updateAzureDeployParameters(config, data) {
     webApiAllowedOrigins: {
       value: [
         "http://localhost:53048",
-        config.webAppName,
+        `https://${config.domainName}/`,
         "https://portal.azure.com",
       ],
     },
     webAdminName: {
       value: config.webAdminName,
+    },
+    authorizedAdminUsers: {
+      value: config.authorizedAdminUsers.join(";"),
     },
     batchAccountName: {
       value: config.batchAccountName,
@@ -169,9 +172,6 @@ function updateAzureDeployParameters(config, data) {
     },
     keyVaultName: {
       value: config.keyVaultName,
-    },
-    authorizedAdminUsers: {
-      value: config.authorizedAdminUsers.join(";"),
     },
   };
   return data;
