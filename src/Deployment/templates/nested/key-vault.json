@@ -30,23 +30,45 @@
         "tenantId": "[subscription().tenantId]",
         "enabledForDeployment": false,
         "enabledForDiskEncryption": false,
-        "enabledForTemplateDeployment": true,
-        "copy": [
-          {
-            "name": "accessPolicies",
-            "count": "[length(parameters('keyVaultResourceIds'))]",
-            "input": {
-              "tenantId": "[subscription().tenantId]",
-              "objectId": "[reference(parameters('keyVaultResourceIds')[copyIndex('accessPolicies')], '2016-08-01', 'Full').identity.principalId]",
-              "permissions": {
-                "secrets": [
-                  "list",
-                  "get"
+        "enabledForTemplateDeployment": true
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "name": "addAccessPolicy",
+      "resourceGroup": "[resourceGroup().name]",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "0.9.0.0",
+          "resources": [
+            {
+              "type": "Microsoft.KeyVault/vaults/accessPolicies",
+              "apiVersion": "2016-10-01",
+              "name": "[concat(parameters('keyVaultName'), '/add')]",
+              "properties": {
+                "copy": [
+                  {
+                    "name": "accessPolicies",
+                    "count": "[length(parameters('keyVaultResourceIds'))]",
+                    "input": {
+                      "tenantId": "[subscription().tenantId]",
+                      "objectId": "[reference(parameters('keyVaultResourceIds')[copyIndex('accessPolicies')], '2016-08-01', 'Full').identity.principalId]",
+                      "permissions": {
+                        "secrets": [
+                          "list",
+                          "get"
+                        ]
+                      }
+                    }
+                  }
                 ]
               }
             }
-          }
-        ]
+          ]
+        }
       }
     }
   ],

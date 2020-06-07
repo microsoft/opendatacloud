@@ -230,6 +230,9 @@
           },
           "webPlanName": {
             "value": "[parameters('webPlanName')]"
+          },
+          "instrumentationKey": {
+            "value": "[reference('appInsightsLinkedTemplate').outputs.data.value.instrumentationKey]"
           }
         }
       },
@@ -256,6 +259,9 @@
           },
           "webPlanName": {
             "value": "[parameters('webPlanName')]"
+          },
+          "instrumentationKey": {
+            "value": "[reference('appInsightsLinkedTemplate').outputs.data.value.instrumentationKey]"
           }
         }
       },
@@ -282,6 +288,9 @@
           },
           "authorizedAdminUsers": {
             "value": "[parameters('authorizedAdminUsers')]"
+          },
+          "instrumentationKey": {
+            "value": "[reference('appInsightsLinkedTemplate').outputs.data.value.instrumentationKey]"
           }
         }
       },
