@@ -84,14 +84,8 @@
     "data": {
       "type": "object",
       "value": {
-        "name": {
-          "type": "string",
-          "value": "[parameters('batchAccountName')]"
-        },
-        "url": {
-          "type": "string",
-          "value": "[concat('https://', reference(variables('resourceId'), variables('apiVersion')).accountEndpoint)]"
-        }
+        "name": "[parameters('batchAccountName')]",
+        "url": "[concat('https://', reference(variables('resourceId'), variables('apiVersion')).accountEndpoint)]"
       }
     }
   }

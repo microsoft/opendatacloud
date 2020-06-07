@@ -69,18 +69,9 @@
     "data": {
       "type": "object",
       "value": {
-        "name": {
-          "type": "string",
-          "value": "[parameters('applicationStorageName')]"
-        },
-        "accountKey": {
-          "type": "string",
-          "value": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]"
-        },
-        "storageConnection": {
-          "type": "string",
-          "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('applicationStorageName'), ';AccountKey=', listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value)]"
-        }
+        "name": "[parameters('applicationStorageName')]",
+        "accountKey": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]",
+        "storageConnection": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('applicationStorageName'), ';AccountKey=', listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value)]"
       }
     }
   }

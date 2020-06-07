@@ -442,7 +442,10 @@
             "value": "[reference('datasetStorageLinkedTemplate').outputs.data.value]"
           }
         }
-      }
+      },
+      "dependsOn": [
+        "keyVaultLinkedTemplate"
+      ]
     }
   ],
   "outputs": {}

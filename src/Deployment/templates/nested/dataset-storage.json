@@ -69,14 +69,8 @@
     "data": {
       "type": "object",
       "value": {
-        "name": {
-          "type": "string",
-          "value": "[parameters('datasetStorageName')]"
-        },
-        "accountKey": {
-          "type": "string",
-          "value": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]"
-        }
+        "name": "[parameters('datasetStorageName')]",
+        "accountKey": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]"
       }
     }
   }
