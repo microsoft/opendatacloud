@@ -13,6 +13,18 @@
       "metadata": {
         "description": "Name of service plan for web applications."
       }
+    },
+    "instrumentationKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Application Insights instrumentation key."
+      }
+    },
+    "authorizedAdminUsers": {
+      "type": "string",
+      "metadata": {
+        "description": "Semi-colon separated list of email addresses for authorized adminstrators."
+      }
     }
   },
   "variables": {
@@ -46,7 +58,19 @@
         "hostNamesDisabled": false,
         "containerSize": 0,
         "dailyMemoryTimeQuota": 0,
-        "httpsOnly": true
+        "httpsOnly": true,
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+              "value": "[parameters('instrumentationKey')]"
+            },
+            {
+              "name": "AuthorizedAdminUsers",
+              "value": "[parameters('authorizedAdminUsers')]"
+            }
+          ]
+        }
       },
       "resources": [
         {

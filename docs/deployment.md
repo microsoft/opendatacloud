@@ -2,9 +2,11 @@
 
 This document provides details about how to set up the initial deployment of the application, including creating the Azure Resources required by the application.
 
+Use the [Azure Portal](https://portal.azure.com) to configure the Azure Resources. Make sure you sign in with the Azure subscription that will host the application.
+
 ## Azure B2C Applications
 
-Go to the [Azure Portal](https://portal.azure.com) and sign in with the subscription that will host the application.
+[Azure B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/) is used for authenticating users to the application.
 
 1. Create an [Azure B2C Tenant](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant#create-an-azure-ad-b2c-tenant) for the application to use.
 
@@ -44,25 +46,20 @@ Go to the [Azure Portal](https://portal.azure.com) and sign in with the subscrip
 
     - Check "Email Address" in "User attributes and claims".
 
-## Azure Resources
+## Send Grid
 
-Go to the [Azure Portal](https://portal.azure.com) and sign in with the subscription that will host the application.
+Notifications are delivered via email using the [SendGrid](https://sendgrid.com/partners/azure/) service.
+
+1. Create a [SendGrid account](https://docs.microsoft.com/en-us/azure/sendgrid-dotnet-how-to-send-email).
+
+1. Generate an [API Key](https://docs.microsoft.com/en-us/azure/sendgrid-dotnet-how-to-send-email#to-find-your-sendgrid-api-key). Save this key for setting up the application configuration.
+
+## Application Configuration
+
+
+
+## Azure Resources
 
 1. Create a new resource group for the application's resources.
 
 1. Create the Azure Resources using the templates contained in the `src/Deployment` path. You may perform this deployment from the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-cli#deploy-template-from-cloud-shell). Make sure all of the files are copied to the cloud shell:
-
-    - `azuredeploy.json`
-    - `azuredeploy.parameters.json`
-    - `nested\app-insights.json`
-    - `nested\application-storage.json`
-    - `nested\batch.json`
-    - `nested\cosmos-db.json`
-    - `nested\dataset-storage.json`
-    - `nested\key-vault-secrets.json`
-    - `nested\key-vault.json`
-    - `nested\search.json`
-    - `nested\web-admin.json`
-    - `nested\web-api.json`
-    - `nested\web-app.json`
-    - `nested\web-plan.json`

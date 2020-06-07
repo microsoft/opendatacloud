@@ -56,6 +56,12 @@
         "description": "Name of web admin application."
       }
     },
+    "authorizedAdminUsers": {
+      "type": "string",
+      "metadata": {
+        "description": "Semi-colon separated list of email addresses for authorized adminstrators."
+      }
+    },
     "batchAccountName": {
       "type": "string",
       "metadata": {
@@ -273,6 +279,9 @@
           },
           "webPlanName": {
             "value": "[parameters('webPlanName')]"
+          },
+          "authorizedAdminUsers": {
+            "value": "[parameters('authorizedAdminUsers')]"
           }
         }
       },
@@ -384,11 +393,7 @@
           "keyVaultName": {
             "value": "[parameters('keyVaultName')]"
           },
-          "keyVaultResourceIds": [
-            "[reference('webAppLinkedTemplate').outputs.data.value.resourceId]",
-            "[reference('webApiLinkedTemplate').outputs.data.value.resourceId]",
-            "[reference('webAdminLinkedTemplate').outputs.data.value.resourceId]"
-          ]
+          "keyVaultResourceIds": "[createArray(reference('webAppLinkedTemplate').outputs.data.value.resourceId,reference('webApiLinkedTemplate').outputs.data.value.resourceId,reference('webAdminLinkedTemplate').outputs.data.value.resourceId)]"
         }
       }
     },
