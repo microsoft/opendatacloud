@@ -244,10 +244,11 @@ namespace Msr.Odr.Admin.Data
 
         private async Task AddARMTemplates(DocumentClient client)
         {
-            var projectRoot = FindProjectRoot();
-            Console.WriteLine($"Working from {projectRoot}");
+            var workPath = Environment.CurrentDirectory;
 
-            var templateMapFile = Path.Combine(projectRoot, "src", "Msr.Odr.WebApi", "template-mapping.json");
+            Console.WriteLine($"Working from {workPath}");
+
+            var templateMapFile = Path.Combine(workPath, "..", "Msr.Odr.WebApi", "template-mapping.json");
             var templateMap = JObject.Parse(await File.ReadAllTextAsync(templateMapFile));
 
             var uri = UriFactory.CreateDocumentCollectionUri(
@@ -265,7 +266,7 @@ namespace Msr.Odr.Admin.Data
                 var id = (string)value["id"];
                 var template = (string)value["template"];
 
-                var templateFileName = Path.Combine(projectRoot, "arm-templates", template);
+                var templateFileName = Path.Combine(workPath, "../../assets/deployments", template);
                 var templateDoc = JObject.Parse(await File.ReadAllTextAsync(templateFileName));
 
                 var doc = new
@@ -288,7 +289,7 @@ namespace Msr.Odr.Admin.Data
                 var fileName = (string)value["file"];
                 var mimeType = (string)value["mimeType"];
 
-                var assetFileName = Path.Combine(projectRoot, "arm-templates", fileName);
+                var assetFileName = Path.Combine(workPath, "../../assets/deployments", fileName);
                 var content = await File.ReadAllTextAsync(assetFileName);
 
                 var doc = new
@@ -338,20 +339,6 @@ namespace Msr.Odr.Admin.Data
         {
             var fullName = Path.Combine(DataFilesPath, name);
             return await File.ReadAllTextAsync(fullName);
-        }
-
-        private string FindProjectRoot()
-        {
-            var basePath = string.Join(
-                '\\',
-                DataFilesPath
-                    .Split('\\')
-                    .TakeWhile(segment => !string.Equals(segment, "admin", StringComparison.InvariantCultureIgnoreCase)));
-            if (!Directory.Exists(Path.Combine(basePath, "arm-templates")))
-            {
-                throw new InvalidOperationException("Could not find project root.");
-            }
-            return basePath;
         }
     }
 }
