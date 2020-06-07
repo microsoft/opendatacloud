@@ -31,27 +31,31 @@ if([string]::IsNullOrWhiteSpace($name)) {
         Select-Object Id, Url |
         Format-Table
 
-    Get-AzBatchApplication `
-        -AccountName $batchAcct.AccountName `
-        -ResourceGroupName $batchAcct.ResourceGroupName |
-        ForEach-Object {
-            $applicationId = $_.Id
-            $version = $_.DefaultVersion
+    # Get-AzBatchApplication `
+    #     -AccountName $batchAcct.AccountName `
+    #     -ResourceGroupName $batchAcct.ResourceGroupName |
+    #     ForEach-Object {
 
-            $package = Get-AzBatchApplicationPackage `
-                -AccountName $batchAcct.AccountName `
-                -ResourceGroupName $batchAcct.ResourceGroupName `
-                -ApplicationId $applicationId `
-                -ApplicationVersion $version
+    #         $applicationId = $_.Name
+    #         $version = $_.DefaultVersion
 
-            $package |
-                Select-Object Id,LastActivationTime,Version,State |
-                Format-Table
+    #         Get-AzBatchApplicationPackage `
+    #             -AccountName $batchAcct.AccountName `
+    #             -ResourceGroupName $batchAcct.ResourceGroupName `
+    #             -ApplicationId $applicationId `
+    #             -ApplicationVersion $version |
+    #             Format-List
+    #     }
 
-            if($update) {
+    if($update) {
 
-                Write-Host "Updating application ..."
+        Write-Host "Updating applications ..."
 
+        Get-ChildItem -Path $buildPath |
+            Select-Object -ExpandProperty BaseName |
+            ForEach-Object {
+                $applicationId = $_
+                $version = '1.0'
                 $filePath = Join-Path $buildPath "$($applicationId).zip"
                 New-AzBatchApplicationPackage `
                     -AccountName $batchAcct.AccountName `
@@ -62,6 +66,12 @@ if([string]::IsNullOrWhiteSpace($name)) {
                     -Format "zip" |
                     Select-Object Id,LastActivationTime,Version,State |
                     Format-Table
-                }
-        }
+                Set-AzBatchApplication `
+                    -AccountName $batchAcct.AccountName `
+                    -ResourceGroupName $batchAcct.ResourceGroupName `
+                    -ApplicationId $applicationId `
+                    -DefaultVersion "1.0" `
+                    -AllowUpdates $true
+            }
+    }
 }

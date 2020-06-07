@@ -21,7 +21,7 @@ Note, these instructions use the [.NET Core 2.1 SDK](https://dotnet.microsoft.co
 1. Allow access to the Key Vault for your user using the command:
 
     ```
-    az keyvault set-policy --name "my-keyvault" --object-id my-object-id --secret-permissions get list
+    az keyvault set-policy --name "my-keyvault" --object-id my-object-id --secret-permissions get list set
     ```
 
     replacing `my-keyvault` with the name of the key vault and `my-object-id` with the principal id of your user account.
@@ -42,6 +42,14 @@ Note, these instructions use the [.NET Core 2.1 SDK](https://dotnet.microsoft.co
 
     ```
     dotnet run -- search init --indexes datasets,files,nominations
+    ```
+
+1. Create an API key for Application Insights and store it in the Key Vault using the command:
+
+    ```
+    az monitor app-insights api-key create --api-key admin-reader --read-properties ReadTelemetry -g [resource-group-name] --app [app-insights-name]
+    az keyvault secret set --name ApplicationInsights--Key --vault-name [key-vault-name] --value [generate-api-key]
+    az keyvault secret set --name ApplicationInsights--ApplicationId --vault-name [key-vault-name] --value [generated-application-id]
     ```
 
 This utility can now be used to configure the initial set of data into the application.
@@ -139,6 +147,36 @@ dotnet run -- data init --types datasetowners
 
 ## Upload Utility
 
+The upload utility can be built using the command:
+
+```
+upload-utility/build-upload-utility.ps1
+```
+
+Note, this command requires the [Windows Installer WiX tools](https://wixtoolset.org/).
+
+This creates an installer file, `upload-utility/build/DatasetUtil.msi`, which should be uploaded to a public location. This location should be recorded in the `src/Msr.Odr.WebAdminPortal/appsettings.production.json` file in the `Assets`, `DatasetUtil` setting.
+
 ## Azure Batch
 
-The Azure Batch applications and configuration should be set up.
+The Azure Batch applications and configuration can be set up using these steps:
+
+1. Create the Azure Batch `DatasetJob` definition using the command:
+
+    ```
+    dotnet run -- batch init
+    ```
+
+1. Build the batch application using the command:
+
+    ```
+    src/scripts/build-batch-applications.ps1
+    ```
+
+1. Deploy the batch applications using the command:
+
+    ```
+    src/scripts/deploy-batch-applications.ps1 -name [batch-account-name] -update
+    ```
+
+1. In the Azure Portal, edit the `DatasetPool` and add both of the applications.
