@@ -49,8 +49,10 @@ async function generateNewFile() {
     keyVaultName: `${prefix}-keyvault`,
     domainName: `${prefix}-web-app.azurewebsites.net`,
     b2cTenant: "[B2C-TENANT-NAME]",
-    b2cAudience: "[B2C-AUDIENCE-GUID]",
-    b2cWebPolicy: "[B2C-POLICY-NAME]",
+    b2cWebAudience: "[B2C-WEB-CLIENT-ID]",
+    b2cWebPolicy: "[B2C-WEB-POLICY-NAME]",
+    b2cAdminAudience: "[B2C-ADMIN-CLIENT-ID]",
+    b2cAdminPolicy: "[B2C-ADMIN-POLICY-NAME]",
     authorizedAdminUsers: ["one@example.com", "two@example.com"],
   };
   const content = JSON.stringify(data, null, 2);
@@ -91,6 +93,18 @@ async function updateConfigurationFiles() {
     [
       "src/Msr.Odr.WebApi/appsettings.production.json",
       transformJsonFile(updateWebApiProductionSettings),
+    ],
+    [
+      "src/Msr.Odr.WebAdminPortal/appsettings.json",
+      transformJsonFile(updateWebAdminSettings),
+    ],
+    [
+      "src/Msr.Odr.WebAdminPortal/appsettings.development.json",
+      transformJsonFile(updateWebAdminDevelopmentSettings),
+    ],
+    [
+      "src/Msr.Odr.WebAdminPortal/appsettings.production.json",
+      transformJsonFile(updateWebAdminProductionSettings),
     ],
   ];
 
@@ -166,7 +180,7 @@ function updateAzureDeployParameters(config, data) {
 function updateWebAppSettings(config, data) {
   data.azureAD = {
     tenant: config.b2cTenant,
-    audience: config.b2cAudience,
+    audience: config.b2cWebAudience,
     policy: config.b2cWebPolicy,
   };
   data.SiteMap = `https://${config.domainName}`;
@@ -181,19 +195,42 @@ function updateWebAppProductionSettings(config, data) {
 }
 
 function updateWebApiSettings(config, data) {
+  data.azureAD = {
+    tenant: config.b2cTenant,
+    audience: config.b2cWebAudience,
+    policy: config.b2cWebPolicy,
+  };
   data.SiteMap = `https://${config.domainName}`;
   return data;
 }
 function updateWebApiDevelopmentSettings(config, data) {
   data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
-  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
-  data.authorizedAdminUsers = config.authorizedAdminUsers.join(";");
   return data;
 }
 function updateWebApiProductionSettings(config, data) {
   data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
-  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
   data.WebServer.URL = `https://${config.webApiName}.azurewebsites.net/`;
+  return data;
+}
+
+function updateWebAdminSettings(config, data) {
+  data.azureAD = {
+    tenant: config.b2cTenant,
+    audience: config.b2cAdminAudience,
+    policy: config.b2cAdminPolicy,
+  };
+  return data;
+}
+function updateWebAdminDevelopmentSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
+  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
+  data.authorizedAdminUsers = config.authorizedAdminUsers.join(";");
+  return data;
+}
+function updateWebAdminProductionSettings(config, data) {
+  data.keyVaultUrl = `https://${config.keyVaultName}.vault.azure.net/`;
+  data.Assets.DatasetUtil = `https://${config.applicationStorageName}.blob.core.windows.net/application-assets/DatasetUtil.msi`;
+  data.WebServer.URL = `https://${config.webAdminName}.azurewebsites.net/`;
   return data;
 }
 
