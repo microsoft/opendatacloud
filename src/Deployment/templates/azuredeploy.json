@@ -402,7 +402,15 @@
           "keyVaultName": {
             "value": "[parameters('keyVaultName')]"
           },
-          "keyVaultResourceIds": "[createArray(reference('webAppLinkedTemplate').outputs.data.value.resourceId,reference('webApiLinkedTemplate').outputs.data.value.resourceId,reference('webAdminLinkedTemplate').outputs.data.value.resourceId)]"
+          "webAppPrincipalId": {
+            "value": "[reference('webAppLinkedTemplate').outputs.data.value.principalId]"
+          },
+          "webApiPrincipalId": {
+            "value": "[reference('webApiLinkedTemplate').outputs.data.value.principalId]"
+          },
+          "webAdminPrincipalId": {
+            "value": "[reference('webAdminLinkedTemplate').outputs.data.value.principalId]"
+          }
         }
       }
     },

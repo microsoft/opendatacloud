@@ -37,6 +37,9 @@
       "name": "[parameters('webAdminName')]",
       "location": "[resourceGroup().location]",
       "kind": "app",
+      "identity": {
+        "type": "SystemAssigned"
+      },
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
@@ -152,7 +155,8 @@
     "data": {
       "type": "object",
       "value": {
-        "resourceId": "[variables('resourceId')]"
+        "resourceId": "[variables('resourceId')]",
+        "principalId": "[reference(variables('resourceId'), '2016-08-01', 'Full').identity.principalId]"
       }
     }
   }
