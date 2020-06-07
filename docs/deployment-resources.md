@@ -8,6 +8,26 @@ Note, these instructions use the [Azure Powershell](https://docs.microsoft.com/e
 
 1. Create a [new resource group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal) for the application's resources.
 
-1. cloud shell
+1. Open the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/overview). This will ensure a storage account is created that can be used for the deployment.
 
-1. deploy resources
+1. On your local machine, go to the `src/Deployment` directory.
+
+1. Sign in to Azure [using Azure Powershell](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-4.2.0).
+
+1. If you have multiple Azure subscriptions, make sure the [context is set](https://docs.microsoft.com/en-us/powershell/azure/context-persistence?view=azps-4.2.0) to the subscription that contains the resource group created above. The `Get-AzContext` command will show you what the current context is.
+
+1. Perform a test run of the deployment using this command:
+
+    ```
+    ./DeployResources.ps1 -ResourceGroupName <rg-name>
+    ```
+
+    where `rg-name` is the name of the resource group where the application will be created. This will verify that resource names are unique and that you've got the appropriate Azure resource types provisioned within your subscription.
+
+1. If everything looks good, create the resources using this command:
+
+    ```
+    ./DeployResources.ps1 -ResourceGroupName <rg-name> -Deploy
+    ```
+
+After a few minutes, you will be able to see the resources created in the Azure Portal.
