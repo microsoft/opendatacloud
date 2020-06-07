@@ -5,3 +5,7 @@ This repository contains the source code for managing a collection of public dat
 ## Additional Documentation
 
 - [Technical Overview](./technical-overview.md)
+
+- [Application Deployment](./deployment.md)
+
+- [Importing a Dataset](./import-dataset.md)

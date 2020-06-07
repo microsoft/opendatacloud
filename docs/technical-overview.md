@@ -10,6 +10,8 @@ A few assumptions are made with this implementation:
 
 - An acknowledgement is required from the user to note that the license for using a dataset has been agreed to.  Therefore, a user must signon to the system (using Azure B2C) in order to record this acknowledgment. Only after the user has acknowledged the acceptance of the license will the user get to download or otherwise work with the data.
 
+- An adminstrator is required to first onboard a dataset. After that, those that have permission to be "dataset owners" have the ability to edit dataset details and content of the datasets that they own.
+
 - The application supports different licenses per dataset as well as a set of standard licenses.
 
 ## Components

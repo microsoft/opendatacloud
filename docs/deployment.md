@@ -8,3 +8,4 @@ Perform the following steps (in this order):
 - [Create SendGrid API](./deployment-sendgrid.md)
 - [Create the Application Configuration](./deployment-configuration.md)
 - [Create the Azure Resources](./deployment-resources.md)
+- [Initialize the Application Data](./deployment-initialization.md)
