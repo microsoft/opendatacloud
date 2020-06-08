@@ -39,4 +39,3 @@ Licensed under the [MIT](LICENSE.txt) license.
 
 # Contact us
 For any questions, email us at odrfriends@microsoft.com
-or log an issue on Github
