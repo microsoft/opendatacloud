@@ -2,8 +2,6 @@
 <H2 style="text-align: center;"> An Open Source version of the Microsoft Research Open Data platform </H2>
 
 <br />
-<br />
-<br />
 
 This project is the data repository code behind the cloud hosted Microsoft Research Open Data Repository. The code can be used to instantiate a highly customizable cloud based data repository to host and share datasets under a flexible licensing infrastructure with a high level of security and privacy. It provides the ability to deploy datasets directly to an Azure Data Science VM allowing development using popular open source tools such as Python/R on Juypter notebooks, and deep learning frameworks.
 
