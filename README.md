@@ -1,9 +1,10 @@
 # Microsoft Research Open Data Platform
 ![MSROpenData_header](images/msropendata_header.png)
 
-An open source version of the Microsoft Research Open Data platform (forked from the original code that implements https://msropendata.com).
+An open source version of the Microsoft Research Open Data platform. 
 
-This project is the data repository code behind the cloud hosted Microsoft Research Open Data Repository. 
+This project is the data repository code behind the cloud hosted Microsoft Research Open Data Repository. This code is forked from the original code that implements Microsoft Research Open Data. Refer to https://msropendata.com for an example of what a data repository instance created from this code will look like. 
+
 
 The code can be used to instantiate a highly customizable cloud based data repository to host and share datasets under a flexible licensing infrastructure with a high level of security and privacy. 
 
