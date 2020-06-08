@@ -27,6 +27,8 @@ Detailed instructions on deploying the repository is available [HERE](./docs/dep
 
 Once deployed, guidance on onboarding and administering datasets is available [HERE](./docs/import-dataset.md)
 
+Additional videos that demonstrate application functionality can be found [HERE](https://github.com/opendatacloud/opendatacloud/releases/tag/v1.0).
+
 # Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
