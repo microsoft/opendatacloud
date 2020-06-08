@@ -1,4 +1,4 @@
-![MSROpenData_header](../docs/images/msropendata_header.png)
+![MSROpenData_header](./docs/images/msropendata_header.png)
 <H2 style="text-align: center;"> An Open Source version of the Microsoft Research Open Data platform </H2>
 
 <br />
@@ -21,11 +21,11 @@ The repository code can be used to:
 
 
 
-Detailed technical overview can be viewed [HERE](./technical-overview.md)
+Detailed technical overview can be viewed [HERE](./docs/technical-overview.md)
 
-Detailed instructions on deploying the repository is available [HERE](./deployment.md)
+Detailed instructions on deploying the repository is available [HERE](./docs/deployment.md)
 
-Once deployed, guidance on onboarding and administering datasets is available [HERE](./import-dataset.md)
+Once deployed, guidance on onboarding and administering datasets is available [HERE](./docs/import-dataset.md)
 
 # Code of Conduct
 
