@@ -1,15 +1,14 @@
-# Microsoft Research Open Data Platform
 ![MSROpenData_header](../docs/images/msropendata_header.png)
+<H2 style="text-align: center;"> An Open Source version of the Microsoft Research Open Data platform </H2>
 
-An open source version of the Microsoft Research Open Data platform. 
+<br />
+<br />
+<br />
 
-This project is the data repository code behind the cloud hosted Microsoft Research Open Data Repository. This code is forked from the original code that implements Microsoft Research Open Data. Refer to https://msropendata.com for an example of what a data repository instance created from this code will look like. 
+This project is the data repository code behind the cloud hosted Microsoft Research Open Data Repository. The code can be used to instantiate a highly customizable cloud based data repository to host and share datasets under a flexible licensing infrastructure with a high level of security and privacy. It provides the ability to deploy datasets directly to an Azure Data Science VM allowing development using popular open source tools such as Python/R on Juypter notebooks, and deep learning frameworks.
 
-
-The code can be used to instantiate a highly customizable cloud based data repository to host and share datasets under a flexible licensing infrastructure with a high level of security and privacy. 
-
-It provides the ability to deploy datasets directly to an Azure Data Science VM allowing development using popular open source tools such as Python/R on Juypter notebooks, and deep learning frameworks.
-
+This code is forked from the original code that implements Microsoft Research Open Data. Refer to the site [Microsoft Research Open Data](https://msropendata.com) for a working
+ example of what a data repository instance based on this code will look like. 
 
 The repository code can be used to:
 - Create a storage service for producers to securely store datasets in the Azure cloud
