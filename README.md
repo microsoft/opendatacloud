@@ -1,5 +1,5 @@
 # Microsoft Research Open Data Platform
-![MSROpenData_header](images/msropendata_header.png)
+![MSROpenData_header](../docs/images/msropendata_header.png)
 
 An open source version of the Microsoft Research Open Data platform. 
 
