@@ -31,3 +31,19 @@ Note, these instructions use the [Azure Powershell](https://docs.microsoft.com/e
     ```
 
 After a few minutes, you will be able to see the resources created in the Azure Portal.
+
+## Update the Application Configuration
+
+After the resources have been deployed, update the configuration with the new App Insights instrumentation key.
+
+1. In the Azure Portal, go to the Application Insights resource and copy the Instrumentation Key.
+
+1. Edit the configuration file, `AppConfig.json`, and update the `instrumentationKey` value.
+
+1. Update the application configuraiton files with the command:
+
+    ```
+    node GenerateAppConfig.js
+    ```
+
+1. Check these configuration files into your repository for building and deploying the application components later.
