@@ -13,9 +13,7 @@ namespace Msr.Odr.WebAdminPortal.Users
             AuthorizationHandlerContext context,
             AzureActiveDirectoryGroupRequirement requirement)
         {
-            var email = 
-                context.User.FindFirst(ClaimTypes.Email)?.Value ??
-                context.User.FindFirst(ClaimTypes.Upn)?.Value;
+            var email = context.User.FindFirst("emails")?.Value;
             if (email != null && requirement.AuthorizedUsersSet.Contains(email))
             {
                 context.Succeed(requirement);

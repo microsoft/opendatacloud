@@ -50,10 +50,12 @@ export class AuthService {
       "logout"
     ].join("/");
 
+    const tenantName = azureADConfig.tenant.split('.')[0];
     const authConfig: Configuration = {
       auth: {
         clientId: this.clientId,
-        validateAuthority: true,
+        authority: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${azureADConfig.policy}`,
+        validateAuthority: false,
         redirectUri,
         postLogoutRedirectUri
       },

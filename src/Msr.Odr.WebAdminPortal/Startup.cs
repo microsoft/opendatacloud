@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Msr.Odr.Model.Configuration;
 using Msr.Odr.Services;
 using Msr.Odr.Services.Batch;
@@ -188,9 +191,11 @@ namespace Msr.Odr.WebAdminPortal
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.MetadataAddress = string.Format(@"https://login.microsoftonline.com/{0}/v2.0/.well-known/openid-configuration?p={1}", Configuration["AzureAD:Tenant"], Configuration["AzureAD:Policy"]);
-                    options.Authority = string.Format("https://login.microsoftonline.com/tfp/{0}/{1}/v2.0/", Configuration["AzureAD:Tenant"], Configuration["AzureAD:Policy"]);
-                    options.Audience = Configuration["AzureAD:Audience"];
+                    var tenantName = Configuration["AzureAD:Tenant"].Split('.').First();
+                    var policyName = Configuration["AzureAD:Policy"];
+                    var audience = Configuration["AzureAD:Audience"];
+                    options.MetadataAddress = $"https://{tenantName}.b2clogin.com/{tenantName}.onmicrosoft.com/{policyName}/v2.0/.well-known/openid-configuration";
+                    options.Audience = audience;
                     options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = FetchAuthTokenFromCookie,
@@ -199,15 +204,8 @@ namespace Msr.Odr.WebAdminPortal
                             var ctx = context;
                             return Task.FromResult(0);
                         },
-                            //OnTokenValidated = context =>
-                            //{
-                            //    var ctx = context;
-                            //    return null;
-                            //}
-                        };
+                    };
                 });
-
-
 
             services.AddMvc();
 

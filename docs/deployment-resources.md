@@ -56,8 +56,8 @@ Return to the Azure B2C settings and update the configuration based on the web a
 
     * Under the single-page application settings, add two redirect URLs (changing `myopendata-web-app` to the name of the web application that was created). The second URL is used when running the application on a local development machine.
 
-        * https://myopendata-web-app.azurewebsites.net/auth
-        * http://localhost:53048/auth
+        * https://myopendata-web-app.azurewebsites.net/
+        * http://localhost:53048/
 
     * Change the logout URL.
 
