@@ -10,7 +10,7 @@
 
     - Add the "Single-page application (SPA)" platform and specific a redirect url `https://jwt.ms` (this will be changed later).
 
-    - Under "Implicit Grant", ensure that both options are unselected.
+    - Under "Implicit Grant", ensure that both the `Access tokens` and `ID tokens` options are selected.
     
     Alternately reference this article specific to [registering apps for Azure B2C](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications?tabs=app-reg-ga).
     
@@ -28,7 +28,7 @@
 
     - Add the "Single-page application (SPA)" platform and specific a redirect url `https://jwt.ms` (this will be changed later).
 
-    - Under "Implicit Grant", ensure that both options are unselected.
+    - Under "Implicit Grant", ensure that both the `Access tokens` and `ID tokens` options are selected.
 
 1. Expose the Web API for the administration application.
 

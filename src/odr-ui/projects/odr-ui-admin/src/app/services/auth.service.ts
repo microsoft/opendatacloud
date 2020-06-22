@@ -8,11 +8,6 @@ import { CurrentUser } from "../models/current-user.model";
 import { ReplaySubject, Observable } from "rxjs";
 import { Router } from "@angular/router";
 
-interface B2CAppConfig {
-  authority: string;
-  clientID: string;
-}
-
 interface AzureADConfig {
   tenant: string;
   audience: string;
@@ -24,10 +19,10 @@ interface AzureADConfig {
 export class AuthService {
   private userAgentApplication: UserAgentApplication;
   private currentUserSubject = new ReplaySubject<CurrentUser>(1);
-  private applicationConfig: B2CAppConfig = {
-    clientID: "",
-    authority: ""
-  };
+
+  private get clientId() {
+    return this.azureADConfig.audience;
+  }
 
   constructor(
     @Inject("AZURE_AD_CONFIG") private azureADConfig: AzureADConfig,
@@ -55,19 +50,9 @@ export class AuthService {
       "logout"
     ].join("/");
 
-    this.applicationConfig = {
-      authority:
-        "https://login.microsoftonline.com/tfp/" +
-        azureADConfig.tenant +
-        "/" +
-        azureADConfig.policy,
-      clientID: azureADConfig.audience
-    };
-
     const authConfig: Configuration = {
       auth: {
-        clientId: this.applicationConfig.clientID,
-        authority: this.applicationConfig.authority,
+        clientId: this.clientId,
         validateAuthority: true,
         redirectUri,
         postLogoutRedirectUri
@@ -93,7 +78,7 @@ export class AuthService {
     });
 
     if (
-      !this.userAgentApplication.isCallback(window.location.hash) &&
+      !this.userAgentApplication.urlContainsHash(window.location.hash) &&
       window.parent === window &&
       !window.opener
     ) {
@@ -120,12 +105,12 @@ export class AuthService {
     const account = this.userAgentApplication.getAccount();
     if (!account) {
       this.userAgentApplication.loginRedirect({
-        scopes: [this.applicationConfig.clientID]
+        scopes: [this.clientId]
       });
     } else {
       this.userAgentApplication
         .acquireTokenSilent({
-          scopes: [this.applicationConfig.clientID]
+          scopes: [this.clientId]
         })
         .then(authRsp => {
           const { accessToken: bearerToken } = authRsp;
