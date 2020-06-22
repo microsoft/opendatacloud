@@ -233,7 +233,7 @@ function updateWebApiSettings(config, data) {
     audience: config.b2cWebAudience,
     policy: config.b2cWebPolicy,
   };
-  data.SiteMap = `https://${config.domainName}`;
+  data.WebServer.SiteMap = `https://${config.domainName}`;
   return data;
 }
 function updateWebApiDevelopmentSettings(config, data) {

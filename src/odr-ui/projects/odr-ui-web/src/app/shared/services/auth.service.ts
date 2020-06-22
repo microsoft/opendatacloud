@@ -17,11 +17,6 @@ interface AzureADConfig {
   policy: string;
 }
 
-interface B2CAppConfig {
-  authority: string;
-  clientID: string;
-}
-
 interface AppAuthenticationState {
   navTo?: string;
   navFrom?: string;
@@ -44,17 +39,17 @@ const orDefaultRoute = (url: string) => {
 export class AuthService {
   private currentUserDetails: CurrentUserDetails = {};
   private currentUrl: string;
-  private applicationConfig: B2CAppConfig = {
-    clientID: "",
-    authority: ""
-  };
 
   private authenticationStatus = new ReplaySubject<boolean>(1);
   private bearerToken = new ReplaySubject<string>(1);
   private clientApplication: UserAgentApplication;
 
+  private get clientId() {
+    return this.azureADConfig.audience;
+  }
+
   constructor(
-    @Inject("AZURE_AD_CONFIG") azureADConfig: AzureADConfig,
+    @Inject("AZURE_AD_CONFIG") private azureADConfig: AzureADConfig,
     private router: Router
   ) {
     router.events
@@ -65,15 +60,6 @@ export class AuthService {
         })
       )
       .subscribe();
-
-    this.applicationConfig = {
-      authority:
-        "https://login.microsoftonline.com/tfp/" +
-        azureADConfig.tenant +
-        "/" +
-        azureADConfig.policy,
-      clientID: azureADConfig.audience
-    };
 
     const loggerOptions = environment.production
       ? {
@@ -98,11 +84,13 @@ export class AuthService {
       ...window.location.href.split("/").slice(0, 3),
       ""
     ].join("/");
+
+    const tenantName = azureADConfig.tenant.split('.')[0];
     const authConfig: Configuration = {
       auth: {
-        clientId: this.applicationConfig.clientID,
-        authority: this.applicationConfig.authority,
-        validateAuthority: true,
+        clientId: this.clientId,
+        authority: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${azureADConfig.policy}`,
+        validateAuthority: false,
         redirectUri,
         postLogoutRedirectUri,
         navigateToLoginRequestUrl: false
@@ -137,7 +125,7 @@ export class AuthService {
     if (account) {
       this.clientApplication
         .acquireTokenSilent({
-          scopes: [this.applicationConfig.clientID]
+          scopes: [this.clientId]
         })
         .then(authRsp => {
           const emails = !isEmptyValue(authRsp.idTokenClaims.upn)
@@ -192,7 +180,7 @@ export class AuthService {
 
   public redirectToLoginPage() {
     this.clientApplication.loginRedirect({
-      scopes: [this.applicationConfig.clientID]
+      scopes: [this.clientId]
     });
   }
 

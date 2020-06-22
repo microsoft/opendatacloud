@@ -38,6 +38,7 @@ Note, these instructions require [NodeJS](https://nodejs.org/en/download/).
         ],
         "sendGridApiKey": "SEND-GRID-API-KEY",
         "appInsightsName": "myopendata-insights",
+        "instrumentationKey": "INSTRUMENTATION-KEY",
         "keyVaultName": "myopendata-keyvault",
         "domainName": "myopendata-web-app.azurewebsites.net",
         "b2cTenant": "B2C-TENANT-NAME",
@@ -59,11 +60,13 @@ Note, these instructions require [NodeJS](https://nodejs.org/en/download/).
     - `sendGridApiKey` - the key your created for the SendGrid API.
     - `domainName` - if your instance will be set up to use a custom domain, then this should be set to the domain name you will use (e.g. `myopendata.com`).
     - `b2cTenant` - the Azure B2C tenant that will be used (e.g. `myopendata.onmicrosoft.com`).
-    - `b2cWebAudience` - the client id of the Web application configured in B2C.
-    - `b2cWebPolicy` - the name of the Web application policy configured in B2C.
-    - `b2cAdminAudience` - the client id of the Administration application configured in B2C.
-    - `b2cAdminPolicy` - the name of the Administration application policy configured in B2C.
+    - `b2cWebAudience` - the application (client) id of the Web application configured in B2C (a Guid value).
+    - `b2cWebPolicy` - the name of the Web application policy (user flow) configured in B2C (like `B2C_1_UserSignIn`).  The web and administration applications may both use the same policy, if desired.
+    - `b2cAdminAudience` - the application (client) id of the Administration application configured in B2C (a Guid value).
+    - `b2cAdminPolicy` - the name of the administration application policy (user flow) configured in B2C (like `B2C_1_UserSignIn`).
     - `authorizedAdminUsers` - a list of email addresses that are authorized to use the administration application.
+
+    Note that the `instrumentationKey` will have to modified after the Azure Resources have been deployed.
 
 1. Copy these configuraiton settings to other configuration files within the application by running this command:
 
@@ -72,3 +75,5 @@ Note, these instructions require [NodeJS](https://nodejs.org/en/download/).
     ```
 
 1. Check these configuration files into your repository for building and deploying the application components later.
+
+After the Azure Resources have been deployed, come back and add the App Insights `instrumentationKey` property and then re-run the `GenerateAppConfig.js` script to copy the instrumentation key to other application configuration.

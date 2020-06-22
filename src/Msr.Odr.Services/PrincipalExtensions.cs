@@ -27,7 +27,7 @@ namespace Msr.Odr.Services
         /// <returns>The identifier, or null if the claim does not exist</returns>
         public static string GetUserEmail(this IPrincipal user)
         {
-            return GetClaim(user as ClaimsPrincipal, null, ClaimTypes.Upn, ClaimTypes.Email);
+            return GetClaim(user as ClaimsPrincipal, null, "emails");
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Msr.Odr.Services
         /// <returns>The identifier, or null if the claim does not exist</returns>
         public static string GetUserId(this IPrincipal user)
         {
-            return GetClaim(user as ClaimsPrincipal, null, ClaimTypes.NameIdentifier);
+            return GetClaim(user as ClaimsPrincipal, null, "oid");
         }
 
         /// <summary>

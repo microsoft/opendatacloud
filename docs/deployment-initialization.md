@@ -48,9 +48,13 @@ Note, these instructions use the [.NET Core 2.1 SDK](https://dotnet.microsoft.co
 
     ```
     az monitor app-insights api-key create --api-key admin-reader --read-properties ReadTelemetry -g [resource-group-name] --app [app-insights-name]
-    az keyvault secret set --name ApplicationInsights--Key --vault-name [key-vault-name] --value [generate-api-key]
+
+    az keyvault secret set --name ApplicationInsights--Key --vault-name [key-vault-name] --value [generated-api-key]
+
     az keyvault secret set --name ApplicationInsights--ApplicationId --vault-name [key-vault-name] --value [generated-application-id]
     ```
+
+    _Note that the `generated-api-key` is in the output from the first command but the `generated-application-id` will be found in the Azure Portal under "API Access" for the Application Insights resource._
 
 This utility can now be used to configure the initial set of data into the application.
 
@@ -76,7 +80,7 @@ The common dataset licenses can be found here:
 - `src/Msr.Odr.Admin/Data/Files/license-creative-commons.json`
 - `src/Msr.Odr.Admin/Data/Files/license-microsoft-research-2019.json`
 
-Note that the first two are of special importance to the application's user interface and should not be removed without also updating the affected user interface.
+_Note that the first two licenses are of special importance to the application's user interface and should not be removed without also updating the affected user interface._
 
 Add these documents to the application using the command:
 
@@ -179,4 +183,4 @@ The Azure Batch applications and configuration can be set up using these steps:
     src/scripts/deploy-batch-applications.ps1 -name [batch-account-name] -update
     ```
 
-1. In the Azure Portal, edit the `DatasetPool` and add both of the applications.
+1. In the Azure Portal for the Azure Batch resource, edit the `DatasetPool` and add both of the applications packages to the pool.

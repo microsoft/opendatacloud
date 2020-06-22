@@ -31,3 +31,46 @@ Note, these instructions use the [Azure Powershell](https://docs.microsoft.com/e
     ```
 
 After a few minutes, you will be able to see the resources created in the Azure Portal.
+
+## Update the Application Configuration
+
+After the resources have been deployed, update the configuration with the new App Insights instrumentation key.
+
+1. In the Azure Portal, go to the Application Insights resource and copy the Instrumentation Key.
+
+1. Edit the configuration file, `AppConfig.json`, and update the `instrumentationKey` value.
+
+1. Update the application configuraiton files with the command:
+
+    ```
+    node GenerateAppConfig.js
+    ```
+
+1. Check these configuration files into your repository for building and deploying the application components later.
+
+## Update the Azure B2C Configuration
+
+Return to the Azure B2C settings and update the configuration based on the web and administration application that were created.
+
+1. Update the web application registration:
+
+    * Under the single-page application settings, add two redirect URLs (changing `myopendata-web-app` to the name of the web application that was created). The second URL is used when running the application on a local development machine.
+
+        * https://myopendata-web-app.azurewebsites.net/
+        * http://localhost:53048/
+
+    * Change the logout URL.
+
+        * https://myopendata-web-app.azurewebsites.net/
+
+1. Update the administration application registration:
+
+    * Under the single-page application settings, add two redirect URLs (changing `myopendata-web-admin` to the name of the administration application that was created). The second URL is used when running the application on a local development machine.
+
+        * https://myopendata-web-admin.azurewebsites.net/
+        * http://localhost:58784/
+
+    * Change the logout URL.
+
+        * https://myopendata-web-admin.azurewebsites.net/logout
+
