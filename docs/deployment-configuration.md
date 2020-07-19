@@ -66,7 +66,7 @@ Note, these instructions require [NodeJS](https://nodejs.org/en/download/).
     - `b2cAdminPolicy` - the name of the administration application policy (user flow) configured in B2C (like `B2C_1_UserSignIn`).
     - `authorizedAdminUsers` - a list of email addresses that are authorized to use the administration application.
 
-    Note that the `instrumentationKey` will have to modified after the Azure Resources have been deployed.
+    Note that the `instrumentationKey` will have to be modified after the Azure Resources have been deployed.
 
 1. Copy these configuraiton settings to other configuration files within the application by running this command:
 
