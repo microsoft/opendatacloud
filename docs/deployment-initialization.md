@@ -13,7 +13,7 @@ Note, these instructions use the [.NET Core 2.1 SDK](https://dotnet.microsoft.co
 1. Get the Principal Id for your user account using the command:
 
     ```
-    az ad user show --id "my@example.com" --query objectId
+        az ad user show --upn-or-object-id  "my@example.com"
     ```
 
     replacing `my@example.com` with the email address used to sign into Azure.
