@@ -38,4 +38,4 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the [MIT](LICENSE.txt) license.
 
 # Contact us
-For any questions, email us at odrfriends@microsoft.com
+For any questions, email us at odr@microsoft.com
