@@ -15,6 +15,10 @@
     "create-windows-vm": {
       "id": "141173db-a705-43e0-b2ab-4752b2088f25",
       "template": "vm-windows/azuredeploy.json"
+    },
+    "create-synapse-ws": {
+      "id": "047311b1-b2d9-4150-911b-801ebc0251ea",
+      "template": "ws-synapse/azuredeploy.json"
     }
   },
   "staticAssets": {

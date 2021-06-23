@@ -42,6 +42,11 @@ const deploymentTypes = [
         description: 'Virtual Machine (Windows)',
         enableLink: null
     },
+    {
+        deploymentId: 'create-synapse-ws',
+        description: 'Synapse Workspace',
+        enableLink: null
+     }
 ];
 
 @Component({

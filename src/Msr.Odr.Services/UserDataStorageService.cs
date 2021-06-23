@@ -681,54 +681,69 @@ namespace Msr.Odr.Services
                 throw;
             }
 
-            // Set default values for ARM template parameters
-            var defaultUserName = "dsuser";
-            var nameRegex = new Regex(@"[^a-z0-9]", RegexOptions.IgnoreCase);
-            string deploymentName = string.IsNullOrWhiteSpace(dataset.Name)
-                ? "datasetname"
-                : nameRegex.Replace(dataset.Name, (m) => string.Empty);
-            var parametersMap = new Dictionary<string, string>
+            if (deployment.DeploymentId.Contains("synapse"))
             {
-                { "adminUsername", defaultUserName },
-                { "datasetUrl", deployment.StorageUri },
-                { "datasetPath", $"/home/{defaultUserName}/datasets/{deploymentName}" },
-                { "datasetDirectory", $"C:\\Datasets\\{deploymentName}" },
-            };
-            var variablesMap = new Dictionary<string, string>
+                var doc = templateDoc.GetPropertyValue<JObject>("template");
+
+                var template = JsonConvert.SerializeObject(doc);
+                var templateObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(template);
+                var variablesString = JsonConvert.SerializeObject(templateObj["variables"]);
+                var variablesObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(variablesString);
+                variablesObj["givenDataSet"] = deployment.StorageUri;
+                templateObj["variables"] = variablesObj;
+                return JsonConvert.SerializeObject(templateObj, Formatting.Indented);
+            }
+            else
             {
-                { "assetsRootUrl", $"{WebServerConfiguration.URL}azure-deploy/assets" },
-            };
-            var doc = templateDoc.GetPropertyValue<JObject>("template");
-            doc
-                .GetValue("parameters")
-                .Cast<JProperty>()
-                .Select(p => new
+                // Set default values for ARM template parameters
+                var defaultUserName = "dsuser";
+                var nameRegex = new Regex(@"[^a-z0-9]", RegexOptions.IgnoreCase);
+                string deploymentName = string.IsNullOrWhiteSpace(dataset.Name)
+                    ? "datasetname"
+                    : nameRegex.Replace(dataset.Name, (m) => string.Empty);
+                var parametersMap = new Dictionary<string, string>
                 {
-                    p.Name,
-                    Value = (JObject)p.Value
-                })
-                .ToList()
-                .ForEach(v =>
+                    { "adminUsername", defaultUserName },
+                    { "datasetUrl", deployment.StorageUri },
+                    { "datasetPath", $"/home/{defaultUserName}/datasets/{deploymentName}" },
+                    { "datasetDirectory", $"C:\\Datasets\\{deploymentName}" },
+                };
+                var variablesMap = new Dictionary<string, string>
                 {
-                    string value;
-                    if (parametersMap.TryGetValue(v.Name, out value))
+                    { "assetsRootUrl", $"{WebServerConfiguration.URL}azure-deploy/assets" },
+                };
+                var doc = templateDoc.GetPropertyValue<JObject>("template");
+                doc
+                    .GetValue("parameters")
+                    .Cast<JProperty>()
+                    .Select(p => new
                     {
-                        v.Value["defaultValue"] = value;
-                    }
-                });
-            doc
-                .GetValue("variables")
-                .Cast<JProperty>()
-                .ToList()
-                .ForEach(prop =>
-                {
-                    string value;
-                    if (variablesMap.TryGetValue(prop.Name, out value))
+                        p.Name,
+                        Value = (JObject)p.Value
+                    })
+                    .ToList()
+                    .ForEach(v =>
                     {
-                        prop.Value = value;
-                    }
-                });
-            return Newtonsoft.Json.JsonConvert.SerializeObject(doc, Newtonsoft.Json.Formatting.Indented);
+                        string value;
+                        if (parametersMap.TryGetValue(v.Name, out value))
+                        {
+                            v.Value["defaultValue"] = value;
+                        }
+                    });
+                doc
+                    .GetValue("variables")
+                    .Cast<JProperty>()
+                    .ToList()
+                    .ForEach(prop =>
+                    {
+                        string value;
+                        if (variablesMap.TryGetValue(prop.Name, out value))
+                        {
+                            prop.Value = value;
+                        }
+                    });
+                return Newtonsoft.Json.JsonConvert.SerializeObject(doc, Newtonsoft.Json.Formatting.Indented);
+            }
         }
 
         public async Task<StaticAssetItem> GenerateDeploymentAsset(
