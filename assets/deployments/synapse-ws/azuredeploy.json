@@ -1,0 +1,456 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Workspace Name":{
+            "type": "string",
+            "metadata": {
+                "description": "Name of Azure Synapse Workspace. Workspace name must be at most 30 characters long, must contain only lower case letters, digits and hyphens but can not start or end with '-', and must not contain the string '-ondemand' anywhere in the name."
+            },
+            "minLength": 2,
+            "maxLength": 30
+        },
+        "defaultDataLakeStorageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Data Lake Name for Workspace. Must be between 3 to 11 characters in length and use numbers and lowercase letters only."
+            }
+        },
+        "defaultDataLakeStorageFilesystemName": {
+            "type": "string",
+            "metadata": {
+                "description": "Data Lake File Systen name for Workspace"
+            }
+        },
+        "sqlAdministratorLogin": {
+            "type": "string"
+        },
+        "sqlAdministratorLoginPassword": {
+            "type": "secureString"
+        },
+        "dataset":{
+            "type": "string",
+            "defaultValue": "https://myblobstoragepoc.blob.core.windows.net/file-system?sp=rl&st=2021-05-25T06:15:57Z&se=2021-05-26T06:15:57Z&sv=2020-02-10&sr=c&sig=4AFUtUhRhFvh7ugIs7P%2Fhij2MIaeryjHTz%2BPNycz78U%3D"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "givenDataSet": "[parameters('dataset')]",
+        "workspaceName":"[concat(toLower(parameters('Workspace Name')),uniqueString(resourceGroup().id))]",
+        "defaultDataLakeStorageAccountName":"[substring(concat(toLower(parameters('defaultDataLakeStorageAccountName')),uniqueString(resourceGroup().id)),0,if(greaterOrEquals(24,length(concat(toLower(parameters('defaultDataLakeStorageAccountName')),uniqueString(resourceGroup().id)))),length(concat(toLower(parameters('defaultDataLakeStorageAccountName')),uniqueString(resourceGroup().id))),23))]",
+        "workspaceLocation":"[resourceGroup().location]",
+        "defaultDataLakeStorageAccountUrl": "[concat('https://', variables('defaultDataLakeStorageAccountName'), '.dfs.core.windows.net')]",
+        "defaultDataLakeStorageFilesystemName": "[toLower(parameters('defaultDataLakeStorageFilesystemName'))]",
+        "sqlAdminLoginUsername": "[parameters('sqlAdministratorLogin')]",
+        "sqlAdminLoginPassword": "[parameters('sqlAdministratorLoginPassword')]",
+        "storageSubscriptionID": "[subscription().subscriptionId]",
+        "storageSubscriptionGroup": "[resourceGroup().name]",
+        "storageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe",
+        "storageRoleUniqueID": "[resourceGroup().id]",
+        "storageAccessTier": "Hot",
+        "storageSupportsHttpsTrafficOnly": true,
+        "storageIsHnsEnabled": true,
+        "storageAccountType": "Standard_RAGRS",
+        "storageKind": "StorageV2",
+        "serviceSasFunctionValues": {
+            "canonicalizedResource": "[concat('/blob/', variables('defaultDataLakeStorageAccountName'), '/', variables('defaultDataLakeStorageFilesystemName'))]",
+            "signedResource": "c",
+            "signedPermission": "racwd",
+            "signedExpiry": "2050-01-01T00:00:00Z",
+            "signedProtocol": "https"
+        },
+        "datasetUrl":"[variables('givenDataSet')]",
+        "location": "[resourceGroup().location]",
+        "imagePublisher": "MicrosoftWindowsDesktop",
+        "imageOffer": "Windows-10",
+        "sku": "20h2-pro",
+        "OSDiskName": "osdiskforwindowssimple",
+        "DataDiskName": "datadiskforwindowssimple",
+        "dataDiskSizeInGB": "200",
+        "nicName": "[concat('odrvmnic',uniqueString(resourceGroup().id))]",
+        "addressPrefix": "10.0.0.0/16",
+        "subnetName": "Subnet",
+        "subnetPrefix": "10.0.0.0/24",
+        "storageAccountType1": "Standard_LRS",
+        "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'windsvm')]",
+        "publicIPAddressType": "Dynamic",
+        "publicIPAddressName": "[concat('odrvmip',uniqueString(resourceGroup().id))]",
+        "vmStorageAccountContainerName": "vhds",
+        "vmNameTemp": "[concat('odrvm',uniqueString(resourceGroup().id))]",
+        "vmName": "[substring(variables('vmNameTemp'),0,if(greaterOrEquals(15,length(variables('vmNameTemp'))),length(variables('vmNameTemp')),14))]",
+        "vmSize": "Standard_B1s",
+        "virtualNetworkName": "[concat('odrvmvn',uniqueString(resourceGroup().id))]",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+        "doubleQuote": "\"",
+        "datasetUrlParameter": "[concat(' -url ', variables('doubleQuote'), variables('datasetUrl'), variables('doubleQuote'))]",
+        "adminUsername": "odruser",
+        "adminPassword": "Odruser@123456"
+    },
+    "resources": [
+                    {
+                        "apiVersion": "2019-06-01-preview",
+                        "name": "[variables('workspaceName')]",
+                        "location": "[variables('workspaceLocation')]",
+                        "type": "Microsoft.Synapse/workspaces",
+                        "identity": {
+                            "type": "SystemAssigned"
+                        },
+                        "properties": {
+                            "defaultDataLakeStorage": {
+                                "accountUrl": "[variables('defaultDataLakeStorageAccountUrl')]",
+                                "filesystem": "[variables('defaultDataLakeStorageFilesystemName')]"
+                            },
+                            "sqlAdministratorLogin": "[variables('sqlAdminLoginUsername')]",
+                            "sqlAdministratorLoginPassword": "[variables('sqlAdminLoginPassword')]",
+                            "adlaResourceId": "",
+                            "managedVirtualNetwork": "",
+                            "managedResourceGroupName": ""
+                        },
+                        "resources": [
+                            {
+                                "apiVersion": "2019-06-01-preview",
+                                "dependsOn": [
+                                    "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
+                                ],
+                                "location": "[variables('workspaceLocation')]",
+                                "name": "allowAll",
+                                "properties": {
+                                    "startIpAddress": "0.0.0.0",
+                                    "endIpAddress": "255.255.255.255"
+                                },
+                                "type": "firewallrules"
+                            },
+                            {
+                                "apiVersion": "2019-06-01-preview",
+                                "dependsOn": [
+                                    "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
+                                ],
+                                "location": "[variables('workspaceLocation')]",
+                                "name": "default",
+                                "properties": {
+                                    "grantSqlControlToManagedIdentity": {
+                                        "desiredState": "Enabled"
+                                    }
+                                },
+                                "type": "managedIdentitySqlControlSettings"
+                            }
+                        ],
+                        "dependsOn": [
+                            "[concat('Microsoft.Storage/storageAccounts/', variables('defaultDataLakeStorageAccountName'))]",
+                            "[concat('Microsoft.Resources/deployments/', variables('defaultDataLakeStorageFilesystemName'))]"
+                        ],
+                        "tags": {}
+                    },
+                    {
+                        "apiVersion": "2019-05-01",
+                        "name": "StorageRoleDeploymentResource",
+                        "type": "Microsoft.Resources/deployments",
+                        "subscriptionId": "[variables('storageSubscriptionID')]",
+                        "resourceGroup": "[variables('storageSubscriptionGroup')]",
+                        "dependsOn": [
+                            "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
+                        ],
+                        "properties": {
+                            "mode": "Incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {},
+                                "variables": {},
+                                "resources": [
+                                    {
+                                        "apiVersion": "2018-09-01-preview",
+                                        "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+                                        "name": "[concat(variables('defaultDataLakeStorageAccountName'), '/Microsoft.Authorization/',  guid(concat(resourceGroup().id, '/', variables('storageBlobDataContributorRoleID'), '/', variables('workspaceName'), '/', variables('storageRoleUniqueId'))))]",
+                                        "location": "[variables('workspaceLocation')]",
+                                        "properties": {
+                                            "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('storageBlobDataContributorRoleID'))]",
+                                            "principalId": "[reference(concat('Microsoft.Synapse/workspaces/', variables('workspaceName')), '2019-06-01-preview', 'Full').identity.principalId]",
+                                            "principalType": "ServicePrincipal"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "apiVersion": "2019-05-01",
+                        "name": "UpdateStorageAccountNetworkingAcls",
+                        "type": "Microsoft.Resources/deployments",
+                        "subscriptionId": "[variables('storageSubscriptionID')]",
+                        "resourceGroup": "[variables('storageSubscriptionGroup')]",
+                        "dependsOn": [
+                            "[concat('Microsoft.Synapse/workspaces/', variables('workspaceName'))]"
+                        ],
+                        "properties": {
+                            "mode": "Incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {},
+                                "variables": {},
+                                "resources": [
+                                    {
+                                        "apiVersion": "2019-04-01",
+                                        "type": "Microsoft.Storage/storageAccounts",
+                                        "location": "[variables('workspaceLocation')]",
+                                        "name": "[variables('defaultDataLakeStorageAccountName')]",
+                                        "properties": {},
+                                        "sku": {
+                                            "name": "[variables('storageAccountType')]"
+                                        },
+                                        "kind": "[variables('storageKind')]"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "type": "Microsoft.Storage/storageAccounts",
+                        "name": "[variables('defaultDataLakeStorageAccountName')]",
+                        "apiVersion": "2018-02-01",
+                        "location": "[variables('workspaceLocation')]",
+                        "properties": {
+                            "accessTier": "[variables('storageAccessTier')]",
+                            "supportsHttpsTrafficOnly": "[variables('storageSupportsHttpsTrafficOnly')]",
+                            "isHnsEnabled": "[variables('storageIsHnsEnabled')]"
+                        },
+                        "sku": {
+                            "name": "[variables('storageAccountType')]"
+                        },
+                        "kind": "[variables('storageKind')]",
+                        "tags": {},
+                        "resources": [
+                            {
+                                "name": "[concat('default/', variables('defaultDataLakeStorageFilesystemName'))]",
+                                "type": "blobServices/containers",
+                                "apiVersion": "2018-02-01",
+                                "properties": {
+                                    "publicAccess": "None"
+                                },
+                                "dependsOn": [
+                                    "[concat('Microsoft.Storage/storageAccounts/', variables('defaultDataLakeStorageAccountName'))]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "2019-05-01",
+                        "name": "[variables('defaultDataLakeStorageFilesystemName')]",
+                        "type": "Microsoft.Resources/deployments",
+                        "subscriptionId": "[variables('storageSubscriptionID')]",
+                        "resourceGroup": "[variables('storageSubscriptionGroup')]",
+                        "properties": {
+                            "mode": "Incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {},
+                                "variables": {},
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+                                        "name": "[concat(variables('defaultDataLakeStorageAccountName'), '/default/', variables('defaultDataLakeStorageFilesystemName'))]",
+                                        "apiVersion": "2018-02-01",
+                                        "properties": {
+                                            "publicAccess": "None"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "dependsOn": [
+                            "[concat('Microsoft.Storage/storageAccounts/', variables('defaultDataLakeStorageAccountName'))]"
+                        ]
+                    },
+                    {
+                        "type": "Microsoft.Storage/storageAccounts",
+                        "name": "[variables('storageAccountName')]",
+                        "apiVersion": "2015-06-15",
+                        "location": "[variables('location')]",
+                        "properties": {
+                        "accountType": "[variables('storageAccountType1')]"
+                        }
+                    },
+                    {
+                        "apiVersion": "2015-05-01-preview",
+                        "type": "Microsoft.Network/publicIPAddresses",
+                        "name": "[variables('publicIPAddressName')]",
+                        "location": "[variables('location')]",
+                        "properties": {
+                        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+                        "dnsSettings": {
+                            "domainNameLabel": "[variables('publicIPAddressName')]"
+                        }
+                        }
+                    },
+                    {
+                        "apiVersion": "2015-05-01-preview",
+                        "type": "Microsoft.Network/virtualNetworks",
+                        "name": "[variables('virtualNetworkName')]",
+                        "location": "[variables('location')]",
+                        "properties": {
+                        "addressSpace": {
+                            "addressPrefixes": [
+                            "[variables('addressPrefix')]"
+                            ]
+                        },
+                        "subnets": [
+                            {
+                            "name": "[variables('subnetName')]",
+                            "properties": {
+                                "addressPrefix": "[variables('subnetPrefix')]"
+                            }
+                            }
+                        ]
+                        }
+                    },
+                    {
+                        "apiVersion": "2015-05-01-preview",
+                        "type": "Microsoft.Network/networkInterfaces",
+                        "name": "[variables('nicName')]",
+                        "location": "[variables('location')]",
+                        "dependsOn": [
+                        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+                        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+                        ],
+                        "properties": {
+                        "ipConfigurations": [
+                            {
+                            "name": "ipconfig1",
+                            "properties": {
+                                "privateIPAllocationMethod": "Dynamic",
+                                "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                                },
+                                "subnet": {
+                                "id": "[variables('subnetRef')]"
+                                }
+                            }
+                            }
+                        ]
+                        }
+                    },
+                    {
+                        "apiVersion": "2017-03-30",
+                        "type": "Microsoft.Compute/virtualMachines",
+                        "name": "[variables('vmName')]",
+                        "location": "[variables('location')]",
+                        "tags": {
+                        "Application": "Windows Data"
+                        },
+                        "dependsOn": [
+                        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+                        ],
+                        "properties": {
+                        "hardwareProfile": {
+                            "vmSize": "[variables('vmSize')]"
+                        },
+                        "osProfile": {
+                            "computerName": "[variables('vmName')]",
+                            "adminUsername": "[variables('adminUsername')]",
+                            "adminPassword": "[variables('adminPassword')]"
+                        },
+                        "storageProfile": {
+                            "imageReference": {
+                            "publisher": "[variables('imagePublisher')]",
+                            "offer": "[variables('imageOffer')]",
+                            "sku": "[variables('sku')]",
+                            "version": "latest"
+                            },
+                            "osDisk": {
+                            "name": "osdisk",
+                            "vhd": {
+                                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+                            },
+                            "caching": "ReadWrite",
+                            "createOption": "FromImage"
+                            },
+                            "dataDisks": [
+                            {
+                                "name": "[concat(variables('vmName'),'-datadisk')]",
+                                "diskSizeGB": "[variables('dataDiskSizeInGB')]",
+                                "vhd": {
+                                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, variables('vmStorageAccountContainerName'),'/',variables('DataDiskName'),'.vhd')]"
+                                },
+                                "caching": "ReadWrite",
+                                "createOption": "Empty",
+                                "lun": 0
+                            }
+                            ]
+                        },
+                        "networkProfile": {
+                            "networkInterfaces": [
+                            {
+                                "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                            }
+                            ]
+                        },
+                        "diagnosticsProfile": {
+                            "bootDiagnostics": {
+                            "enabled": true,
+                            "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
+                            }
+                        }
+                        },
+                        "resources": [
+                        {
+                            "type": "extensions",
+                            "name": "copy-dataset",
+                            "apiVersion": "2017-03-30",
+                            "location": "[resourceGroup().location]",
+                            "dependsOn": [
+                                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+                                "[concat('Microsoft.Storage/storageAccounts/', variables('defaultDataLakeStorageAccountName'))]",
+                                "[concat('Microsoft.Resources/deployments/', variables('defaultDataLakeStorageFilesystemName'))]"
+                            ],
+                            "tags": {
+                            "displayName": "copy-dataset"
+                            },
+                            "properties": {
+                            "publisher": "Microsoft.Compute",
+                            "type": "CustomScriptExtension",
+                            "typeHandlerVersion": "1.8",
+                            "autoUpgradeMinorVersion": true,
+                            "settings": {
+                                "fileUris": [
+                                "[string('https://myblobstoragepoc.blob.core.windows.net/public-container/install-run-azcopy.ps1')]"
+                                ],
+                                "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ./install-run-azcopy.ps1', variables('datasetUrlParameter'), ' -path ', variables('doubleQuote'), 'https://',variables('defaultDataLakeStorageAccountName'),'.blob.core.windows.net/',variables('defaultDataLakeStorageFilesystemName'),'?',listServiceSas(variables('defaultDataLakeStorageAccountName'), '2018-02-01', variables('serviceSasFunctionValues')).serviceSasToken, variables('doubleQuote'))]"
+                            }
+                            }
+                        },
+                        {
+                            "name": "[concat('shutdown-computevm-', variables('vmName'))]",
+                            "type": "Microsoft.DevTestLab/schedules",
+                            "apiVersion": "2017-04-26-preview",
+                            "location": "[variables('location')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+                            ],
+                            "properties": {
+                                "status": "Enabled",
+                                "taskType": "ComputeVmShutdownTask",
+                                "dailyRecurrence": {
+                                    "time": "23:00"
+                                },
+                                "timeZoneId": "UTC",
+                                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+                            }
+                        }
+                    ]
+                }
+    ],
+    "outputs": {
+        "vm-username": {
+            "type": "string",
+            "value": "[variables('adminUsername')]"
+        },
+        "vm-password": {
+            "type": "string",
+            "value": "[variables('adminPassword')]"
+        }
+    }
+}
