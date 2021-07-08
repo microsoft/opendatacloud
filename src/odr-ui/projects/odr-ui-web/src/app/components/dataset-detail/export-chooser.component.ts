@@ -12,7 +12,7 @@ function buildEnableLink({ publisherId, offerId, planId }): any {
         encodeURIComponent(JSON.stringify({ product: { publisherId, offerId, planId } }))
     ].join('');
 }
-
+// To show deployment options on the UI under Deploy to Azure option
 const deploymentTypes = [
     {
         deploymentId: 'create-ubuntu-dsvm',

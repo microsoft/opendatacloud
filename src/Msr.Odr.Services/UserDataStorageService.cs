@@ -682,6 +682,8 @@ namespace Msr.Odr.Services
                 throw;
             }
 
+            // if synapse workspace option is selected in deploy to Azure option
+            // to populate template with the selected dataset to deploy on Azure
             if (deployment.DeploymentId.Contains("synapse"))
             {
                 var doc = templateDoc.GetPropertyValue<JObject>("template");
@@ -696,7 +698,7 @@ namespace Msr.Odr.Services
             }
             else
             {
-                // Set default values for ARM template parameters
+                // Set default values for ARM template parameters for other options then Synapse WorkSpace
                 var defaultUserName = "dsuser";
                 var nameRegex = new Regex(@"[^a-z0-9]", RegexOptions.IgnoreCase);
                 string deploymentName = string.IsNullOrWhiteSpace(dataset.Name)
